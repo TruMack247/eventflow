@@ -170,7 +170,38 @@ The repository provides abstract storage operations for events, tasks, contacts,
 - Transactions must guarantee atomicity for all bundled writes (Event + Tasks + Dependencies).
 - Only `sqlite_repository.py` imports `sqlite3`.
 
-The following capabilities are deliberately excluded from the v1 scope:
+---
+
+## Workflow & Schedule Execution Engine
+
+The workflow engine governs state transitions, dependency gating, and date recalculation rules across tasks in an event. It is storage-agnostic and operates on in-memory domain models.
+
+### 1. Task State Transitions & Gating
+Tasks follow strict lifecycle progression: `todo` $\to$ `in_progress` $\to$ `done`.
+
+- **Prerequisite Completion Gate**:
+  - A task cannot transition to `in_progress` or `done` unless **all** tasks listed in its `depends_on` have status `done`.
+  - Attempting to transition a task whose dependencies are not all `done` raises a `BlockedTaskError`.
+- **Reopening Propagation Gate**:
+  - If a task marked `done` is transitioned back to `todo` or `in_progress`, any downstream dependent tasks currently in `in_progress` or `done` must either block the transition or be transitioned back according to policy (default: raise `DependentTasksBlockReopenError` unless `force=True` cascades reopening downstream tasks to `todo`).
+
+### 2. Actionable / Ready Tasks Query
+A query function to identify unblocked work:
+- `get_actionable_tasks(tasks: List[Task]) -> List[Task]`:
+  - Returns all tasks currently with `status == TaskStatus.TODO` whose prerequisites (`depends_on`) are **all** in `TaskStatus.DONE` (or tasks with no dependencies).
+
+### 3. Schedule & Cascade Rescheduling
+Supports moving dates while preserving chronological constraints:
+- `reschedule_event(event: Event, tasks: List[Task], new_date: Union[date, datetime]) -> Tuple[Event, List[Task]]`:
+  - Shifts the event date by $\Delta = \text{new\_date} - \text{old\_date}$.
+  - Shifts all tasks' `due_date` by the identical delta $\Delta$, preserving all relative offsets.
+- `shift_task_due_date(tasks: List[Task], task_id: str, new_due_date: Union[date, datetime], cascade: bool = True) -> List[Task]`:
+  - If a prerequisite task is postponed past the due date of a downstream dependent task, downstream dependent tasks are shifted forward to ensure every dependent task's `due_date` $\ge$ all its prerequisites' `due_date`.
+  - Validates that no task is pushed beyond the event date unless explicitly allowed.
+
+---
+
+## Out of Scope for v1
 - **Email Sending & Notifications**: No SMTP, transactional email, or automated reminder triggers.
 - **Payments & Financial Transactions**: No payment gateways, invoice processing, or escrow integrations.
 - **Multi-user Collaboration**: No user authentication, concurrent session resolution, role-based access control (RBAC), or real-time presence.
