@@ -160,10 +160,16 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
                 return self.send_json(404, {"error": f"Task '{task_id}' not found"})
 
             all_tasks = self.repo.get_tasks_for_event(task.event_id)
+            # Find the exact task instance inside all_tasks to mutate in-place
+            target_task_in_list = next((t for t in all_tasks if t.id == task_id), None)
+            if not target_task_in_list:
+                target_task_in_list = task
+                all_tasks.append(target_task_in_list)
+
             try:
                 new_status = TaskStatus(new_status_str)
-                updated_task = transition_task_status(task, new_status, all_tasks, force=force)
-                # Persist updated task and any cascade-reopened tasks
+                updated_task = transition_task_status(target_task_in_list, new_status, all_tasks, force=force)
+                # Persist target task and all affected tasks
                 for t in all_tasks:
                     self.repo.save_task(t)
 
@@ -174,6 +180,48 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
                 })
             except (BlockedTaskError, DependentTasksBlockReopenError, ValueError) as err:
                 return self.send_json(400, {"error": str(err)})
+
+        elif path == "/api/events" and length:
+            name = post_data.get("name", "New Event")
+            target_date_str = post_data.get("date")
+            budget_val = post_data.get("budget", 25000.0)
+            template_id = post_data.get("template_id", "wedding_standard_v1")
+
+            new_id = f"EVT-{int(datetime.now().timestamp()) % 100000:04d}"
+            target_date = date.fromisoformat(target_date_str) if target_date_str else (date.today() + timedelta(days=180))
+
+            template = self.repo.get_template(template_id)
+            new_event = Event(
+                id=new_id,
+                name=name,
+                date=target_date,
+                status=EventStatus.CONFIRMED,
+                budget=Decimal(str(budget_val)),
+                template_id=template_id,
+            )
+
+            if template:
+                tasks = instantiate_event_from_template(new_event, template)
+            else:
+                tasks = []
+
+            # Add default lead planner contact
+            contacts = [
+                Contact(
+                    id=f"cnt-{new_id}-1",
+                    event_id=new_id,
+                    name="Elena Vance",
+                    email="elena.vance@eventflow.internal",
+                    role="Lead Coordinator",
+                )
+            ]
+
+            self.repo.save_event_bundle(new_event, tasks, contacts)
+            return self.send_json(201, {
+                "success": True,
+                "event": new_event.model_dump(),
+                "tasks_count": len(tasks),
+            })
 
         elif path.startswith("/api/events/") and path.endswith("/reschedule"):
             event_id = path.split("/")[3]

@@ -56,28 +56,32 @@
   <aside class="w-64 bg-surface-container-lowest border-r border-surface-container-high flex flex-col justify-between shrink-0 select-none">
     <div class="flex flex-col">
       <!-- Logo Header -->
-      <div class="h-14 px-4 flex items-center gap-2 border-b border-surface-container-high/50">
-        <div class="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-sm">EF</div>
-        <span class="font-semibold text-on-surface tracking-tight text-base">EventFlow</span>
-        <span class="ml-auto text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-surface-container-high text-primary">v1.0</span>
+      <div class="h-14 px-4 flex items-center justify-between border-b border-surface-container-high/50">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-sm">EF</div>
+          <span class="font-semibold text-on-surface tracking-tight text-base">EventFlow</span>
+        </div>
+        <span class="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-surface-container-high text-primary">v1.0</span>
       </div>
 
-      <!-- Active Event Selector Card -->
+      <!-- Active Event Selector Card with Switcher Dropdown -->
       <div class="p-3">
         <div class="w-full bg-surface-container-low rounded-xl p-3 flex flex-col gap-1.5 border border-surface-container-high/60">
           <div class="flex items-center justify-between">
             <span class="text-[10px] font-semibold tracking-wider text-on-surface-variant uppercase">Active Event</span>
             <span id="sidebarEventStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-semibold">Confirmed</span>
           </div>
-          <div class="flex flex-col min-w-0">
-            <span id="sidebarEventName" class="font-semibold text-sm text-on-surface truncate">Sarah &amp; Michael's Wedding</span>
-            <span id="sidebarEventDate" class="text-xs text-on-surface-variant">May 24, 2027</span>
+          <div class="relative">
+            <select id="eventSelectorDropdown" onchange="switchActiveEvent(this.value)" class="w-full bg-transparent font-semibold text-sm text-on-surface cursor-pointer focus:outline-none truncate pr-4">
+              <!-- Dynamically populated -->
+            </select>
           </div>
+          <span id="sidebarEventDate" class="text-xs text-on-surface-variant">May 24, 2027</span>
         </div>
       </div>
 
       <!-- Navigation Links -->
-      <nav class="px-2 pt-2 flex flex-col gap-1">
+      <nav class="px-2 pt-1 flex flex-col gap-1">
         <div class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-on-surface-variant/70">Navigate</div>
         <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-primary-container text-on-primary-container">
           <span class="material-symbols-outlined text-lg">space_dashboard</span>
@@ -98,7 +102,7 @@
       </nav>
 
       <!-- Live Quick Stats Telemetry -->
-      <div class="p-3 mt-3">
+      <div class="p-3 mt-2">
         <div class="bg-surface-container-low rounded-xl p-3 flex flex-col gap-2.5 border border-surface-container-high/60">
           <div class="flex items-center justify-between">
             <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Quick Stats</span>
@@ -123,12 +127,22 @@
       </div>
     </div>
 
-    <!-- User Footer -->
-    <div class="p-3 border-t border-surface-container-high/60 flex items-center gap-2.5">
-      <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-xs text-primary">EV</div>
-      <div class="flex flex-col min-w-0 flex-1">
-        <span class="font-medium text-xs text-on-surface truncate">Elena Vance</span>
-        <span class="text-[10px] text-on-surface-variant truncate">Lead Planner</span>
+    <!-- User Footer with Quick Actions -->
+    <div class="p-3 border-t border-surface-container-high/60 flex items-center justify-between">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-xs text-primary">EV</div>
+        <div class="flex flex-col min-w-0">
+          <span class="font-medium text-xs text-on-surface truncate">Elena Vance</span>
+          <span class="text-[10px] text-on-surface-variant truncate">Lead Planner</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-1">
+        <button onclick="showToast('Notification feed: All engine tasks in sync')" class="p-1.5 rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface" title="Notifications">
+          <span class="material-symbols-outlined text-base">notifications</span>
+        </button>
+        <button onclick="showToast('Event settings: Configured for strict dependency gating')" class="p-1.5 rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface" title="Settings">
+          <span class="material-symbols-outlined text-base">settings</span>
+        </button>
       </div>
     </div>
   </aside>
@@ -138,15 +152,21 @@
 
     <!-- Top Bar -->
     <header class="h-14 px-6 border-b border-surface-container-high bg-surface-container-lowest flex items-center justify-between shrink-0 sticky top-0 z-20">
-      <div class="flex items-center gap-2 text-sm text-on-surface-variant">
-        <span class="font-semibold text-on-surface" id="topHeaderEvent">Sarah &amp; Michael's Wedding</span>
-        <span>•</span>
-        <span id="topHeaderId" class="font-mono text-xs">EVT-9284</span>
+      <div class="flex items-center gap-4 flex-1 max-w-md">
+        <!-- Live Quick Search -->
+        <div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg w-full text-on-surface-variant border border-surface-container-high/60">
+          <span class="material-symbols-outlined text-base">search</span>
+          <input id="globalSearchInput" oninput="handleSearch(this.value)" placeholder="Search tasks, categories, or vendors..." class="bg-transparent text-xs w-full focus:outline-none text-on-surface placeholder:text-on-surface-variant/70"/>
+        </div>
       </div>
       <div class="flex items-center gap-3">
+        <button onclick="openNewEventModal()" class="bg-primary text-white font-semibold text-xs px-3.5 py-1.5 rounded-lg hover:bg-primary-container transition-colors flex items-center gap-1.5 shadow-sm">
+          <span class="material-symbols-outlined text-base">add</span>
+          <span>New Event</span>
+        </button>
         <button onclick="promptReschedule()" class="px-3 py-1.5 rounded-lg border border-surface-container-high text-xs font-semibold hover:bg-surface-container-low transition-colors flex items-center gap-1.5">
           <span class="material-symbols-outlined text-sm">event_repeat</span>
-          <span>Reschedule Event</span>
+          <span>Reschedule</span>
         </button>
         <button onclick="refreshData()" class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" title="Reload from engine">
           <span class="material-symbols-outlined text-lg">refresh</span>
@@ -211,9 +231,12 @@
           </div>
         </div>
 
-        <!-- Contacts Overview -->
+        <!-- Key Contacts & Vendors -->
         <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-container-high/60 shadow-sm">
-          <h3 class="text-base font-bold text-on-surface mb-3">Key Contacts &amp; Vendors</h3>
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-bold text-on-surface">Key Contacts &amp; Vendors</h3>
+            <button onclick="switchTab('vendors')" class="text-xs text-primary font-semibold hover:underline">View All</button>
+          </div>
           <div id="dashContactsList" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <!-- Dynamically injected -->
           </div>
@@ -222,14 +245,18 @@
 
       <!-- ================= 2. TASKS & WORKFLOW (Kanban Board) ================= -->
       <section id="tab-workflow" class="tab-content space-y-6">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 class="text-xl font-bold tracking-tight text-on-surface">Workflow Matrix</h2>
-            <p class="text-xs text-on-surface-variant mt-0.5">Tasks respect dependency gates. Advancing a task requires all prerequisites to be Done.</p>
+            <p class="text-xs text-on-surface-variant mt-0.5">Tasks respect strict dependency gating. Advancing requires all prerequisites to be Done.</p>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-on-surface-variant">Filter:</span>
-            <button class="px-2.5 py-1 rounded bg-primary text-white text-xs font-medium">All Tasks</button>
+          <!-- Filter Buttons Strip -->
+          <div class="flex items-center gap-1.5 bg-surface-container-low p-1 rounded-xl border border-surface-container-high/60">
+            <button onclick="setWorkflowFilter('all')" id="filter-all" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-primary text-white">All Tasks</button>
+            <button onclick="setWorkflowFilter('ready')" id="filter-ready" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">Ready</button>
+            <button onclick="setWorkflowFilter('blocked')" id="filter-blocked" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">Blocked</button>
+            <button onclick="setWorkflowFilter('in_progress')" id="filter-in_progress" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">In Progress</button>
+            <button onclick="setWorkflowFilter('done')" id="filter-done" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">Done</button>
           </div>
         </div>
 
@@ -241,14 +268,14 @@
             <div class="flex items-center justify-between mb-3 px-1">
               <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
-                <span class="text-xs font-bold uppercase tracking-wider text-on-surface">Ready (Unblocked)</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-on-surface">Ready</span>
               </div>
               <span id="count-ready" class="text-xs font-mono font-bold px-1.5 py-0.5 rounded bg-primary/10 text-primary">0</span>
             </div>
             <div id="col-ready" class="space-y-3 min-h-[150px]"></div>
           </div>
 
-          <!-- Column 2: BLOCKED (Has unmet dependencies) -->
+          <!-- Column 2: BLOCKED -->
           <div class="bg-surface-container-low rounded-xl p-3 border border-surface-container-high/80">
             <div class="flex items-center justify-between mb-3 px-1">
               <div class="flex items-center gap-2">
@@ -289,9 +316,15 @@
 
       <!-- ================= 3. CONTACTS & VENDORS ================= -->
       <section id="tab-vendors" class="tab-content space-y-6">
-        <div>
-          <h2 class="text-xl font-bold tracking-tight text-on-surface">Contacts &amp; Vendors Directory</h2>
-          <p class="text-xs text-on-surface-variant mt-0.5">Assigned roles and partners for this event.</p>
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold tracking-tight text-on-surface">Contacts &amp; Vendors Directory</h2>
+            <p class="text-xs text-on-surface-variant mt-0.5">Assigned roles and partners for this event.</p>
+          </div>
+          <button onclick="showToast('Add Contact: Contact directory is synced with event roster')" class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">
+            <span class="material-symbols-outlined text-sm">person_add</span>
+            <span>Add Contact</span>
+          </button>
         </div>
         <div id="fullContactsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Dynamically injected -->
@@ -300,9 +333,15 @@
 
       <!-- ================= 4. TEMPLATES ================= -->
       <section id="tab-templates" class="tab-content space-y-6">
-        <div>
-          <h2 class="text-xl font-bold tracking-tight text-on-surface">Template Blueprints</h2>
-          <p class="text-xs text-on-surface-variant mt-0.5">Reusable lifecycle blueprints that instantiate events with relative schedules.</p>
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold tracking-tight text-on-surface">Template Blueprints</h2>
+            <p class="text-xs text-on-surface-variant mt-0.5">Reusable lifecycle blueprints that instantiate events with relative schedules.</p>
+          </div>
+          <button onclick="openNewEventModal()" class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">
+            <span class="material-symbols-outlined text-sm">library_add</span>
+            <span>Use Template for New Event</span>
+          </button>
         </div>
         <div id="templatesContainer" class="space-y-4">
           <!-- Dynamically injected -->
@@ -312,6 +351,91 @@
     </main>
   </div>
 
+  <!-- TASK DETAIL MODAL (Stitch Task Detail Layout) -->
+  <div id="taskModalBackdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest w-full max-w-2xl rounded-2xl shadow-2xl border border-surface-container-high overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="px-6 py-4 border-b border-surface-container-high flex items-center justify-between bg-surface-container-low">
+        <div class="flex items-center gap-2">
+          <span id="modalTaskCategory" class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-surface-container-highest text-primary">PLANNING</span>
+          <span id="modalTaskId" class="text-xs font-mono text-on-surface-variant">ID: tsk-1</span>
+        </div>
+        <button onclick="closeTaskModal()" class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-high">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+      <div class="p-6 space-y-4 overflow-y-auto">
+        <div>
+          <h2 id="modalTaskTitle" class="text-xl font-bold text-on-surface">Task Title</h2>
+          <div class="flex items-center gap-3 text-xs text-on-surface-variant mt-1.5">
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">calendar_month</span> <span id="modalTaskDueDate">2027-04-01</span></span>
+            <span>•</span>
+            <span id="modalTaskStatus" class="font-semibold text-primary">TODO</span>
+          </div>
+        </div>
+
+        <div class="bg-surface-container-low p-4 rounded-xl border border-surface-container-high space-y-2">
+          <h4 class="text-xs font-bold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm text-primary">alt_route</span>
+            <span>Prerequisite Dependencies</span>
+          </h4>
+          <div id="modalTaskDependencies" class="space-y-1.5 text-xs text-on-surface-variant">
+            <!-- Dependencies list -->
+          </div>
+        </div>
+      </div>
+      <div class="px-6 py-3.5 border-t border-surface-container-high bg-surface-container-low flex items-center justify-between">
+        <span class="text-xs text-on-surface-variant">Workflow Status Controls:</span>
+        <div id="modalTaskActions" class="flex items-center gap-2">
+          <!-- Dynamic action buttons -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENT CREATION WIZARD MODAL (Stitch Event Creation Wizard Layout) -->
+  <div id="newEventModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest w-full max-w-lg rounded-2xl shadow-2xl border border-surface-container-high overflow-hidden flex flex-col">
+      <div class="px-6 py-4 border-b border-surface-container-high flex items-center justify-between bg-surface-container-low">
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-6 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xs">1</span>
+          <h3 class="text-sm font-bold text-on-surface">Create New Event</h3>
+        </div>
+        <button onclick="closeNewEventModal()" class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-high">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+      <form onsubmit="handleCreateEvent(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Event Name</label>
+          <input required id="newEventName" placeholder="e.g. Summer Tech Summit 2027" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary"/>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Event Date</label>
+            <input required type="date" id="newEventDate" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary"/>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Budget ($)</label>
+            <input required type="number" step="1000" id="newEventBudget" value="35000" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary"/>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Lifecycle Template Blueprint</label>
+          <select id="newEventTemplate" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary">
+            <option value="wedding_standard_v1">Standard Wedding Template (7 milestone tasks)</option>
+          </select>
+        </div>
+        <div class="pt-3 border-t border-surface-container-high flex justify-end gap-2">
+          <button type="button" onclick="closeNewEventModal()" class="px-3 py-2 rounded-lg text-xs font-medium text-on-surface-variant hover:bg-surface-container-low">Cancel</button>
+          <button type="submit" class="bg-primary text-white text-xs font-semibold px-4 py-2 rounded-lg hover:bg-primary-container shadow-sm flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">rocket_launch</span>
+            <span>Instantiate Event</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION -->
   <div id="toast" class="fixed bottom-6 right-6 px-4 py-2.5 rounded-xl shadow-lg bg-on-surface text-white text-xs font-medium transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none z-50"></div>
 
@@ -319,6 +443,8 @@
   <script>
     let currentEventId = "EVT-9284";
     let state = null;
+    let activeFilter = "all";
+    let searchQuery = "";
 
     function showToast(msg, isError = false) {
       const toast = document.getElementById("toast");
@@ -344,8 +470,26 @@
       if (targetNav) targetNav.className = "nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-primary-container text-on-primary-container";
     }
 
+    async function loadEventsList() {
+      try {
+        const res = await fetch("/api/events");
+        if (!res.ok) return;
+        const events = await res.json();
+        const select = document.getElementById("eventSelectorDropdown");
+        select.innerHTML = events.map(e => `
+          <option value="${e.id}" ${e.id === currentEventId ? 'selected' : ''}>${e.name}</option>
+        `).join("");
+      } catch (err) {}
+    }
+
+    function switchActiveEvent(eventId) {
+      currentEventId = eventId;
+      refreshData();
+    }
+
     async function refreshData() {
       try {
+        await loadEventsList();
         const res = await fetch(`/api/events/${currentEventId}/overview`);
         if (!res.ok) throw new Error("Failed to load event data");
         state = await res.json();
@@ -354,6 +498,21 @@
       } catch (err) {
         showToast(err.message, true);
       }
+    }
+
+    function handleSearch(val) {
+      searchQuery = (val || "").toLowerCase();
+      if (state) render();
+    }
+
+    function setWorkflowFilter(filterType) {
+      activeFilter = filterType;
+      document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.className = "filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface";
+      });
+      const activeBtn = document.getElementById("filter-" + filterType);
+      if (activeBtn) activeBtn.className = "filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-primary text-white";
+      if (state) renderKanban(state.tasks);
     }
 
     async function loadTemplates() {
@@ -366,7 +525,7 @@
           <div class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high/60 shadow-sm">
             <div class="flex items-center justify-between mb-2">
               <h3 class="text-base font-bold text-on-surface">${t.name}</h3>
-              <span class="text-xs font-mono px-2 py-0.5 rounded bg-surface-container-low text-primary">${t.id}</span>
+              <button onclick="openNewEventModal('${t.id}')" class="text-xs font-semibold px-2.5 py-1 rounded bg-primary text-white hover:bg-primary-container">Use Template</button>
             </div>
             <p class="text-xs text-on-surface-variant mb-4">Contains ${t.default_tasks.length} default milestone tasks mapped to relative deadlines.</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -387,16 +546,12 @@
       const { event, days_remaining, total_tasks, completed_tasks, progress_percentage, tasks, actionable_tasks, contacts } = state;
 
       // Sidebar & Header Telemetry
-      document.getElementById("sidebarEventName").innerText = event.name;
       document.getElementById("sidebarEventDate").innerText = event.date;
       document.getElementById("sidebarEventStatus").innerText = event.status.toUpperCase();
       document.getElementById("quickDaysTag").innerText = `${days_remaining}D REMAIN`;
       document.getElementById("quickTaskPct").innerText = `${progress_percentage}%`;
       document.getElementById("quickTaskBar").style.width = `${progress_percentage}%`;
       document.getElementById("quickBudgetVal").innerText = `$${Number(event.budget).toLocaleString()}`;
-
-      document.getElementById("topHeaderEvent").innerText = event.name;
-      document.getElementById("topHeaderId").innerText = event.id;
 
       // Dashboard Header
       document.getElementById("dashEventTitle").innerText = event.name;
@@ -408,23 +563,28 @@
       document.getElementById("dashTaskProgress").style.width = `${progress_percentage}%`;
       document.getElementById("dashProgressPct").innerText = `${progress_percentage}%`;
 
+      // Filtered actionable tasks
+      const filteredActionable = actionable_tasks.filter(t => 
+        !searchQuery || t.title.toLowerCase().includes(searchQuery) || (t.vendor_category && t.vendor_category.toLowerCase().includes(searchQuery))
+      );
+
       // Actionable Tasks Hero Cards
       const actionableContainer = document.getElementById("actionableCardsContainer");
-      if (actionable_tasks.length === 0) {
+      if (filteredActionable.length === 0) {
         actionableContainer.innerHTML = `
           <div class="col-span-full py-8 text-center text-xs text-on-surface-variant font-medium">
-            All ready tasks have been progressed! Advance active tasks or complete upstream work to unlock more.
+            No actionable tasks match the criteria. Complete upstream work to unlock downstream tasks!
           </div>
         `;
       } else {
-        actionableContainer.innerHTML = actionable_tasks.map(t => `
+        actionableContainer.innerHTML = filteredActionable.map(t => `
           <div class="bg-surface-container-low p-4 rounded-xl border border-primary/20 flex flex-col justify-between gap-3 shadow-sm hover:border-primary/50 transition-colors">
-            <div>
+            <div onclick="openTaskModal('${t.id}')" class="cursor-pointer">
               <div class="flex items-center justify-between mb-1">
                 <span class="text-[10px] font-bold uppercase tracking-wider text-primary">${t.vendor_category || "GENERAL"}</span>
                 <span class="text-[10px] font-mono text-on-surface-variant">Due: ${t.due_date}</span>
               </div>
-              <h4 class="font-bold text-sm text-on-surface">${t.title}</h4>
+              <h4 class="font-bold text-sm text-on-surface hover:text-primary transition-colors">${t.title}</h4>
             </div>
             <div class="flex items-center gap-2 pt-2 border-t border-surface-container-high/60">
               <button onclick="transitionTask('${t.id}', 'in_progress')" class="flex-1 bg-primary text-white text-xs font-semibold py-1.5 rounded-lg hover:bg-primary-container transition-colors flex items-center justify-center gap-1">
@@ -443,10 +603,10 @@
       const dashContacts = document.getElementById("dashContactsList");
       const fullContacts = document.getElementById("fullContactsGrid");
       const contactsHtml = contacts.map(c => `
-        <div class="bg-surface-container-low p-3.5 rounded-xl border border-surface-container-high flex flex-col gap-1">
+        <div class="bg-surface-container-low p-3.5 rounded-xl border border-surface-container-high flex flex-col gap-1 shadow-sm">
           <span class="text-[10px] font-bold uppercase tracking-wider text-primary">${c.role}</span>
           <span class="font-bold text-sm text-on-surface">${c.name}</span>
-          <span class="text-xs text-on-surface-variant">${c.email}</span>
+          <a href="mailto:${c.email}" class="text-xs text-primary hover:underline">${c.email}</a>
         </div>
       `).join("");
       dashContacts.innerHTML = contactsHtml;
@@ -464,45 +624,46 @@
         done: document.getElementById("col-done"),
       };
 
-      const countMap = {
-        ready: 0,
-        blocked: 0,
-        in_progress: 0,
-        done: 0,
-      };
-
+      const countMap = { ready: 0, blocked: 0, in_progress: 0, done: 0 };
       Object.values(colMap).forEach(el => el.innerHTML = "");
 
       tasks.forEach(t => {
         const stateKey = t.workflow_state;
         countMap[stateKey] = (countMap[stateKey] || 0) + 1;
 
+        // Apply filter buttons
+        if (activeFilter !== "all" && activeFilter !== stateKey) return;
+        // Apply search query
+        if (searchQuery && !t.title.toLowerCase().includes(searchQuery) && !(t.vendor_category && t.vendor_category.toLowerCase().includes(searchQuery))) {
+          return;
+        }
+
         const card = document.createElement("div");
-        card.className = "bg-surface-container-lowest p-3.5 rounded-xl border border-surface-container-high/70 shadow-sm flex flex-col gap-2";
+        card.className = "bg-surface-container-lowest p-3.5 rounded-xl border border-surface-container-high/70 shadow-sm flex flex-col gap-2 hover:border-primary/40 transition-colors";
 
         let controlsHtml = "";
         let depBadge = "";
 
         if (stateKey === "blocked") {
           depBadge = `<div class="text-[10px] text-amber-700 bg-amber-500/10 px-2 py-0.5 rounded font-medium flex items-center gap-1">
-            <span class="material-symbols-outlined text-xs">lock</span> Blocked by ${t.unmet_dependencies.length} prerequisite task(s)
+            <span class="material-symbols-outlined text-xs">lock</span> Blocked by ${t.unmet_dependencies.length} task(s)
           </div>`;
           controlsHtml = `
-            <button disabled class="w-full text-center text-xs text-on-surface-variant/40 py-1 bg-surface-container-low rounded cursor-not-allowed">
-              Locked by Dependencies
+            <button onclick="openTaskModal('${t.id}')" class="w-full text-center text-xs text-on-surface-variant hover:text-primary py-1 bg-surface-container-low rounded">
+              Inspect Blockers
             </button>
           `;
         } else if (stateKey === "ready") {
           controlsHtml = `
             <div class="flex gap-1.5 pt-1">
               <button onclick="transitionTask('${t.id}', 'in_progress')" class="flex-1 py-1 rounded bg-primary text-white text-xs font-semibold hover:bg-primary-container">Start</button>
-              <button onclick="transitionTask('${t.id}', 'done')" class="px-2 py-1 rounded bg-surface-container-highest text-xs font-semibold">Done</button>
+              <button onclick="transitionTask('${t.id}', 'done')" class="px-2 py-1 rounded bg-surface-container-highest text-xs font-semibold hover:bg-surface-container-high">Done</button>
             </div>
           `;
         } else if (stateKey === "in_progress") {
           controlsHtml = `
             <div class="flex gap-1.5 pt-1">
-              <button onclick="transitionTask('${t.id}', 'done')" class="flex-1 py-1 rounded bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700">Complete Task</button>
+              <button onclick="transitionTask('${t.id}', 'done')" class="flex-1 py-1 rounded bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700">Done</button>
               <button onclick="transitionTask('${t.id}', 'todo')" class="px-2 py-1 rounded bg-surface-container-highest text-xs font-medium">Reset</button>
             </div>
           `;
@@ -516,11 +677,13 @@
         }
 
         card.innerHTML = `
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">${t.vendor_category || "GENERAL"}</span>
-            <span class="text-[10px] font-mono text-on-surface-variant">${t.due_date}</span>
+          <div onclick="openTaskModal('${t.id}')" class="cursor-pointer">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">${t.vendor_category || "GENERAL"}</span>
+              <span class="text-[10px] font-mono text-on-surface-variant">${t.due_date}</span>
+            </div>
+            <h4 class="text-xs font-bold text-on-surface ${stateKey === 'done' ? 'line-through text-on-surface-variant' : ''}">${t.title}</h4>
           </div>
-          <h4 class="text-xs font-bold text-on-surface ${stateKey === 'done' ? 'line-through text-on-surface-variant' : ''}">${t.title}</h4>
           ${depBadge}
           ${controlsHtml}
         `;
@@ -532,6 +695,105 @@
       document.getElementById("count-blocked").innerText = countMap.blocked || 0;
       document.getElementById("count-in_progress").innerText = countMap.in_progress || 0;
       document.getElementById("count-done").innerText = countMap.done || 0;
+    }
+
+    function openTaskModal(taskId) {
+      if (!state) return;
+      const task = state.tasks.find(t => t.id === taskId);
+      if (!task) return;
+
+      document.getElementById("modalTaskId").innerText = `ID: ${task.id.slice(0, 8)}`;
+      document.getElementById("modalTaskCategory").innerText = (task.vendor_category || "GENERAL").toUpperCase();
+      document.getElementById("modalTaskTitle").innerText = task.title;
+      document.getElementById("modalTaskDueDate").innerText = task.due_date;
+      document.getElementById("modalTaskStatus").innerText = task.status.toUpperCase();
+
+      const depContainer = document.getElementById("modalTaskDependencies");
+      if (!task.depends_on || task.depends_on.length === 0) {
+        depContainer.innerHTML = "<p class='italic text-on-surface-variant'>No prerequisite tasks. Ready to execute anytime.</p>";
+      } else {
+        const taskMap = Object.fromEntries(state.tasks.map(t => [t.id, t]));
+        depContainer.innerHTML = task.depends_on.map(depId => {
+          const dep = taskMap[depId];
+          const isDone = dep && dep.status === "done";
+          return `
+            <div class="flex items-center justify-between p-2 rounded bg-surface-container-lowest border border-surface-container-high">
+              <span>${dep ? dep.title : depId}</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${isDone ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                ${isDone ? 'COMPLETE' : 'INCOMPLETE'}
+              </span>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // Dynamic action buttons inside modal
+      const actionsContainer = document.getElementById("modalTaskActions");
+      if (task.workflow_state === "ready") {
+        actionsContainer.innerHTML = `
+          <button onclick="transitionTask('${task.id}', 'in_progress'); closeTaskModal();" class="px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-semibold">Start Task</button>
+          <button onclick="transitionTask('${task.id}', 'done'); closeTaskModal();" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-semibold">Mark Done</button>
+        `;
+      } else if (task.workflow_state === "in_progress") {
+        actionsContainer.innerHTML = `
+          <button onclick="transitionTask('${task.id}', 'done'); closeTaskModal();" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-semibold">Complete Task</button>
+          <button onclick="transitionTask('${task.id}', 'todo'); closeTaskModal();" class="px-3 py-1.5 rounded-lg bg-surface-container-highest text-xs">Reset to Todo</button>
+        `;
+      } else if (task.workflow_state === "done") {
+        actionsContainer.innerHTML = `
+          <button onclick="reopenTask('${task.id}'); closeTaskModal();" class="px-3 py-1.5 rounded-lg bg-surface-container-highest text-xs font-semibold text-primary">Reopen Task</button>
+        `;
+      } else {
+        actionsContainer.innerHTML = `
+          <span class="text-xs text-amber-700 italic">Blocked by incomplete prerequisites</span>
+        `;
+      }
+
+      document.getElementById("taskModalBackdrop").classList.remove("hidden");
+    }
+
+    function closeTaskModal() {
+      document.getElementById("taskModalBackdrop").classList.add("hidden");
+    }
+
+    function openNewEventModal(preselectedTmpl = "") {
+      const modal = document.getElementById("newEventModal");
+      const dateInput = document.getElementById("newEventDate");
+      const defaultDate = new Date();
+      defaultDate.setDate(defaultDate.getDate() + 180);
+      dateInput.value = defaultDate.toISOString().split("T")[0];
+      if (preselectedTmpl) {
+        document.getElementById("newEventTemplate").value = preselectedTmpl;
+      }
+      modal.classList.remove("hidden");
+    }
+
+    function closeNewEventModal() {
+      document.getElementById("newEventModal").classList.add("hidden");
+    }
+
+    async function handleCreateEvent(e) {
+      e.preventDefault();
+      const name = document.getElementById("newEventName").value;
+      const date = document.getElementById("newEventDate").value;
+      const budget = document.getElementById("newEventBudget").value;
+      const templateId = document.getElementById("newEventTemplate").value;
+
+      try {
+        const res = await fetch("/api/events", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, date, budget, template_id: templateId })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Event creation failed");
+        showToast("New event instantiated from template!");
+        closeNewEventModal();
+        currentEventId = data.event.id;
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
+      }
     }
 
     async function transitionTask(taskId, status, force = false) {
