@@ -17,16 +17,20 @@
 ## 2026-11-20
 - **Agent**: Antigravity
 - **Finished**:
-  - Initialized git repository.
-  - Created [AGENTS.md](file:///d:/Business/Event%20Planner/AGENTS.md) with guidelines, stack, test commands, and invariant rules.
-  - Drafted [SPEC.md](file:///d:/Business/Event%20Planner/SPEC.md) with full v1 data models (`Event`, `Task`, `Contact`, `Template`, and `TemplateTask`) and out-of-scope boundaries.
-  - Populated [TASKS.md](file:///d:/Business/Event%20Planner/TASKS.md) with sequential 7-task checklist.
-  - Logged initial scaffolding in [HANDOFF.md](file:///d:/Business/Event%20Planner/HANDOFF.md).
+  - Initialized git repository and safe directories.
+  - Drafted [SPEC.md](file:///d:/Business/Event%20Planner/SPEC.md), [AGENTS.md](file:///d:/Business/Event%20Planner/AGENTS.md), and [TASKS.md](file:///d:/Business/Event%20Planner/TASKS.md).
+  - Task 1: Configured package packaging via [pyproject.toml](file:///d:/Business/Event%20Planner/pyproject.toml) and [.gitignore](file:///d:/Business/Event%20Planner/.gitignore).
+  - Tasks 2 & 3: Implemented domain models and strict field validators in [models.py](file:///d:/Business/Event%20Planner/src/event_planner/models.py).
+  - Task 4: Implemented Kahn's algorithm cycle detection and dependency validator in [dependencies.py](file:///d:/Business/Event%20Planner/src/event_planner/dependencies.py).
+  - Task 5: Wrote comprehensive unit tests in [test_models.py](file:///d:/Business/Event%20Planner/tests/test_models.py) and [test_dependencies.py](file:///d:/Business/Event%20Planner/tests/test_dependencies.py).
+  - Task 6: Built instantiation engine resolving relative deadlines and task mapping in [engine.py](file:///d:/Business/Event%20Planner/src/event_planner/engine.py).
+  - Task 7: Defined wedding template blueprint in [templates.py](file:///d:/Business/Event%20Planner/src/event_planner/templates.py) and end-to-end suite in [test_wedding_template.py](file:///d:/Business/Event%20Planner/tests/test_wedding_template.py).
+  - Verified all 19 tests passing via `pytest`.
 - **Half-done**:
-  - None. Scaffolding, specification, and task breakdown complete.
+  - All 7 tasks from initial checklist completed.
 - **Decisions**:
-  - Used UUID-compatible string keys across entities.
-  - Modeled `relative_days` as integer offsets (e.g. `-365`) relative to the event date for `TemplateTask`.
-  - Added cycle detection and referential integrity to dependency validation.
+  - Pydantic v2 utilized for type safety, email validation, and constraint checking.
+  - Relative deadlines calculated using Python `datetime.timedelta` relative to event date.
+  - Template task IDs dynamically mapped to unique task IDs upon instantiation while preserving dependency graphs.
 - **Next step**:
-  - Await user confirmation on [SPEC.md](file:///d:/Business/Event%20Planner/SPEC.md) data model before starting implementation on Task 1.
+  - Expand templates (e.g. corporate conferences, birthday parties) or implement persistence/export storage (JSON/SQLite).
