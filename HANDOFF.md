@@ -145,3 +145,16 @@
   - Implemented in-memory status transitions storage-agnostically so it can be used with any repository implementation or standalone in business logic.
 - **Next step**:
   - Implement Task W2: Actionable / ready tasks query (`get_actionable_tasks`) in `src/event_planner/workflow.py`.
+
+## 2026-11-20 (Task W2)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented `get_actionable_tasks` in [workflow.py](file:///d:/Business/Event%20Planner/src/event_planner/workflow.py).
+  - Filters for unblocked `TODO` tasks where all prerequisites are satisfied (`status == DONE`) or tasks without dependencies.
+  - All 27 pytest tests pass.
+- **Half-done**:
+  - Task W3 (Event date shift and cascade task rescheduling).
+- **Decisions**:
+  - Focused actionable query purely on tasks ready to be started (`TODO`), leaving already in-progress tasks to their active status.
+- **Next step**:
+  - Implement Task W3: Event date shift and cascade task rescheduling (`reschedule_event`, `shift_task_due_date`) in `src/event_planner/workflow.py`.

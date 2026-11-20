@@ -78,3 +78,30 @@ def transition_task_status(
 
     task.status = new_status
     return task
+
+
+def get_actionable_tasks(tasks: List[Task]) -> List[Task]:
+    """
+    Returns all tasks currently actionable (in TODO status) whose prerequisites
+    are all in DONE status (or tasks with no prerequisites).
+
+    Tasks already IN_PROGRESS or DONE are excluded from this query.
+    """
+    task_map: Dict[str, Task] = {t.id: t for t in tasks}
+    actionable: List[Task] = []
+
+    for task in tasks:
+        if task.status != TaskStatus.TODO:
+            continue
+
+        all_deps_done = True
+        for dep_id in task.depends_on:
+            dep_task = task_map.get(dep_id)
+            if not dep_task or dep_task.status != TaskStatus.DONE:
+                all_deps_done = False
+                break
+
+        if all_deps_done:
+            actionable.append(task)
+
+    return actionable
