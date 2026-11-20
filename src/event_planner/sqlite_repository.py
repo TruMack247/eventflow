@@ -141,7 +141,117 @@ class SQLiteEventRepository(EventRepository):
         tasks: List[Task],
         contacts: Optional[List[Contact]] = None,
     ) -> None:
-        raise NotImplementedError
+        """
+        Atomically persist an event with its tasks, dependencies, and optional contacts.
+        All operations run inside a single transaction; if any fail, all are rolled back.
+        """
+        contacts_list = contacts or []
+
+        # Validate task consistency: all tasks must belong to this event
+        for task in tasks:
+            if task.event_id != event.id:
+                raise ValueError(
+                    f"Task '{task.id}' has event_id '{task.event_id}', expected '{event.id}'"
+                )
+
+        # Validate contacts consistency
+        for contact in contacts_list:
+            if contact.event_id != event.id:
+                raise ValueError(
+                    f"Contact '{contact.id}' has event_id '{contact.event_id}', expected '{event.id}'"
+                )
+
+        event_date_str = (
+            event.date.isoformat()
+            if isinstance(event.date, (date, datetime))
+            else str(event.date)
+        )
+
+        with self.conn:
+            # 1. Upsert event
+            self.conn.execute(
+                """
+                INSERT INTO events (id, name, date, status, budget, template_id)
+                VALUES (?, ?, ?, ?, ?, ?)
+                ON CONFLICT(id) DO UPDATE SET
+                    name = excluded.name,
+                    date = excluded.date,
+                    status = excluded.status,
+                    budget = excluded.budget,
+                    template_id = excluded.template_id;
+                """,
+                (
+                    event.id,
+                    event.name,
+                    event_date_str,
+                    event.status.value,
+                    float(event.budget),
+                    event.template_id,
+                ),
+            )
+
+            # 2. Upsert tasks
+            for task in tasks:
+                task_due_str = (
+                    task.due_date.isoformat()
+                    if isinstance(task.due_date, (date, datetime))
+                    else str(task.due_date)
+                )
+                self.conn.execute(
+                    """
+                    INSERT INTO tasks (id, event_id, title, due_date, status, vendor_category)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(id) DO UPDATE SET
+                        event_id = excluded.event_id,
+                        title = excluded.title,
+                        due_date = excluded.due_date,
+                        status = excluded.status,
+                        vendor_category = excluded.vendor_category;
+                    """,
+                    (
+                        task.id,
+                        task.event_id,
+                        task.title,
+                        task_due_str,
+                        task.status.value,
+                        task.vendor_category,
+                    ),
+                )
+
+                # Sync task dependencies: delete existing and reinsert
+                self.conn.execute(
+                    "DELETE FROM task_dependencies WHERE task_id = ?;",
+                    (task.id,),
+                )
+                for dep_id in task.depends_on:
+                    self.conn.execute(
+                        """
+                        INSERT INTO task_dependencies (task_id, depends_on_task_id)
+                        VALUES (?, ?);
+                        """,
+                        (task.id, dep_id),
+                    )
+
+            # 3. Upsert contacts
+            for contact in contacts_list:
+                self.conn.execute(
+                    """
+                    INSERT INTO contacts (id, event_id, name, email, role)
+                    VALUES (?, ?, ?, ?, ?)
+                    ON CONFLICT(id) DO UPDATE SET
+                        event_id = excluded.event_id,
+                        name = excluded.name,
+                        email = excluded.email,
+                        role = excluded.role;
+                    """,
+                    (
+                        contact.id,
+                        contact.event_id,
+                        contact.name,
+                        contact.email,
+                        contact.role,
+                    ),
+                )
 
     def get_event(self, event_id: str) -> Optional[Event]:
         raise NotImplementedError

@@ -72,3 +72,17 @@
   - Serialized `TemplateTask` configurations into `default_tasks_json` column on `templates` table, keeping template blueprints portable and decoupled from event instances.
 - **Next step**:
   - Implement Task P4: Atomic bundle persistence (`save_event_bundle`, transactions, join table `task_dependencies`).
+
+## 2026-11-20 (Task P4)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented `save_event_bundle` in [sqlite_repository.py](file:///d:/Business/Event%20Planner/src/event_planner/sqlite_repository.py) executing an atomic all-or-nothing transaction.
+  - Normalized task dependencies into the `task_dependencies` join table.
+  - Added consistency checks verifying that all tasks and contacts match the parent event ID.
+  - All 19 pytest tests pass.
+- **Half-done**:
+  - Task P5 (Query and deletion operations).
+- **Decisions**:
+  - Maintained transactions with `with self.conn:` ensuring automatic commit on success and rollback on any constraint violation or runtime error.
+- **Next step**:
+  - Implement Task P5: Query & deletion operations (`get_event`, `get_tasks_for_event`, `get_contacts_for_event`, `delete_event`, `save_task`, `get_task`).
