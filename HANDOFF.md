@@ -158,3 +158,17 @@
   - Focused actionable query purely on tasks ready to be started (`TODO`), leaving already in-progress tasks to their active status.
 - **Next step**:
   - Implement Task W3: Event date shift and cascade task rescheduling (`reschedule_event`, `shift_task_due_date`) in `src/event_planner/workflow.py`.
+
+## 2026-11-20 (Task W3)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented `reschedule_event` in [workflow.py](file:///d:/Business/Event%20Planner/src/event_planner/workflow.py) shifting all task deadlines proportionally to event date changes.
+  - Implemented `shift_task_due_date` with downstream cascade propagation across task dependency chains and optional boundary constraints.
+  - All 27 pytest tests pass.
+- **Half-done**:
+  - Task W4 (Unit tests for workflow engine).
+- **Decisions**:
+  - Supported both `date` and `datetime` types seamlessly during schedule calculations.
+  - Applied breadth-first traversal to push child task due dates when a prerequisite task is postponed past them.
+- **Next step**:
+  - Implement Task W4: Add comprehensive unit tests in `tests/test_workflow.py` for gating, ready tasks, and cascading reschedules.
