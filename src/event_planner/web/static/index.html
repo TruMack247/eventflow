@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>EventFlow - Planning Engine</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#f9f9ff",
+            "surface-dim": "#d7dae3",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f1f3fd",
+            "surface-container": "#ebeef7",
+            "surface-container-high": "#e5e8f2",
+            "surface-container-highest": "#dfe2ec",
+            "on-surface": "#181c23",
+            "on-surface-variant": "#464554",
+            "primary": "#4041c9",
+            "on-primary": "#ffffff",
+            "primary-container": "#5a5ce3",
+            "on-primary-container": "#f2efff",
+            "primary-fixed": "#e1e0ff",
+            "on-primary-fixed": "#07006c",
+            "secondary": "#5b5f65",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"],
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-sans text-on-surface antialiased flex h-screen overflow-hidden">
+
+  <!-- LEFT SIDEBAR (Stitch Global Sidebar) -->
+  <aside class="w-64 bg-surface-container-lowest border-r border-surface-container-high flex flex-col justify-between shrink-0 select-none">
+    <div class="flex flex-col">
+      <!-- Logo Header -->
+      <div class="h-14 px-4 flex items-center gap-2 border-b border-surface-container-high/50">
+        <div class="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-sm">EF</div>
+        <span class="font-semibold text-on-surface tracking-tight text-base">EventFlow</span>
+        <span class="ml-auto text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-surface-container-high text-primary">v1.0</span>
+      </div>
+
+      <!-- Active Event Selector Card -->
+      <div class="p-3">
+        <div class="w-full bg-surface-container-low rounded-xl p-3 flex flex-col gap-1.5 border border-surface-container-high/60">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-semibold tracking-wider text-on-surface-variant uppercase">Active Event</span>
+            <span id="sidebarEventStatus" class="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-semibold">Confirmed</span>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <span id="sidebarEventName" class="font-semibold text-sm text-on-surface truncate">Sarah &amp; Michael's Wedding</span>
+            <span id="sidebarEventDate" class="text-xs text-on-surface-variant">May 24, 2027</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="px-2 pt-2 flex flex-col gap-1">
+        <div class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-on-surface-variant/70">Navigate</div>
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-primary-container text-on-primary-container">
+          <span class="material-symbols-outlined text-lg">space_dashboard</span>
+          <span>Event Dashboard</span>
+        </button>
+        <button onclick="switchTab('workflow')" id="nav-workflow" class="nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface">
+          <span class="material-symbols-outlined text-lg">checklist</span>
+          <span>Tasks &amp; Workflow</span>
+        </button>
+        <button onclick="switchTab('vendors')" id="nav-vendors" class="nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface">
+          <span class="material-symbols-outlined text-lg">group</span>
+          <span>Contacts &amp; Vendors</span>
+        </button>
+        <button onclick="switchTab('templates')" id="nav-templates" class="nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface">
+          <span class="material-symbols-outlined text-lg">dataset</span>
+          <span>Templates</span>
+        </button>
+      </nav>
+
+      <!-- Live Quick Stats Telemetry -->
+      <div class="p-3 mt-3">
+        <div class="bg-surface-container-low rounded-xl p-3 flex flex-col gap-2.5 border border-surface-container-high/60">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Quick Stats</span>
+            <span id="quickDaysTag" class="text-[10px] font-mono text-primary font-semibold">185D REMAIN</span>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-on-surface-variant">Task Progress</span>
+              <span id="quickTaskPct" class="font-mono font-semibold text-on-surface">0%</span>
+            </div>
+            <div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+              <div id="quickTaskBar" class="bg-primary h-full w-[0%] transition-all duration-300"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-on-surface-variant">Allocated Budget</span>
+              <span id="quickBudgetVal" class="font-mono font-semibold text-on-surface">$50,000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Footer -->
+    <div class="p-3 border-t border-surface-container-high/60 flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-xs text-primary">EV</div>
+      <div class="flex flex-col min-w-0 flex-1">
+        <span class="font-medium text-xs text-on-surface truncate">Elena Vance</span>
+        <span class="text-[10px] text-on-surface-variant truncate">Lead Planner</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEWPORT -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+
+    <!-- Top Bar -->
+    <header class="h-14 px-6 border-b border-surface-container-high bg-surface-container-lowest flex items-center justify-between shrink-0 sticky top-0 z-20">
+      <div class="flex items-center gap-2 text-sm text-on-surface-variant">
+        <span class="font-semibold text-on-surface" id="topHeaderEvent">Sarah &amp; Michael's Wedding</span>
+        <span>•</span>
+        <span id="topHeaderId" class="font-mono text-xs">EVT-9284</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="promptReschedule()" class="px-3 py-1.5 rounded-lg border border-surface-container-high text-xs font-semibold hover:bg-surface-container-low transition-colors flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">event_repeat</span>
+          <span>Reschedule Event</span>
+        </button>
+        <button onclick="refreshData()" class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" title="Reload from engine">
+          <span class="material-symbols-outlined text-lg">refresh</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT TABS -->
+    <main class="p-6 max-w-7xl w-full mx-auto flex-1 flex flex-col gap-6">
+
+      <!-- ================= 1. EVENT DASHBOARD ================= -->
+      <section id="tab-dashboard" class="tab-content active space-y-6">
+        <!-- Event Header Card -->
+        <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-container-high/60 shadow-sm relative overflow-hidden">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <h1 id="dashEventTitle" class="text-2xl font-bold tracking-tight text-on-surface">Sarah &amp; Michael's Wedding</h1>
+                <span id="dashEventBadge" class="text-xs px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-semibold">Confirmed</span>
+              </div>
+              <div class="flex items-center gap-3 text-xs text-on-surface-variant mt-2 font-medium">
+                <span class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-sm">calendar_month</span>
+                  <span id="dashEventDate">May 24, 2027</span>
+                </span>
+                <span>•</span>
+                <span id="dashCountdown" class="text-primary font-semibold font-mono">185 Days Remaining</span>
+                <span>•</span>
+                <span id="dashBudgetText">Budget: $50,000.00</span>
+              </div>
+            </div>
+
+            <!-- Progress Meter -->
+            <div class="flex items-center gap-4 bg-surface-container-low p-4 rounded-xl border border-surface-container-high/60">
+              <div class="flex flex-col">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Task Completion</span>
+                <span id="dashTaskCount" class="text-lg font-bold font-mono">0 / 0</span>
+              </div>
+              <div class="w-24 bg-surface-container-high h-2 rounded-full overflow-hidden">
+                <div id="dashTaskProgress" class="bg-primary h-full w-[0%]"></div>
+              </div>
+              <span id="dashProgressPct" class="text-sm font-bold font-mono text-primary">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- HERO WIDGET: "Ready to Work On" (Actionable Tasks) -->
+        <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-container-high/60 shadow-sm relative">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-xl">bolt</span>
+              <h2 class="text-lg font-bold text-on-surface">Ready to Work On</h2>
+              <span class="text-xs px-2.5 py-0.5 rounded-full bg-primary-container/20 text-primary font-medium">
+                Prerequisites 100% Completed
+              </span>
+            </div>
+            <span class="text-xs font-mono text-on-surface-variant">ENGINE ACTIONABLE QUEUE</span>
+          </div>
+
+          <div id="actionableCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Dynamically injected -->
+          </div>
+        </div>
+
+        <!-- Contacts Overview -->
+        <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-container-high/60 shadow-sm">
+          <h3 class="text-base font-bold text-on-surface mb-3">Key Contacts &amp; Vendors</h3>
+          <div id="dashContactsList" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <!-- Dynamically injected -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. TASKS & WORKFLOW (Kanban Board) ================= -->
+      <section id="tab-workflow" class="tab-content space-y-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold tracking-tight text-on-surface">Workflow Matrix</h2>
+            <p class="text-xs text-on-surface-variant mt-0.5">Tasks respect dependency gates. Advancing a task requires all prerequisites to be Done.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-on-surface-variant">Filter:</span>
+            <button class="px-2.5 py-1 rounded bg-primary text-white text-xs font-medium">All Tasks</button>
+          </div>
+        </div>
+
+        <!-- 4-Column Board Matrix -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start">
+          
+          <!-- Column 1: READY (Actionable TODO) -->
+          <div class="bg-surface-container-low rounded-xl p-3 border border-surface-container-high/80">
+            <div class="flex items-center justify-between mb-3 px-1">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                <span class="text-xs font-bold uppercase tracking-wider text-on-surface">Ready (Unblocked)</span>
+              </div>
+              <span id="count-ready" class="text-xs font-mono font-bold px-1.5 py-0.5 rounded bg-primary/10 text-primary">0</span>
+            </div>
+            <div id="col-ready" class="space-y-3 min-h-[150px]"></div>
+          </div>
+
+          <!-- Column 2: BLOCKED (Has unmet dependencies) -->
+          <div class="bg-surface-container-low rounded-xl p-3 border border-surface-container-high/80">
+            <div class="flex items-center justify-between mb-3 px-1">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                <span class="text-xs font-bold uppercase tracking-wider text-on-surface">Blocked</span>
+              </div>
+              <span id="count-blocked" class="text-xs font-mono font-bold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-700">0</span>
+            </div>
+            <div id="col-blocked" class="space-y-3 min-h-[150px]"></div>
+          </div>
+
+          <!-- Column 3: IN PROGRESS -->
+          <div class="bg-surface-container-low rounded-xl p-3 border border-surface-container-high/80">
+            <div class="flex items-center justify-between mb-3 px-1">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                <span class="text-xs font-bold uppercase tracking-wider text-on-surface">In Progress</span>
+              </div>
+              <span id="count-in_progress" class="text-xs font-mono font-bold px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-700">0</span>
+            </div>
+            <div id="col-in_progress" class="space-y-3 min-h-[150px]"></div>
+          </div>
+
+          <!-- Column 4: DONE -->
+          <div class="bg-surface-container-low rounded-xl p-3 border border-surface-container-high/80">
+            <div class="flex items-center justify-between mb-3 px-1">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                <span class="text-xs font-bold uppercase tracking-wider text-on-surface">Done</span>
+              </div>
+              <span id="count-done" class="text-xs font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-600/10 text-emerald-800">0</span>
+            </div>
+            <div id="col-done" class="space-y-3 min-h-[150px]"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ================= 3. CONTACTS & VENDORS ================= -->
+      <section id="tab-vendors" class="tab-content space-y-6">
+        <div>
+          <h2 class="text-xl font-bold tracking-tight text-on-surface">Contacts &amp; Vendors Directory</h2>
+          <p class="text-xs text-on-surface-variant mt-0.5">Assigned roles and partners for this event.</p>
+        </div>
+        <div id="fullContactsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Dynamically injected -->
+        </div>
+      </section>
+
+      <!-- ================= 4. TEMPLATES ================= -->
+      <section id="tab-templates" class="tab-content space-y-6">
+        <div>
+          <h2 class="text-xl font-bold tracking-tight text-on-surface">Template Blueprints</h2>
+          <p class="text-xs text-on-surface-variant mt-0.5">Reusable lifecycle blueprints that instantiate events with relative schedules.</p>
+        </div>
+        <div id="templatesContainer" class="space-y-4">
+          <!-- Dynamically injected -->
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 px-4 py-2.5 rounded-xl shadow-lg bg-on-surface text-white text-xs font-medium transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none z-50"></div>
+
+  <!-- APPLICATION CONTROLLER SCRIPT -->
+  <script>
+    let currentEventId = "EVT-9284";
+    let state = null;
+
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById("toast");
+      toast.innerText = msg;
+      toast.className = `fixed bottom-6 right-6 px-4 py-2.5 rounded-xl shadow-lg text-xs font-medium transform transition-all duration-300 z-50 ${isError ? 'bg-error text-white' : 'bg-on-surface text-white'}`;
+      toast.style.transform = "translateY(0)";
+      toast.style.opacity = "1";
+      setTimeout(() => {
+        toast.style.transform = "translateY(80px)";
+        toast.style.opacity = "0";
+      }, 3500);
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+      document.querySelectorAll(".nav-item").forEach(el => {
+        el.className = "nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface";
+      });
+
+      const targetTab = document.getElementById("tab-" + tabName);
+      const targetNav = document.getElementById("nav-" + tabName);
+      if (targetTab) targetTab.classList.add("active");
+      if (targetNav) targetNav.className = "nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-primary-container text-on-primary-container";
+    }
+
+    async function refreshData() {
+      try {
+        const res = await fetch(`/api/events/${currentEventId}/overview`);
+        if (!res.ok) throw new Error("Failed to load event data");
+        state = await res.json();
+        render();
+        loadTemplates();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    async function loadTemplates() {
+      try {
+        const res = await fetch("/api/templates");
+        if (!res.ok) return;
+        const templates = await res.json();
+        const container = document.getElementById("templatesContainer");
+        container.innerHTML = templates.map(t => `
+          <div class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high/60 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-base font-bold text-on-surface">${t.name}</h3>
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-surface-container-low text-primary">${t.id}</span>
+            </div>
+            <p class="text-xs text-on-surface-variant mb-4">Contains ${t.default_tasks.length} default milestone tasks mapped to relative deadlines.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              ${t.default_tasks.map(task => `
+                <div class="p-2.5 rounded-lg bg-surface-container-low text-xs flex justify-between items-center">
+                  <span class="font-medium text-on-surface">${task.title}</span>
+                  <span class="font-mono text-[10px] text-primary font-semibold">${task.relative_days}d</span>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `).join("");
+      } catch (e) {}
+    }
+
+    function render() {
+      if (!state) return;
+      const { event, days_remaining, total_tasks, completed_tasks, progress_percentage, tasks, actionable_tasks, contacts } = state;
+
+      // Sidebar & Header Telemetry
+      document.getElementById("sidebarEventName").innerText = event.name;
+      document.getElementById("sidebarEventDate").innerText = event.date;
+      document.getElementById("sidebarEventStatus").innerText = event.status.toUpperCase();
+      document.getElementById("quickDaysTag").innerText = `${days_remaining}D REMAIN`;
+      document.getElementById("quickTaskPct").innerText = `${progress_percentage}%`;
+      document.getElementById("quickTaskBar").style.width = `${progress_percentage}%`;
+      document.getElementById("quickBudgetVal").innerText = `$${Number(event.budget).toLocaleString()}`;
+
+      document.getElementById("topHeaderEvent").innerText = event.name;
+      document.getElementById("topHeaderId").innerText = event.id;
+
+      // Dashboard Header
+      document.getElementById("dashEventTitle").innerText = event.name;
+      document.getElementById("dashEventBadge").innerText = event.status.toUpperCase();
+      document.getElementById("dashEventDate").innerText = event.date;
+      document.getElementById("dashCountdown").innerText = `${days_remaining} Days Remaining`;
+      document.getElementById("dashBudgetText").innerText = `Budget: $${Number(event.budget).toLocaleString()}`;
+      document.getElementById("dashTaskCount").innerText = `${completed_tasks} / ${total_tasks}`;
+      document.getElementById("dashTaskProgress").style.width = `${progress_percentage}%`;
+      document.getElementById("dashProgressPct").innerText = `${progress_percentage}%`;
+
+      // Actionable Tasks Hero Cards
+      const actionableContainer = document.getElementById("actionableCardsContainer");
+      if (actionable_tasks.length === 0) {
+        actionableContainer.innerHTML = `
+          <div class="col-span-full py-8 text-center text-xs text-on-surface-variant font-medium">
+            All ready tasks have been progressed! Advance active tasks or complete upstream work to unlock more.
+          </div>
+        `;
+      } else {
+        actionableContainer.innerHTML = actionable_tasks.map(t => `
+          <div class="bg-surface-container-low p-4 rounded-xl border border-primary/20 flex flex-col justify-between gap-3 shadow-sm hover:border-primary/50 transition-colors">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-primary">${t.vendor_category || "GENERAL"}</span>
+                <span class="text-[10px] font-mono text-on-surface-variant">Due: ${t.due_date}</span>
+              </div>
+              <h4 class="font-bold text-sm text-on-surface">${t.title}</h4>
+            </div>
+            <div class="flex items-center gap-2 pt-2 border-t border-surface-container-high/60">
+              <button onclick="transitionTask('${t.id}', 'in_progress')" class="flex-1 bg-primary text-white text-xs font-semibold py-1.5 rounded-lg hover:bg-primary-container transition-colors flex items-center justify-center gap-1">
+                <span class="material-symbols-outlined text-sm">play_arrow</span>
+                <span>Start Task</span>
+              </button>
+              <button onclick="transitionTask('${t.id}', 'done')" class="px-2.5 py-1.5 rounded-lg bg-surface-container-highest text-on-surface text-xs font-semibold hover:bg-surface-container-high transition-colors" title="Mark complete immediately">
+                <span class="material-symbols-outlined text-sm">check</span>
+              </button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // Contacts List
+      const dashContacts = document.getElementById("dashContactsList");
+      const fullContacts = document.getElementById("fullContactsGrid");
+      const contactsHtml = contacts.map(c => `
+        <div class="bg-surface-container-low p-3.5 rounded-xl border border-surface-container-high flex flex-col gap-1">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-primary">${c.role}</span>
+          <span class="font-bold text-sm text-on-surface">${c.name}</span>
+          <span class="text-xs text-on-surface-variant">${c.email}</span>
+        </div>
+      `).join("");
+      dashContacts.innerHTML = contactsHtml;
+      fullContacts.innerHTML = contactsHtml;
+
+      // Kanban Columns
+      renderKanban(tasks);
+    }
+
+    function renderKanban(tasks) {
+      const colMap = {
+        ready: document.getElementById("col-ready"),
+        blocked: document.getElementById("col-blocked"),
+        in_progress: document.getElementById("col-in_progress"),
+        done: document.getElementById("col-done"),
+      };
+
+      const countMap = {
+        ready: 0,
+        blocked: 0,
+        in_progress: 0,
+        done: 0,
+      };
+
+      Object.values(colMap).forEach(el => el.innerHTML = "");
+
+      tasks.forEach(t => {
+        const stateKey = t.workflow_state;
+        countMap[stateKey] = (countMap[stateKey] || 0) + 1;
+
+        const card = document.createElement("div");
+        card.className = "bg-surface-container-lowest p-3.5 rounded-xl border border-surface-container-high/70 shadow-sm flex flex-col gap-2";
+
+        let controlsHtml = "";
+        let depBadge = "";
+
+        if (stateKey === "blocked") {
+          depBadge = `<div class="text-[10px] text-amber-700 bg-amber-500/10 px-2 py-0.5 rounded font-medium flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">lock</span> Blocked by ${t.unmet_dependencies.length} prerequisite task(s)
+          </div>`;
+          controlsHtml = `
+            <button disabled class="w-full text-center text-xs text-on-surface-variant/40 py-1 bg-surface-container-low rounded cursor-not-allowed">
+              Locked by Dependencies
+            </button>
+          `;
+        } else if (stateKey === "ready") {
+          controlsHtml = `
+            <div class="flex gap-1.5 pt-1">
+              <button onclick="transitionTask('${t.id}', 'in_progress')" class="flex-1 py-1 rounded bg-primary text-white text-xs font-semibold hover:bg-primary-container">Start</button>
+              <button onclick="transitionTask('${t.id}', 'done')" class="px-2 py-1 rounded bg-surface-container-highest text-xs font-semibold">Done</button>
+            </div>
+          `;
+        } else if (stateKey === "in_progress") {
+          controlsHtml = `
+            <div class="flex gap-1.5 pt-1">
+              <button onclick="transitionTask('${t.id}', 'done')" class="flex-1 py-1 rounded bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700">Complete Task</button>
+              <button onclick="transitionTask('${t.id}', 'todo')" class="px-2 py-1 rounded bg-surface-container-highest text-xs font-medium">Reset</button>
+            </div>
+          `;
+        } else if (stateKey === "done") {
+          controlsHtml = `
+            <div class="flex items-center justify-between text-xs pt-1 text-emerald-700">
+              <span class="font-medium flex items-center gap-1"><span class="material-symbols-outlined text-xs">check_circle</span> Complete</span>
+              <button onclick="reopenTask('${t.id}')" class="text-[10px] text-on-surface-variant hover:text-primary">Reopen</button>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">${t.vendor_category || "GENERAL"}</span>
+            <span class="text-[10px] font-mono text-on-surface-variant">${t.due_date}</span>
+          </div>
+          <h4 class="text-xs font-bold text-on-surface ${stateKey === 'done' ? 'line-through text-on-surface-variant' : ''}">${t.title}</h4>
+          ${depBadge}
+          ${controlsHtml}
+        `;
+
+        colMap[stateKey].appendChild(card);
+      });
+
+      document.getElementById("count-ready").innerText = countMap.ready || 0;
+      document.getElementById("count-blocked").innerText = countMap.blocked || 0;
+      document.getElementById("count-in_progress").innerText = countMap.in_progress || 0;
+      document.getElementById("count-done").innerText = countMap.done || 0;
+    }
+
+    async function transitionTask(taskId, status, force = false) {
+      try {
+        const res = await fetch("/api/tasks/transition", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ task_id: taskId, status: status, force: force })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Transition failed");
+        }
+        showToast("Task updated successfully!");
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    async function reopenTask(taskId) {
+      if (confirm("Reopen this task? If downstream tasks depend on it, force reset will revert them to TODO.")) {
+        transitionTask(taskId, "todo", true);
+      }
+    }
+
+    async function promptReschedule() {
+      const newDate = prompt("Enter new event date (YYYY-MM-DD):", state?.event?.date || "2027-06-15");
+      if (!newDate) return;
+      try {
+        const res = await fetch(`/api/events/${currentEventId}/reschedule`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ new_date: newDate })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Reschedule failed");
+        showToast("Event and tasks rescheduled successfully!");
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    // Initial load
+    refreshData();
+  </script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"inverse-on-surface":"#eef0fa","inverse-surface":"#2d3138","on-secondary-container":"#61656b","surface-container-lowest":"#ffffff","on-secondary-fixed":"#181c21","inverse-primary":"#c1c1ff","tertiary-fixed":"#ffdcc5","secondary-fixed-dim":"#c3c6ce","on-error":"#ffffff","primary-container":"#5a5ce3","tertiary-fixed-dim":"#ffb782","on-secondary-fixed-variant":"#43474d","on-tertiary":"#ffffff","surface-tint":"#4a4bd3","secondary-fixed":"#dfe2ea","outline":"#767586","on-surface":"#181c23","tertiary":"#83450a","surface-container-low":"#f1f3fd","on-primary-fixed":"#07006c","surface-container-high":"#e5e8f2","on-background":"#181c23","surface-variant":"#dfe2ec","on-tertiary-container":"#ffede3","on-tertiary-fixed":"#301400","secondary-container":"#dfe2ea","primary-fixed-dim":"#c1c1ff","surface-container":"#ebeef7","surface-dim":"#d7dae3","on-primary-container":"#f2efff","error":"#ba1a1a","on-secondary":"#ffffff","on-primary-fixed-variant":"#302fbb","error-container":"#ffdad6","surface":"#f9f9ff","secondary":"#5b5f65","on-tertiary-fixed-variant":"#703800","tertiary-container":"#a15c22","outline-variant":"#c7c4d7","primary":"#4041c9","surface-bright":"#f9f9ff","on-primary":"#ffffff","surface-container-highest":"#dfe2ec","primary-fixed":"#e1e0ff","on-surface-variant":"#464554","background":"#f9f9ff","on-error-container":"#93000a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1rem","space-2xl":"2rem","gutter-dense":"0.5rem","space-2xs":"0.125rem","margin-mobile":"1rem","gutter":"1rem","space-xs":"0.25rem","space-sm":"0.5rem","space-xl":"1.5rem","space-md":"0.75rem","margin":"1.5rem"},"fontFamily":{"headline-md":["Inter"],"label-code-sm":["JetBrains Mono"],"headline-sm":["Inter"],"body-md":["Inter"],"body-sm":["Inter"],"headline-lg":["Inter"],"headline-xl":["Inter"],"body-lg":["Inter"],"label-caps":["Inter"],"label-code-md":["JetBrains Mono"]},"fontSize":{"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-code-sm":["11px",{"lineHeight":"14px","letterSpacing":"-0.005em","fontWeight":"500"}],"headline-sm":["15px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.005em","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["15px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"label-caps":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"label-code-md":["12px",{"lineHeight":"16px","letterSpacing":"-0.01em","fontWeight":"500"}]}}}};</script></head><body class="bg-surface font-body-md text-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-14 px-space-md flex items-center gap-space-sm bg-surface-container-lowest"><img alt="EventFlow Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrA3rWR0_JGezqrqJN5t0THSzx1MHcLH7YYwM_IgGzegNuTCOiosiSCoGtC9zVru96F25HheQf3LqlBavALq8Wm5jEDprgpzZGfbqZqmaOihPxdap89x2L9bXdnBDmQRbUNY5cbC8a03KsdefUq25Jdeyjuobznu8xtpIFXx39l72Jrge6BRKiMeeF7zEGstBpgAIoxT2kskYGL0wjRjHcsB30AjWQDVTpDMvDwc2uc"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">EventFlow</span></div><div class="px-space-md py-space-sm"><div class="w-full bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Active Event</span><span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-high text-primary font-semibold">Confirmed</span></div><div class="flex items-center justify-between gap-space-xs"><div class="flex flex-col min-w-0"><span class="font-headline-sm text-body-md text-on-surface truncate">Sarah &amp; Michael's Wedding</span><span class="font-body-sm text-body-sm text-on-surface-variant">May 24, 2027</span></div><span class="material-symbols-outlined text-on-surface-variant text-base">unfold_more</span></div></div></div><div class="px-space-md pt-space-xs"><div class="px-space-xs py-space-2xs"><span class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase">Navigate</span></div><nav class="mt-space-2xs flex flex-col gap-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="global-sidebar" href="#"><span class="material-symbols-outlined text-lg">dashboard_customize</span><span class="font-body-md text-body-md">Global Sidebar</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="event-dashboard" href="#"><span class="material-symbols-outlined text-lg">space_dashboard</span><span class="font-body-md text-body-md">Event Dashboard</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="tasks-workflow" href="#"><span class="material-symbols-outlined text-lg">checklist</span><span class="font-body-md text-body-md">Tasks &amp; Workflow</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-colors bg-primary-container text-on-primary-container font-semibold" data-path="timeline-dependencies" href="#"><span class="material-symbols-outlined text-lg">timeline</span><span class="font-body-md text-body-md">Timeline Dependencies</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="contacts-vendors" href="#"><span class="material-symbols-outlined text-lg">group</span><span class="font-body-md text-body-md">Contacts &amp; Vendors</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="templates" href="#"><span class="material-symbols-outlined text-lg">dataset</span><span class="font-body-md text-body-md">Templates</span></a></nav></div><div class="px-space-md py-space-md"><div class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-space-sm"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Event Quick Stats</span><span class="font-label-code-sm text-label-code-sm text-primary font-medium">185D REMAIN</span></div><div class="flex flex-col gap-space-2xs"><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Days Until Event</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">185 Days</span></div><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Budget Burn (35%)</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">$17.5k / $50k</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary h-full w-[35%]"></div></div></div><div class="flex flex-col gap-space-2xs pt-space-2xs"><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Task Progress (42%)</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">18 of 43 tasks</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary-container h-full w-[42%]"></div></div></div></div></div></div><div class="p-space-md bg-surface-container-lowest shadow-[0_-1px_6px_rgba(0,0,0,0.02)]"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqWGf2xWE2D8pGxf1w2rdewdfpzM6U-TgVmP5yKQcOY2fml7hWLmyPkKrOzAZbSsLHpN_u9YDBZDtQ4n_6rvmqUdM9wp1PScd9cQHce0xuoW1tPkJrnZ9U8mNJNieP9LivhR-er4uudHUx--oWSWcSygJZk8idImDMSLWiV9p06x3zTBHfHJYg44QFF8vacnM1F0_oWodSq0XuLTJdm4_FKocsATq1I_0EXz7_fgM"/><div class="flex flex-col min-w-0"><span class="font-headline-sm text-body-md text-on-surface truncate">Elena Vance</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">Lead Coordinator</span></div></div><div class="flex items-center gap-space-2xs"><button class="p-space-2xs rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-lg">notifications</span></button><button class="p-space-2xs rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-lg">settings</span></button></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-sm w-96"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-2xs rounded-lg w-full text-on-surface-variant"><span class="material-symbols-outlined text-lg">search</span><span class="font-body-sm text-body-sm flex-1 text-on-surface-variant">Search events, dependencies, vendors...</span><kbd class="font-label-code-sm text-label-code-sm bg-surface-container-high px-space-xs py-space-2xs rounded text-on-surface">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><div class="relative"><button class="p-space-2xs rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span></button></div><button class="bg-primary text-on-primary font-headline-sm text-body-md px-space-md py-space-xs rounded-lg hover:bg-primary-container transition-colors flex items-center gap-space-xs" type="button"><span class="material-symbols-outlined text-base">add</span><span>New Event</span></button></div></header><main class="relative pt-14 bg-surface w-full px-space-xl"><div class="flex flex-col w-full pb-space-2xl">
+<!-- Page Header Sub-bar & Telemetry Strip -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md py-space-md">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps uppercase tracking-wider text-primary font-semibold">Critical Path View</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-code-sm text-label-code-sm text-secondary">EVENT ID: EVT-2027-0524</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Timeline &amp; Directed Dependencies</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Live topological resolution graph and critical path scheduling for Sarah &amp; Michael's Wedding.</p>
+</div>
+<!-- Quick Telemetry Chips -->
+<div class="flex items-center flex-wrap gap-space-xs">
+<div class="flex items-center gap-space-xs px-space-sm py-space-2xs bg-surface-container rounded-lg">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Critical Path:</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">4 Prereqs Active</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-space-2xs bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-sm text-tertiary">pie_chart</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Burn Velocity:</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary font-semibold">35% ($17.5k)</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-space-2xs bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-sm text-error">lock_clock</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Blocked Nodes:</span>
+<span class="font-label-code-sm text-label-code-sm text-error font-semibold">01 Downstream</span>
+</div>
+</div>
+</div>
+<!-- Filter Controls Toolbar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md p-space-sm bg-surface-container-lowest rounded-xl shadow-sm mb-space-lg">
+<!-- State Segmented Filters -->
+<div class="flex items-center gap-space-xs flex-wrap" id="state-filters">
+<button class="filter-chip active-filter px-space-sm py-space-2xs rounded-lg font-headline-sm text-body-sm bg-primary text-on-primary shadow-xs transition-colors flex items-center gap-space-2xs" data-filter="all" type="button">
+<span class="material-symbols-outlined text-base">hub</span>
+<span>All Tasks</span>
+<span class="ml-space-2xs px-1.5 py-0.2 rounded-full bg-surface-container-lowest/20 font-label-code-sm text-label-code-sm">18</span>
+</button>
+<button class="filter-chip px-space-sm py-space-2xs rounded-lg font-headline-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors flex items-center gap-space-2xs" data-filter="unlocked" type="button">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>Unlocked / Ready</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">6</span>
+</button>
+<button class="filter-chip px-space-sm py-space-2xs rounded-lg font-headline-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors flex items-center gap-space-2xs" data-filter="blocked" type="button">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>Blocked</span>
+<span class="font-label-code-sm text-label-code-sm text-error font-semibold">1</span>
+</button>
+<button class="filter-chip px-space-sm py-space-2xs rounded-lg font-headline-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors flex items-center gap-space-2xs" data-filter="completed" type="button">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span>Completed</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">11</span>
+</button>
+</div>
+<!-- Timeline Window Presets -->
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase px-space-xs">Range:</span>
+<div class="inline-flex p-space-2xs bg-surface-container-low rounded-lg">
+<button class="px-space-xs py-space-2xs rounded font-headline-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">Next 7D</button>
+<button class="px-space-xs py-space-2xs rounded font-headline-sm text-body-sm bg-surface-container-lowest text-primary shadow-xs font-semibold" type="button">Next 30 Days</button>
+<button class="px-space-xs py-space-2xs rounded font-headline-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">This Quarter</button>
+<button class="px-space-xs py-space-2xs rounded font-headline-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">All Milestones</button>
+</div>
+<button class="ml-space-2xs px-space-sm py-space-2xs bg-surface-container-high hover:bg-surface-variant text-on-surface rounded-lg font-headline-sm text-body-sm transition-colors flex items-center gap-space-2xs" type="button">
+<span class="material-symbols-outlined text-sm">tune</span>
+<span>Apply Timeline Filter</span>
+</button>
+</div>
+</div>
+<!-- Section 1: Visual Topological Dependency Graph -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden mb-space-xl">
+<!-- Graph Canvas Header -->
+<div class="px-space-lg py-space-md bg-surface-container-low flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-xl">schema</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Directed Prerequisite Graph</span>
+</div>
+<div class="hidden sm:flex items-center gap-space-xs px-space-xs py-0.5 rounded bg-surface-container-high">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">TARGET:</span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-semibold">MAY 24, 2027</span>
+</div>
+</div>
+<!-- Graph Canvas Legend -->
+<div class="flex items-center gap-space-md text-body-sm">
+<div class="flex items-center gap-space-2xs">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="text-on-surface-variant">Resolved (2)</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="text-on-surface-variant">Active Ready (2)</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="text-on-surface-variant">Prereq Locked (1)</span>
+</div>
+<div class="flex items-center gap-space-xs ml-space-xs">
+<button class="p-space-2xs rounded hover:bg-surface-container text-on-surface-variant" title="Center view" type="button"><span class="material-symbols-outlined text-base">center_focus_strong</span></button>
+<button class="p-space-2xs rounded hover:bg-surface-container text-on-surface-variant" title="Zoom in" type="button"><span class="material-symbols-outlined text-base">zoom_in</span></button>
+</div>
+</div>
+</div>
+<!-- Topological SVG / HTML Hybrid Workspace -->
+<div class="relative w-full overflow-x-auto p-space-xl bg-surface/50 min-h-[380px] flex items-center justify-start xl:justify-center">
+<!-- Underlying Bezier Splines Layer -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="resolvedGradient" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#767586" stop-opacity="0.4"></stop>
+<stop offset="100%" stop-color="#4041c9" stop-opacity="0.9"></stop>
+</lineargradient>
+<lineargradient id="activeGradient" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#4041c9" stop-opacity="0.9"></stop>
+<stop offset="100%" stop-color="#a15c22" stop-opacity="0.8"></stop>
+</lineargradient>
+<marker id="arrow-resolved" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="7" refy="5" viewbox="0 0 10 10">
+<path d="M 0 1 L 8 5 L 0 9 z" fill="#767586"></path>
+</marker>
+<marker id="arrow-primary" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="7" refy="5" viewbox="0 0 10 10">
+<path d="M 0 1 L 8 5 L 0 9 z" fill="#4041c9"></path>
+</marker>
+<marker id="arrow-locked" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="7" refy="5" viewbox="0 0 10 10">
+<path d="M 0 1 L 8 5 L 0 9 z" fill="#a15c22"></path>
+</marker>
+</defs>
+<!-- Connecting Splines: Node 1 -> Node 2 -->
+<path d="M 235 190 L 295 190" fill="none" marker-end="url(#arrow-resolved)" stroke="#767586" stroke-dasharray="4 2" stroke-width="2"></path>
+<!-- Node 2 -> Branch 1 (Node 3) & Branch 2 (Node 4) -->
+<path d="M 530 190 C 580 190, 575 110, 625 110" fill="none" marker-end="url(#arrow-primary)" stroke="url(#resolvedGradient)" stroke-width="2.5"></path>
+<path d="M 530 190 C 580 190, 575 270, 625 270" fill="none" marker-end="url(#arrow-primary)" stroke="url(#resolvedGradient)" stroke-width="2.5"></path>
+<!-- Node 3 & Node 4 -> Node 5 (Locked) -->
+<path d="M 865 110 C 915 110, 915 190, 965 190" fill="none" marker-end="url(#arrow-locked)" stroke="#a15c22" stroke-dasharray="4 4" stroke-width="2"></path>
+<path d="M 865 270 C 915 270, 915 190, 965 190" fill="none" marker-end="url(#arrow-locked)" stroke="#a15c22" stroke-dasharray="4 4" stroke-width="2"></path>
+</svg>
+<!-- Graph HTML Nodes Overlaid in Precise Coordinate Hierarchy -->
+<div class="relative min-w-[1240px] h-[320px] flex items-center justify-between px-space-md">
+<!-- NODE 1: Resolved / Budget -->
+<div class="absolute left-0 top-[138px] w-[235px] bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-all group">
+<div class="flex items-center justify-between mb-space-2xs">
+<span class="inline-flex items-center gap-1 font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-surface-container-high text-secondary font-semibold uppercase">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Prereq 01
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-secondary font-medium">100%</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors">Determine Budget ($50k)</div>
+<div class="mt-space-2xs flex items-center justify-between text-body-sm text-on-surface-variant">
+<span>Burn locked: $17.5k</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary">May 02</span>
+</div>
+</div>
+<!-- NODE 2: Resolved / Venue -->
+<div class="absolute left-[295px] top-[138px] w-[235px] bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-all group">
+<div class="flex items-center justify-between mb-space-2xs">
+<span class="inline-flex items-center gap-1 font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-surface-container-high text-secondary font-semibold uppercase">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Prereq 02
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-secondary font-medium">Signed</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors truncate">Book Grand Venue</div>
+<div class="mt-space-2xs flex items-center justify-between text-body-sm text-on-surface-variant">
+<span>Conservatory Hall</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary">May 10</span>
+</div>
+</div>
+<!-- NODE 3: Active Ready / Catering Menu -->
+<div class="absolute left-[625px] top-[58px] w-[240px] bg-surface-container-lowest rounded-xl p-space-sm shadow-md transition-all ring-1 ring-primary/40 group">
+<div class="flex items-center justify-between mb-space-2xs">
+<span class="inline-flex items-center gap-1 font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-primary-container text-on-primary-container font-semibold uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-on-primary-container animate-ping"></span>
+              Ready Now
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-bold">CRITICAL</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors">Catering Menu Tasting</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Select 4-course banquet and wine pairing schedule.</p>
+<div class="mt-space-xs pt-space-xs bg-surface-container-low -mx-space-sm -mb-space-sm px-space-sm py-space-2xs rounded-b-xl flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-primary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span> 3 hrs
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">May 18</span>
+</div>
+</div>
+<!-- NODE 4: Active Ready / Photographer Contract -->
+<div class="absolute left-[625px] top-[218px] w-[240px] bg-surface-container-lowest rounded-xl p-space-sm shadow-md transition-all ring-1 ring-primary/40 group">
+<div class="flex items-center justify-between mb-space-2xs">
+<span class="inline-flex items-center gap-1 font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-primary-container text-on-primary-container font-semibold uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-on-primary-container animate-ping"></span>
+              Ready Now
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-medium">Pending Sign</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors">Photographer Contract</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Review golden-hour schedule and deposit transfer.</p>
+<div class="mt-space-xs pt-space-xs bg-surface-container-low -mx-space-sm -mb-space-sm px-space-sm py-space-2xs rounded-b-xl flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-primary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span> 1 hr
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">May 19</span>
+</div>
+</div>
+<!-- NODE 5: Locked / Seating & Production -->
+<div class="absolute left-[965px] top-[128px] w-[260px] bg-surface-container-high/60 backdrop-blur-sm rounded-xl p-space-sm shadow-sm transition-all group relative">
+<!-- Ambient Lock Badge -->
+<div class="flex items-center justify-between mb-space-2xs">
+<span class="inline-flex items-center gap-1 font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-semibold uppercase">
+<span class="material-symbols-outlined text-xs">lock</span>
+              Blocked
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary font-semibold">2 Blockers</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold">Finalize Seating &amp; Production</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Locked until Catering headcount and RSVP counts reconcile.</p>
+<!-- Dependency Tooltip Note -->
+<div class="mt-space-xs p-space-2xs bg-tertiary-fixed/30 rounded flex items-center gap-space-xs text-on-tertiary-container">
+<span class="material-symbols-outlined text-sm text-tertiary">info</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Requires Node 3 &amp; Node 4 approval</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline Execution Health Bar -->
+<div class="px-space-lg py-space-sm bg-surface-container flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Timeline Path Stability</span>
+<div class="w-32 bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[82%]"></div>
+</div>
+<span class="font-label-code-sm text-label-code-sm font-semibold text-on-surface">82% on track</span>
+</div>
+<div class="flex items-center gap-space-md text-body-sm text-on-surface-variant">
+<span>Float Time: <strong class="text-on-surface font-label-code-sm">+3 Days Buffer</strong></span>
+<span>•</span>
+<span>Lead Coordinator: <strong class="text-on-surface">Elena Vance</strong></span>
+</div>
+</div>
+</div>
+<!-- Section 2: Sequential Calendar Agenda / Interactive Timeline Columns -->
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Timeline Agenda &amp; Run-of-Show Queue</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Synchronized daily event dependencies scheduled across the next critical window.</p>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Group By:</span>
+<span class="px-space-xs py-space-2xs bg-surface-container rounded font-label-code-sm text-label-code-sm text-on-surface font-medium">Day Sequence (Mon-Sat)</span>
+</div>
+</div>
+<!-- 6 Sequential Day Cards in Bento/Responsive Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md">
+<!-- Item 1: Monday -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-surface-container-high text-secondary font-semibold uppercase">
+              Mon • 09:00 AM
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-secondary font-semibold">2 hrs</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Book Grand Ballroom Venue</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Conduct final walkthrough of acoustic zones and load-in freight elevator access.</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-space-xs rounded-b-xl">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-sm text-primary">domain</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Venue Logistics</span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary uppercase font-semibold">Complete</span>
+</div>
+</div>
+<!-- Item 2: Tuesday -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group ring-1 ring-primary/30">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-primary-container text-on-primary-container font-semibold uppercase">
+              Tue • 10:30 AM
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-bold">3 hrs</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Finalize Catering Menu Tasting</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Approve seasonal entrée flights, dietary substitutions, and sommelier vintage choices.</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-space-xs rounded-b-xl">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-sm text-tertiary">restaurant</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Catering Dept</span>
+</div>
+<span class="font-label-caps text-label-caps text-primary uppercase font-bold">Active Today</span>
+</div>
+</div>
+<!-- Item 3: Wednesday -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-surface-container-high text-primary font-semibold uppercase">
+              Wed • 13:00 PM
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">1 hr</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Confirm Photographer Contract</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Sign shoot addendum for second shooter, drone coverage permits, and raw archive handover.</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-space-xs rounded-b-xl">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-sm text-primary">photo_camera</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Photography</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-semibold">Queued</span>
+</div>
+</div>
+<!-- Item 4: Thursday -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-semibold uppercase">
+              Thu • 11:00 AM
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">2 hrs</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Select Floral Arrangements</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Review table arch samples, bridal bouquet ribbons, and delivery timing with Bloom Studio.</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-space-xs rounded-b-xl">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-sm text-tertiary">local_florist</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Floral &amp; Decor</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-semibold">Scheduled</span>
+</div>
+</div>
+<!-- Item 5: Friday -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-semibold uppercase">
+              Fri • 15:00 PM
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">1 hr</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Book Ceremony Acoustic Trio</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Confirm processional song sheet, amplification power riders, and soundcheck time slots.</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-space-xs rounded-b-xl">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-sm text-primary">graphic_eq</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Music &amp; Audio</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-semibold">Scheduled</span>
+</div>
+</div>
+<!-- Item 6: Saturday -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-semibold uppercase">
+              Sat • 10:00 AM
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">4 hrs</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Review Invitation Proofs</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Verify typography foil stamping, guest name typography kerning, and postage pre-sort.</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-space-xs rounded-b-xl">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-sm text-secondary">mark_email_unread</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Stationery</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-semibold">Review</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Client-side Script for Filter Toggles -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterButtons = document.querySelectorAll('#state-filters button');
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterButtons.forEach(b => {
+            b.classList.remove('bg-primary', 'text-on-primary', 'shadow-xs');
+            b.classList.add('text-on-surface-variant');
+          });
+          btn.classList.add('bg-primary', 'text-on-primary', 'shadow-xs');
+          btn.classList.remove('text-on-surface-variant');
+        });
+      });
+    });
+  </script>
+</div></main></div></body></html>

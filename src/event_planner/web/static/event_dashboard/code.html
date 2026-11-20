@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"inverse-on-surface":"#eef0fa","inverse-surface":"#2d3138","on-secondary-container":"#61656b","surface-container-lowest":"#ffffff","on-secondary-fixed":"#181c21","inverse-primary":"#c1c1ff","tertiary-fixed":"#ffdcc5","secondary-fixed-dim":"#c3c6ce","on-error":"#ffffff","primary-container":"#5a5ce3","tertiary-fixed-dim":"#ffb782","on-secondary-fixed-variant":"#43474d","on-tertiary":"#ffffff","surface-tint":"#4a4bd3","secondary-fixed":"#dfe2ea","outline":"#767586","on-surface":"#181c23","tertiary":"#83450a","surface-container-low":"#f1f3fd","on-primary-fixed":"#07006c","surface-container-high":"#e5e8f2","on-background":"#181c23","surface-variant":"#dfe2ec","on-tertiary-container":"#ffede3","on-tertiary-fixed":"#301400","secondary-container":"#dfe2ea","primary-fixed-dim":"#c1c1ff","surface-container":"#ebeef7","surface-dim":"#d7dae3","on-primary-container":"#f2efff","error":"#ba1a1a","on-secondary":"#ffffff","on-primary-fixed-variant":"#302fbb","error-container":"#ffdad6","surface":"#f9f9ff","secondary":"#5b5f65","on-tertiary-fixed-variant":"#703800","tertiary-container":"#a15c22","outline-variant":"#c7c4d7","primary":"#4041c9","surface-bright":"#f9f9ff","on-primary":"#ffffff","surface-container-highest":"#dfe2ec","primary-fixed":"#e1e0ff","on-surface-variant":"#464554","background":"#f9f9ff","on-error-container":"#93000a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1rem","space-2xl":"2rem","gutter-dense":"0.5rem","space-2xs":"0.125rem","margin-mobile":"1rem","gutter":"1rem","space-xs":"0.25rem","space-sm":"0.5rem","space-xl":"1.5rem","space-md":"0.75rem","margin":"1.5rem"},"fontFamily":{"headline-md":["Inter"],"label-code-sm":["JetBrains Mono"],"headline-sm":["Inter"],"body-md":["Inter"],"body-sm":["Inter"],"headline-lg":["Inter"],"headline-xl":["Inter"],"body-lg":["Inter"],"label-caps":["Inter"],"label-code-md":["JetBrains Mono"]},"fontSize":{"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-code-sm":["11px",{"lineHeight":"14px","letterSpacing":"-0.005em","fontWeight":"500"}],"headline-sm":["15px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.005em","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["15px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"label-caps":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"label-code-md":["12px",{"lineHeight":"16px","letterSpacing":"-0.01em","fontWeight":"500"}]}}}};</script></head><body class="bg-surface font-body-md text-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-14 px-space-md flex items-center gap-space-sm bg-surface-container-lowest"><img alt="EventFlow Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrA3rWR0_JGezqrqJN5t0THSzx1MHcLH7YYwM_IgGzegNuTCOiosiSCoGtC9zVru96F25HheQf3LqlBavALq8Wm5jEDprgpzZGfbqZqmaOihPxdap89x2L9bXdnBDmQRbUNY5cbC8a03KsdefUq25Jdeyjuobznu8xtpIFXx39l72Jrge6BRKiMeeF7zEGstBpgAIoxT2kskYGL0wjRjHcsB30AjWQDVTpDMvDwc2uc"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">EventFlow</span></div><div class="px-space-md py-space-sm"><div class="w-full bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Active Event</span><span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-high text-primary font-semibold">Confirmed</span></div><div class="flex items-center justify-between gap-space-xs"><div class="flex flex-col min-w-0"><span class="font-headline-sm text-body-md text-on-surface truncate">Sarah &amp; Michael's Wedding</span><span class="font-body-sm text-body-sm text-on-surface-variant">May 24, 2027</span></div><span class="material-symbols-outlined text-on-surface-variant text-base">unfold_more</span></div></div></div><div class="px-space-md pt-space-xs"><div class="px-space-xs py-space-2xs"><span class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase">Navigate</span></div><nav class="mt-space-2xs flex flex-col gap-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="global-sidebar" href="#"><span class="material-symbols-outlined text-lg">dashboard_customize</span><span class="font-body-md text-body-md">Global Sidebar</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-colors bg-primary-container text-on-primary-container font-semibold" data-path="event-dashboard" href="#"><span class="material-symbols-outlined text-lg">space_dashboard</span><span class="font-body-md text-body-md">Event Dashboard</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="tasks-workflow" href="#"><span class="material-symbols-outlined text-lg">checklist</span><span class="font-body-md text-body-md">Tasks &amp; Workflow</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="timeline-dependencies" href="#"><span class="material-symbols-outlined text-lg">timeline</span><span class="font-body-md text-body-md">Timeline Dependencies</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="contacts-vendors" href="#"><span class="material-symbols-outlined text-lg">group</span><span class="font-body-md text-body-md">Contacts &amp; Vendors</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="templates" href="#"><span class="material-symbols-outlined text-lg">dataset</span><span class="font-body-md text-body-md">Templates</span></a></nav></div><div class="px-space-md py-space-md"><div class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-space-sm"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Event Quick Stats</span><span class="font-label-code-sm text-label-code-sm text-primary font-medium">185D REMAIN</span></div><div class="flex flex-col gap-space-2xs"><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Days Until Event</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">185 Days</span></div><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Budget Burn (35%)</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">$17.5k / $50k</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary h-full w-[35%]"></div></div></div><div class="flex flex-col gap-space-2xs pt-space-2xs"><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Task Progress (42%)</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">18 of 43 tasks</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary-container h-full w-[42%]"></div></div></div></div></div></div><div class="p-space-md bg-surface-container-lowest shadow-[0_-1px_6px_rgba(0,0,0,0.02)]"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqWGf2xWE2D8pGxf1w2rdewdfpzM6U-TgVmP5yKQcOY2fml7hWLmyPkKrOzAZbSsLHpN_u9YDBZDtQ4n_6rvmqUdM9wp1PScd9cQHce0xuoW1tPkJrnZ9U8mNJNieP9LivhR-er4uudHUx--oWSWcSygJZk8idImDMSLWiV9p06x3zTBHfHJYg44QFF8vacnM1F0_oWodSq0XuLTJdm4_FKocsATq1I_0EXz7_fgM"/><div class="flex flex-col min-w-0"><span class="font-headline-sm text-body-md text-on-surface truncate">Elena Vance</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">Lead Coordinator</span></div></div><div class="flex items-center gap-space-2xs"><button class="p-space-2xs rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-lg">notifications</span></button><button class="p-space-2xs rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-lg">settings</span></button></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-sm w-96"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-2xs rounded-lg w-full text-on-surface-variant"><span class="material-symbols-outlined text-lg">search</span><span class="font-body-sm text-body-sm flex-1 text-on-surface-variant">Search events, dependencies, vendors...</span><kbd class="font-label-code-sm text-label-code-sm bg-surface-container-high px-space-xs py-space-2xs rounded text-on-surface">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><div class="relative"><button class="p-space-2xs rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span></button></div><button class="bg-primary text-on-primary font-headline-sm text-body-md px-space-md py-space-xs rounded-lg hover:bg-primary-container transition-colors flex items-center gap-space-xs" type="button"><span class="material-symbols-outlined text-base">add</span><span>New Event</span></button></div></header><main class="relative pt-14 bg-surface w-full px-space-xl"><div class="flex flex-col w-full pb-space-2xl space-y-space-xl">
+<!-- Top Event Context & Telemetry Bar -->
+<div class="relative overflow-hidden bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="absolute -right-16 -top-16 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md relative z-10">
+<div class="flex flex-col sm:flex-row sm:items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">celebration</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Sarah &amp; Michael's Wedding</h1>
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-high text-primary font-semibold">Confirmed</span>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container-low text-on-surface-variant">ID: EVT-9284</span>
+</div>
+<div class="flex items-center gap-space-sm text-on-surface-variant font-body-sm text-body-sm mt-space-2xs">
+<span class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+              May 24, 2027
+            </span>
+<span>•</span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-semibold">185 Days Remaining</span>
+<span>•</span>
+<span>San Francisco, CA</span>
+</div>
+</div>
+</div>
+<!-- Quick Context Micro-telemetry -->
+<div class="flex items-center gap-space-md bg-surface-container-low px-space-md py-space-sm rounded-lg self-start lg:self-auto">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Committed Capital</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">$17,500 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">/ $50,000</span></span>
+</div>
+<div class="w-16 h-10 flex items-center">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 64 24">
+<rect class="fill-surface-container-highest" height="8" rx="4" width="64" x="0" y="8"></rect>
+<rect class="fill-primary" height="8" rx="4" width="22.4" x="0" y="8"></rect>
+</svg>
+</div>
+<div class="flex flex-col text-right">
+<span class="font-label-code-sm text-label-code-sm text-primary font-semibold">35%</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Burn rate</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 1. "Ready to Work On" (Actionable Tasks) Hero Widget -->
+<div class="relative bg-surface-container-lowest rounded-xl p-space-lg shadow-sm overflow-hidden">
+<!-- Glow and Accent Accouterments -->
+<div class="absolute -top-24 -left-20 w-80 h-80 bg-primary-container/15 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-0 right-0 w-72 h-72 bg-surface-container-low/60 rounded-full blur-2xl pointer-events-none"></div>
+<div class="absolute top-0 left-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="relative z-10 flex flex-col gap-space-md">
+<!-- Widget Header Row -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary-container text-xl" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Ready to Work On</h2>
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-low text-primary font-semibold flex items-center gap-space-2xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+            Actionable Now • Prerequisites 100% Done
+          </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">CRITICAL PATH NODE 04</span>
+</div>
+<!-- Main Action Focus Area -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-center bg-surface-container-low/60 rounded-xl p-space-md">
+<!-- Core Task Synopsis -->
+<div class="lg:col-span-7 flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-highest text-on-surface-variant font-medium">Catering &amp; Dining</span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">check_circle</span> Ready to execute today
+            </span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Finalize Catering Menu &amp; Beverage Pairings</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Prerequisites complete: <span class="text-on-surface font-medium">Determine Budget</span>, <span class="text-on-surface font-medium">Book Venue</span>. Review tasting notes and lock menu selections for 120 guests.
+          </p>
+<div class="flex items-center gap-space-sm pt-space-xs">
+<button class="bg-primary text-on-primary font-headline-sm text-body-md px-space-lg py-space-xs rounded-lg hover:bg-primary-container transition-all flex items-center gap-space-xs shadow-sm hover:shadow active:scale-95" type="button">
+<span class="material-symbols-outlined text-base">play_arrow</span>
+<span>Start Task</span>
+</button>
+<button class="bg-surface-container-lowest text-on-surface font-headline-sm text-body-md px-space-md py-space-xs rounded-lg hover:bg-surface-container-high transition-colors flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-base">checklist</span>
+<span>Review Checklist</span>
+</button>
+</div>
+</div>
+<!-- Supporting Meta Tiles -->
+<div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<!-- Tile 1: Assigned Vendor -->
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-caps text-label-caps uppercase">Assigned Vendor</span>
+<span class="material-symbols-outlined text-base text-primary">restaurant</span>
+</div>
+<div class="flex items-center gap-space-sm mt-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-headline-sm text-body-sm text-on-surface font-bold">
+                AT
+              </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md text-on-surface truncate">Artisan Table</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Catering Lead</span>
+</div>
+</div>
+</div>
+<!-- Tile 2: Due Date -->
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-caps text-label-caps uppercase">Target Finish</span>
+<span class="material-symbols-outlined text-base text-tertiary">alarm</span>
+</div>
+<div class="flex flex-col mt-space-sm">
+<span class="font-headline-sm text-body-md text-on-surface">Nov 25, 2026</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">4 days remaining</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 2. Four Stat Tiles Grid with Data Visualizations -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Stat 1: Days Until Event -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Days Until Event</span>
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-base">hourglass_top</span>
+</span>
+</div>
+<div class="my-space-sm flex items-baseline justify-between">
+<div>
+<span class="font-headline-xl text-headline-xl text-on-surface font-semibold tracking-tight">185</span>
+<span class="font-body-md text-body-md text-on-surface-variant ml-1">days</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container-low text-primary font-semibold">
+          -2d vs plan
+        </span>
+</div>
+<div class="flex items-center justify-between pt-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span>Target: May 24, 2027</span>
+<span class="material-symbols-outlined text-sm">event</span>
+</div>
+</div>
+<!-- Stat 2: Committed Spend -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Committed Spend</span>
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-base">payments</span>
+</span>
+</div>
+<div class="my-space-sm flex items-baseline justify-between">
+<span class="font-headline-xl text-headline-xl text-on-surface font-semibold tracking-tight">$17,500</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">35% of $50k</span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[35%] rounded-full"></div>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-body-sm text-body-sm pt-space-2xs">
+<span>Remaining: $32,500</span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-semibold">On Track</span>
+</div>
+</div>
+</div>
+<!-- Stat 3: Task Progress -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Task Progress</span>
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-base">task_alt</span>
+</span>
+</div>
+<div class="my-space-sm flex items-baseline justify-between">
+<div>
+<span class="font-headline-xl text-headline-xl text-on-surface font-semibold tracking-tight">42%</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant ml-1 font-normal">complete</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container-low text-primary font-medium">
+          +6% this week
+        </span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full w-[42%] rounded-full"></div>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-body-sm text-body-sm pt-space-2xs">
+<span>18 of 43 tasks done</span>
+<span class="font-label-code-sm text-label-code-sm">25 pending</span>
+</div>
+</div>
+</div>
+<!-- Stat 4: Active Vendors -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Active Vendors</span>
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-base">handshake</span>
+</span>
+</div>
+<div class="my-space-sm flex items-baseline justify-between">
+<div>
+<span class="font-headline-xl text-headline-xl text-on-surface font-semibold tracking-tight">8</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant ml-1 font-normal">engaged</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container-low text-on-surface-variant">
+          12 total needed
+        </span>
+</div>
+<div class="flex items-center justify-between pt-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex -space-x-1.5 overflow-hidden">
+<div class="inline-block h-6 w-6 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-code-sm text-label-code-sm font-bold">GC</div>
+<div class="inline-block h-6 w-6 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-label-code-sm text-label-code-sm font-bold">LS</div>
+<div class="inline-block h-6 w-6 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-label-code-sm text-label-code-sm font-bold">AT</div>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-primary font-medium">0 contracted pending</span>
+</div>
+</div>
+</div>
+<!-- 3. Vendor Quick Cards Section -->
+<div class="flex flex-col gap-space-md">
+<!-- Section Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface">Vendor Quick Cards</h2>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded-full bg-surface-container-high text-on-surface-variant font-semibold">3</span>
+</div>
+<a class="group font-headline-sm text-body-md text-primary hover:text-primary-container flex items-center gap-space-2xs transition-colors" href="#">
+<span>View All Vendors</span>
+<span class="material-symbols-outlined text-base group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+</a>
+</div>
+<!-- Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Vendor Card 1: The Grand Conservatory -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group">
+<div class="p-space-md flex flex-col gap-space-sm">
+<!-- Card Top Bar -->
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-low text-primary font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+              Booked
+            </span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Venue</span>
+</div>
+<!-- Vendor Image Spotlight -->
+<div class="w-full h-32 rounded-lg overflow-hidden relative bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An expansive glass greenhouse botanical conservatory ready for an elegant wedding reception, filled with natural light, lush tropical greenery, polished concrete floors, and modern minimal table arrangements under high architectural arches." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIppdlJ1ozzaOaVAZBEvwib1vCpj1Ema4Kp8qpOdFDRAdoL2OvSycobCMeonq3xvxHzmAn7WmoWTOdHclWw2apxNSWEML9VOJQEhWOHcE8JXl5VEQdio__Dp0iF14IuqnTzG42we8DE0Td5uuZcpkUKbPDcGQ5Aa48om1NoGGSchturIhOFlQ8b1M-yMioelpOxb9iC3ndZZhXLfcbpPTTAWDIRKL2RoE5BBCuWBA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-2 left-2 right-2 text-surface-container-lowest font-headline-sm text-headline-sm font-semibold truncate drop-shadow-sm">
+              The Grand Conservatory
+            </div>
+</div>
+<!-- Contact & Telemetry -->
+<div class="flex flex-col gap-space-xs pt-space-2xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-sm">mail</span>
+<span class="truncate">contact@grandconservatory.com</span>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Contract Status</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">Confirmed</span>
+</div>
+</div>
+</div>
+<!-- Card Footer -->
+<div class="bg-surface-container-low/70 px-space-md py-space-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Contract Value</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">$12,000</span>
+</div>
+<button class="p-space-xs rounded-lg bg-surface-container-lowest hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Vendor Card 2: Light & Shadow Photography -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group">
+<div class="p-space-md flex flex-col gap-space-sm">
+<!-- Card Top Bar -->
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-low text-primary font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+              Booked
+            </span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Photography</span>
+</div>
+<!-- Vendor Image Spotlight -->
+<div class="w-full h-32 rounded-lg overflow-hidden relative bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An artistic documentary-style wedding photography session, soft warm cinematic lighting capturing genuine smiles and emotional interactions, muted organic tones, clean composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmSGjiO7o7_4KiDsLFZrK102VypIWJWnlopbM2BcXhlWzGj8pHiP8WtJXnE0mt1_3HrKrxkHF4qzaaPL8UtFgCvepYjUkmM6hgrTstnQ0HL3gjTCWas7A9G5Bn6ujTeqNOFE-4r9pjcYbd45KZKZFZlzbssOPjg5vNN05XDvg6HK_rZFObcnmL1eFwFW-_aFt_yH5eMEhdKwdn3ZLd3HdykxHGq9dNYAY6nQM5dk8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-2 left-2 right-2 text-surface-container-lowest font-headline-sm text-headline-sm font-semibold truncate drop-shadow-sm">
+              Light &amp; Shadow Photography
+            </div>
+</div>
+<!-- Contact & Telemetry -->
+<div class="flex flex-col gap-space-xs pt-space-2xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-sm">mail</span>
+<span class="truncate">hello@lightandshadow.photo</span>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Contract Status</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">Contract Signed</span>
+</div>
+</div>
+</div>
+<!-- Card Footer -->
+<div class="bg-surface-container-low/70 px-space-md py-space-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Contract Value</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">$3,500</span>
+</div>
+<button class="p-space-xs rounded-lg bg-surface-container-lowest hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Vendor Card 3: Artisan Table Catering -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group">
+<div class="p-space-md flex flex-col gap-space-sm">
+<!-- Card Top Bar -->
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-high text-tertiary-container font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+              In Review
+            </span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Catering</span>
+</div>
+<!-- Vendor Image Spotlight -->
+<div class="w-full h-32 rounded-lg overflow-hidden relative bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Exquisitely plated farm-to-table gourmet wedding dinner course, artisanal ceramic plates, microgreens, delicate sauces, natural ambient warm dining lighting, rustic modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHjH0LzkDKfuMyyjB5PmjVHPui8eu_s7nXkZ-WV6DS0aEVOYidsxBIjg8MQ8Sdh0dqOZ3pzhYgo4OYFKIawJdsmiVI4EbuwdRFFbXaAIscHi4oEZNfXrnDzAMkQyQe95ux8X2rNQUyVPr-7RWl193gMf0ePvUP5JKse7mXaWmOFh2-_JJ-L3rsj3krAjg5ECeJDilL6lRAujmaROZYumrAsXFqQoIfUx_hzcsRyns"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-2 left-2 right-2 text-surface-container-lowest font-headline-sm text-headline-sm font-semibold truncate drop-shadow-sm">
+              Artisan Table Catering
+            </div>
+</div>
+<!-- Contact & Telemetry -->
+<div class="flex flex-col gap-space-xs pt-space-2xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-sm">mail</span>
+<span class="truncate">events@artisantable.com</span>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Contract Status</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary font-semibold">Pending Menu</span>
+</div>
+</div>
+</div>
+<!-- Card Footer -->
+<div class="bg-surface-container-low/70 px-space-md py-space-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Estimated Value</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">$15,000 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">Est.</span></span>
+</div>
+<button class="p-space-xs rounded-lg bg-surface-container-lowest hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

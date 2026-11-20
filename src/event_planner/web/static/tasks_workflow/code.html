@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"inverse-on-surface":"#eef0fa","inverse-surface":"#2d3138","on-secondary-container":"#61656b","surface-container-lowest":"#ffffff","on-secondary-fixed":"#181c21","inverse-primary":"#c1c1ff","tertiary-fixed":"#ffdcc5","secondary-fixed-dim":"#c3c6ce","on-error":"#ffffff","primary-container":"#5a5ce3","tertiary-fixed-dim":"#ffb782","on-secondary-fixed-variant":"#43474d","on-tertiary":"#ffffff","surface-tint":"#4a4bd3","secondary-fixed":"#dfe2ea","outline":"#767586","on-surface":"#181c23","tertiary":"#83450a","surface-container-low":"#f1f3fd","on-primary-fixed":"#07006c","surface-container-high":"#e5e8f2","on-background":"#181c23","surface-variant":"#dfe2ec","on-tertiary-container":"#ffede3","on-tertiary-fixed":"#301400","secondary-container":"#dfe2ea","primary-fixed-dim":"#c1c1ff","surface-container":"#ebeef7","surface-dim":"#d7dae3","on-primary-container":"#f2efff","error":"#ba1a1a","on-secondary":"#ffffff","on-primary-fixed-variant":"#302fbb","error-container":"#ffdad6","surface":"#f9f9ff","secondary":"#5b5f65","on-tertiary-fixed-variant":"#703800","tertiary-container":"#a15c22","outline-variant":"#c7c4d7","primary":"#4041c9","surface-bright":"#f9f9ff","on-primary":"#ffffff","surface-container-highest":"#dfe2ec","primary-fixed":"#e1e0ff","on-surface-variant":"#464554","background":"#f9f9ff","on-error-container":"#93000a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1rem","space-2xl":"2rem","gutter-dense":"0.5rem","space-2xs":"0.125rem","margin-mobile":"1rem","gutter":"1rem","space-xs":"0.25rem","space-sm":"0.5rem","space-xl":"1.5rem","space-md":"0.75rem","margin":"1.5rem"},"fontFamily":{"headline-md":["Inter"],"label-code-sm":["JetBrains Mono"],"headline-sm":["Inter"],"body-md":["Inter"],"body-sm":["Inter"],"headline-lg":["Inter"],"headline-xl":["Inter"],"body-lg":["Inter"],"label-caps":["Inter"],"label-code-md":["JetBrains Mono"]},"fontSize":{"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-code-sm":["11px",{"lineHeight":"14px","letterSpacing":"-0.005em","fontWeight":"500"}],"headline-sm":["15px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.005em","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["15px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"label-caps":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"label-code-md":["12px",{"lineHeight":"16px","letterSpacing":"-0.01em","fontWeight":"500"}]}}}};</script></head><body class="bg-surface font-body-md text-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-14 px-space-md flex items-center gap-space-sm bg-surface-container-lowest"><img alt="EventFlow Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrA3rWR0_JGezqrqJN5t0THSzx1MHcLH7YYwM_IgGzegNuTCOiosiSCoGtC9zVru96F25HheQf3LqlBavALq8Wm5jEDprgpzZGfbqZqmaOihPxdap89x2L9bXdnBDmQRbUNY5cbC8a03KsdefUq25Jdeyjuobznu8xtpIFXx39l72Jrge6BRKiMeeF7zEGstBpgAIoxT2kskYGL0wjRjHcsB30AjWQDVTpDMvDwc2uc"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">EventFlow</span></div><div class="px-space-md py-space-sm"><div class="w-full bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Active Event</span><span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-high text-primary font-semibold">Confirmed</span></div><div class="flex items-center justify-between gap-space-xs"><div class="flex flex-col min-w-0"><span class="font-headline-sm text-body-md text-on-surface truncate">Sarah &amp; Michael's Wedding</span><span class="font-body-sm text-body-sm text-on-surface-variant">May 24, 2027</span></div><span class="material-symbols-outlined text-on-surface-variant text-base">unfold_more</span></div></div></div><div class="px-space-md pt-space-xs"><div class="px-space-xs py-space-2xs"><span class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase">Navigate</span></div><nav class="mt-space-2xs flex flex-col gap-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="global-sidebar" href="#"><span class="material-symbols-outlined text-lg">dashboard_customize</span><span class="font-body-md text-body-md">Global Sidebar</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="event-dashboard" href="#"><span class="material-symbols-outlined text-lg">space_dashboard</span><span class="font-body-md text-body-md">Event Dashboard</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="tasks-workflow" href="#"><span class="material-symbols-outlined text-lg">checklist</span><span class="font-body-md text-body-md">Tasks &amp; Workflow</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="timeline-dependencies" href="#"><span class="material-symbols-outlined text-lg">timeline</span><span class="font-body-md text-body-md">Timeline Dependencies</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="contacts-vendors" href="#"><span class="material-symbols-outlined text-lg">group</span><span class="font-body-md text-body-md">Contacts &amp; Vendors</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="templates" href="#"><span class="material-symbols-outlined text-lg">dataset</span><span class="font-body-md text-body-md">Templates</span></a></nav></div><div class="px-space-md py-space-md"><div class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-space-sm"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Event Quick Stats</span><span class="font-label-code-sm text-label-code-sm text-primary font-medium">185D REMAIN</span></div><div class="flex flex-col gap-space-2xs"><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Days Until Event</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">185 Days</span></div><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Budget Burn (35%)</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">$17.5k / $50k</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary h-full w-[35%]"></div></div></div><div class="flex flex-col gap-space-2xs pt-space-2xs"><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Task Progress (42%)</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">18 of 43 tasks</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary-container h-full w-[42%]"></div></div></div></div></div></div><div class="p-space-md bg-surface-container-lowest shadow-[0_-1px_6px_rgba(0,0,0,0.02)]"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqWGf2xWE2D8pGxf1w2rdewdfpzM6U-TgVmP5yKQcOY2fml7hWLmyPkKrOzAZbSsLHpN_u9YDBZDtQ4n_6rvmqUdM9wp1PScd9cQHce0xuoW1tPkJrnZ9U8mNJNieP9LivhR-er4uudHUx--oWSWcSygJZk8idImDMSLWiV9p06x3zTBHfHJYg44QFF8vacnM1F0_oWodSq0XuLTJdm4_FKocsATq1I_0EXz7_fgM"/><div class="flex flex-col min-w-0"><span class="font-headline-sm text-body-md text-on-surface truncate">Elena Vance</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">Lead Coordinator</span></div></div><div class="flex items-center gap-space-2xs"><button class="p-space-2xs rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-lg">notifications</span></button><button class="p-space-2xs rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-lg">settings</span></button></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-sm w-96"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-2xs rounded-lg w-full text-on-surface-variant"><span class="material-symbols-outlined text-lg">search</span><span class="font-body-sm text-body-sm flex-1 text-on-surface-variant">Search events, dependencies, vendors...</span><kbd class="font-label-code-sm text-label-code-sm bg-surface-container-high px-space-xs py-space-2xs rounded text-on-surface">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><div class="relative"><button class="p-space-2xs rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span></button></div><button class="bg-primary text-on-primary font-headline-sm text-body-md px-space-md py-space-xs rounded-lg hover:bg-primary-container transition-colors flex items-center gap-space-xs" type="button"><span class="material-symbols-outlined text-base">add</span><span>New Event</span></button></div></header><main class="relative pt-14 bg-surface w-full px-space-xl"><div class="flex flex-col w-full pb-space-2xl">
+<!-- Operational Sub-Header & Live Telemetry -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-lg pt-space-xs">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-wider bg-surface-container-high px-space-xs py-space-2xs rounded">Production Matrix</span>
+<span class="text-on-surface-variant font-label-code-sm text-label-code-sm">PID: EVF-2027-0524</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Tasks &amp; Workflow</h1>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-base text-primary">schedule</span>
+<span class="font-semibold text-on-surface">185 days until event</span>
+<span class="text-on-surface-variant">• Target Cap: $50,000.00 • Active Pipeline</span>
+</p>
+</div>
+<!-- Quick Status Metronome -->
+<div class="flex items-center gap-space-sm bg-surface-container-lowest p-space-xs rounded-xl shadow-sm">
+<div class="flex items-center gap-space-xs px-space-sm py-space-2xs bg-surface-container-low rounded-lg">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-on-surface">Sync Active</span>
+</div>
+<div class="h-6 w-px bg-surface-container-high"></div>
+<div class="flex items-center gap-space-xs px-space-xs">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">BURNDOWN</span>
+<span class="font-label-code-md text-label-code-md text-primary font-bold">25.0% COMPLETED</span>
+</div>
+</div>
+</div>
+<!-- Primary Search & Global Filter Strip -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-sm mb-space-md">
+<div class="lg:col-span-8 flex items-center bg-surface-container-lowest rounded-xl shadow-sm px-space-md py-space-2xs gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">search</span>
+<input class="bg-transparent font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none w-full" id="taskSearchInput" placeholder="Search tasks, vendors, or assignees (e.g. Catering, Elena Vance, Florist)..." type="text"/>
+<div class="relative">
+<button class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-2xs rounded-lg text-on-surface hover:bg-surface-container-high transition-colors font-body-sm text-body-sm" type="button">
+<span>All Categories</span>
+<span class="bg-primary text-on-primary font-label-code-sm text-label-code-sm px-1.5 py-0.5 rounded-full">3</span>
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Quick Pill Navigational Switchers -->
+<div class="lg:col-span-4 flex items-center gap-space-2xs bg-surface-container-lowest p-space-xs rounded-xl shadow-sm overflow-x-auto">
+<button class="filter-chip bg-primary text-on-primary font-label-caps text-label-caps px-space-sm py-space-xs rounded-lg transition-all" data-filter="all" type="button">All Tasks</button>
+<button class="filter-chip text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-label-caps text-label-caps px-space-sm py-space-xs rounded-lg transition-all flex items-center gap-1" data-filter="ready" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> Ready
+      </button>
+<button class="filter-chip text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-label-caps text-label-caps px-space-sm py-space-xs rounded-lg transition-all flex items-center gap-1" data-filter="blocked" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Blocked
+      </button>
+<button class="filter-chip text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-label-caps text-label-caps px-space-sm py-space-xs rounded-lg transition-all" data-filter="completed" type="button">Done</button>
+</div>
+</div>
+<!-- Operational List Toolbar -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm bg-surface-container-low px-space-md py-space-xs rounded-xl mb-space-lg shadow-sm">
+<div class="flex items-center gap-space-md">
+<label class="flex items-center gap-space-xs cursor-pointer select-none">
+<input class="w-4 h-4 accent-primary rounded cursor-pointer" id="masterSelect" type="checkbox"/>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant uppercase tracking-wider font-semibold">8 tasks total</span>
+</label>
+<div class="h-4 w-px bg-outline-variant/50"></div>
+<button class="flex items-center gap-space-2xs font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-base">drive_file_rename_outline</span>
+<span>Batch Edit</span>
+</button>
+<div class="hidden md:flex items-center gap-space-2xs text-on-surface-variant font-label-code-sm text-label-code-sm">
+<span>Filter:</span>
+<span class="text-on-surface font-medium bg-surface-container-highest px-space-xs py-0.5 rounded">All Assignees • All Categories • Status</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm ml-auto">
+<div class="relative hidden sm:block">
+<input class="bg-surface-container-lowest font-body-sm text-body-sm text-on-surface px-space-sm py-1.5 pl-8 rounded-lg placeholder:text-on-surface-variant/60 focus:outline-none w-44" placeholder="Filter workflow tasks" type="text"/>
+<span class="material-symbols-outlined text-sm text-on-surface-variant absolute left-2.5 top-2">tune</span>
+</div>
+<button class="bg-primary text-on-primary hover:bg-primary-container px-space-md py-1.5 rounded-lg font-headline-sm text-body-sm flex items-center gap-space-xs transition-colors shadow-sm" id="exportBtn" type="button">
+<span class="material-symbols-outlined text-base">download</span>
+<span>Export Kanban</span>
+</button>
+</div>
+</div>
+<!-- 4-Column Board Matrix Canvas -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md items-start">
+<!-- COLUMN 1: READY -->
+<div class="kanban-col flex flex-col gap-space-sm bg-surface-container-low p-space-sm rounded-xl">
+<!-- Header -->
+<div class="flex items-center justify-between px-space-xs py-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+<span class="font-headline-sm text-body-lg text-on-surface uppercase tracking-wide">Ready</span>
+<span class="bg-primary-fixed text-on-primary-fixed font-label-code-sm text-label-code-sm px-2 py-0.5 rounded-full font-bold">2</span>
+</div>
+<button class="p-space-2xs hover:bg-surface-container-high rounded text-on-surface-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+<!-- Card 1 -->
+<div class="task-card bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm relative group cursor-grab active:cursor-grabbing" data-category="catering" data-status="ready">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps bg-surface-container-high text-primary px-2 py-0.5 rounded uppercase">catering</span>
+<span class="font-label-caps text-label-caps bg-surface-container px-2 py-0.5 rounded text-on-surface font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> READY
+          </span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Finalize Catering Menu</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Confirm dietary options with chef, tasting scheduled with bistro staff.</p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-space-xs">
+<img alt="Elena Vance" class="w-6 h-6 rounded-full object-cover shadow-sm" data-alt="A polished professional headshot of Elena Vance, event director, with clean ambient lighting against an architectural soft grey background, ultra-sharp detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcE7i1xxM2xy4XReZIqTObkQFFtj-4bSJ4Dj4Uw9OFVFuzIZLFdCcvJQqI7vrgZl4jiuhSyqIx7AujEG9m5g8kVCqV4FRne33NuhD5RhlnNes5KQzE2ZNFZ-BdAn4UgioD67v4l0cmRl_pBYIBONQ5ZW0fODYnaCm5TKC42qzeuk3IyJFjb_VMK_M6KU2WSXcXT2eXYEV5KTfiaLI2mif3UDwy2ZYgwrpnttRsJ20"/>
+<span class="font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[100px]">Elena Vance</span>
+</div>
+<div class="flex items-center gap-1 font-label-code-sm text-label-code-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Nov 25</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="task-card bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm relative group cursor-grab active:cursor-grabbing" data-category="florist" data-status="ready">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps bg-surface-container-high text-primary px-2 py-0.5 rounded uppercase">florist</span>
+<span class="font-label-caps text-label-caps bg-surface-container px-2 py-0.5 rounded text-on-surface font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> READY
+          </span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Select Floral Arrangements</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Table centerpieces and arches, verify seasonal availability of white peonies.</p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-space-xs">
+<img alt="Marcus Thorne" class="w-6 h-6 rounded-full object-cover shadow-sm" data-alt="A portrait of floral designer Marcus Thorne in a sunny botanical studio surrounded by greenery and clean studio lights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdv5TRIMtWv1KToLT-GKs4e7ET7J6VuwFeYyDVcPhbFaeJ7g8JovnHMzbWl6PZBACrHbXRNb6n7wY0Qn-aJEw27G4sCNNsg81WNwjyAoZYH61nFP8BdiecCOHHTldyDiopAVH-rfLYD3LPJ5RSvEPjNv2rdDUR5YBVrvXzesUS8hTOXi4t_BvuKocEU85bbiZIcrGDoT8Td50YoQu08tqwhpTr6Gpf8BF6_FQn3vQ"/>
+<span class="font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[100px]">Marcus Thorne</span>
+</div>
+<div class="flex items-center gap-1 font-label-code-sm text-label-code-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Nov 28</span>
+</div>
+</div>
+</div>
+<!-- Inline Column Add Button -->
+<button class="w-full py-space-xs px-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm flex items-center justify-center gap-space-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-base">add</span>
+<span>Add Ready Task</span>
+</button>
+</div>
+<!-- COLUMN 2: IN PROGRESS -->
+<div class="kanban-col flex flex-col gap-space-sm bg-surface-container-low p-space-sm rounded-xl">
+<!-- Header -->
+<div class="flex items-center justify-between px-space-xs py-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="font-headline-sm text-body-lg text-on-surface uppercase tracking-wide">In Progress</span>
+<span class="bg-primary-fixed text-on-primary-fixed font-label-code-sm text-label-code-sm px-2 py-0.5 rounded-full font-bold">2</span>
+</div>
+<button class="p-space-2xs hover:bg-surface-container-high rounded text-on-surface-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+<!-- Card 3 -->
+<div class="task-card bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm relative group cursor-grab active:cursor-grabbing" data-category="stationery" data-status="in-progress">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps bg-surface-container-high text-primary px-2 py-0.5 rounded uppercase">stationery</span>
+<span class="font-label-caps text-label-caps bg-primary-fixed text-on-primary-fixed px-2 py-0.5 rounded font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span> RUNNING
+          </span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Send Save the Dates</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Mail physical cards to guest list. Batch envelope wax seals applied.</p>
+</div>
+<!-- Progress Spark -->
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%] rounded-full"></div>
+</div>
+<div class="flex items-center justify-between pt-space-2xs">
+<div class="flex items-center gap-space-xs">
+<img alt="Chloe" class="w-6 h-6 rounded-full object-cover shadow-sm" data-alt="Editorial close portrait of Chloe, designer and stationery coordinator, wearing a black crewneck with modern minimal studio depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9rRuCzhbXB0icKbcroEE0MczTF9WgO8KwkpQ5a6HrxIjlD2M7d4u3BrIIg6KhAgpDUD8NfWuF1gGPoN4JeCHTguTe3IS0nzCO-Yu4j7LR4bnox5L-_jRI20-rXfnXHGQdyxzccTqtwDAmCwMScvIc-xKyo2zUjcH6XticbbN45YNde8cvp41SmzvSFxJ3qN8mG50MxLI9-jpzO9M6qJO94se-oPC_igEQIyl_MkU"/>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Chloe</span>
+</div>
+<div class="flex items-center gap-1 font-label-code-sm text-label-code-sm text-primary font-semibold">
+<span class="material-symbols-outlined text-sm">event</span>
+<span>Nov 22</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="task-card bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm relative group cursor-grab active:cursor-grabbing" data-category="music" data-status="in-progress">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps bg-surface-container-high text-primary px-2 py-0.5 rounded uppercase">music</span>
+<span class="font-label-caps text-label-caps bg-primary-fixed text-on-primary-fixed px-2 py-0.5 rounded font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> RUNNING
+          </span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Book Ceremony Musician</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">String quartet for 2 hours during pre-service and processional entry.</p>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[30%] rounded-full"></div>
+</div>
+<div class="flex items-center justify-between pt-space-2xs">
+<div class="flex items-center gap-space-xs">
+<img alt="Elena Vance" class="w-6 h-6 rounded-full object-cover shadow-sm" data-alt="A polished professional headshot of Elena Vance, event director, with clean ambient lighting against an architectural soft grey background, ultra-sharp detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCqVUYKm5Fme7eqGPuVXla8VCOpsOvj4uanQE6PJVhasD0ZJe9cgG_4HbgbFOg0p9E5QnosGWqeRrs-l0Wr06nBTFBaaezdldKechzwfx5zl0pYEvanM4u_x4BZoo9tUNG9a4l4D4deQA07P5NNHVooq_sLbkzWapeBVNEB9b6aI3EB-2mSIIZnZ5Gc3BsATxMyvWbiLqKwWP4snp_XvzefGOtxBsZuAxbhlFlqFU"/>
+<span class="font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[100px]">Elena Vance</span>
+</div>
+<div class="flex items-center gap-1 font-label-code-sm text-label-code-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Nov 30</span>
+</div>
+</div>
+</div>
+<!-- Inline Column Add Button -->
+<button class="w-full py-space-xs px-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm flex items-center justify-center gap-space-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-base">add</span>
+<span>Add Active Task</span>
+</button>
+</div>
+<!-- COLUMN 3: BLOCKED -->
+<div class="kanban-col flex flex-col gap-space-sm bg-surface-container-low p-space-sm rounded-xl">
+<!-- Header -->
+<div class="flex items-center justify-between px-space-xs py-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="font-headline-sm text-body-lg text-on-surface uppercase tracking-wide">Blocked</span>
+<span class="bg-error-container text-on-error-container font-label-code-sm text-label-code-sm px-2 py-0.5 rounded-full font-bold">2</span>
+</div>
+<button class="p-space-2xs hover:bg-surface-container-high rounded text-on-surface-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+<!-- Card 5 -->
+<div class="task-card bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm relative group cursor-grab active:cursor-grabbing" data-category="planning" data-status="blocked">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps bg-surface-container-high text-primary px-2 py-0.5 rounded uppercase">planning</span>
+<span class="font-label-caps text-label-caps bg-error-container text-on-error-container px-2 py-0.5 rounded font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">lock</span> BLOCKED
+          </span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-error transition-colors">Finalize Seating Chart</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Requires completed RSVP count.</p>
+</div>
+<!-- Dependency Block Pill -->
+<div class="bg-surface-container-high/60 p-space-xs rounded-lg flex items-start gap-space-2xs">
+<span class="material-symbols-outlined text-error text-sm mt-0.5">link_off</span>
+<span class="font-label-code-sm text-label-code-sm text-error font-medium leading-tight">Blocked by: Distribute RSVP Links</span>
+</div>
+<div class="flex items-center justify-between pt-space-2xs">
+<div class="flex items-center gap-space-xs">
+<img alt="Elena Vance" class="w-6 h-6 rounded-full object-cover shadow-sm" data-alt="A polished professional headshot of Elena Vance, event director, with clean ambient lighting against an architectural soft grey background, ultra-sharp detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLZvBLpFKtVWLjLzzLt1Cs42ZtCERYeTMPcLJwh1TiP-xjwQRQzv5O5dlJhl6EiaGw7DjhUvcXEKEj1lLcXYAlvAbK1Konh68W438rjFLUxeF0YFTYUIKKF03lFNIZ2MayqKkNuLtit11xIREKoFt5RL-yzP56f3irZWNCxwhEsEyVKXdrVa6LzCaGweV2uvwlmrQqWwdZ5SgYkkbPQA1ub5TZBcItx79jWGuhtvw"/>
+<span class="font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[100px]">Elena Vance</span>
+</div>
+<div class="flex items-center gap-1 font-label-code-sm text-label-code-sm text-error font-semibold">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>Dec 15</span>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="task-card bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm relative group cursor-grab active:cursor-grabbing" data-category="attire" data-status="blocked">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps bg-surface-container-high text-primary px-2 py-0.5 rounded uppercase">attire</span>
+<span class="font-label-caps text-label-caps bg-error-container text-on-error-container px-2 py-0.5 rounded font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">lock</span> BLOCKED
+          </span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-error transition-colors">Final Dress Fitting</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Alterations and veil fitting at boutique atelier.</p>
+</div>
+<!-- Dependency Block Pill -->
+<div class="bg-surface-container-high/60 p-space-xs rounded-lg flex items-start gap-space-2xs">
+<span class="material-symbols-outlined text-error text-sm mt-0.5">link_off</span>
+<span class="font-label-code-sm text-label-code-sm text-error font-medium leading-tight">Blocked by: Purchase Bridal Gown</span>
+</div>
+<div class="flex items-center justify-between pt-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-label-caps text-label-caps">SM</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Sarah</span>
+</div>
+<div class="flex items-center gap-1 font-label-code-sm text-label-code-sm text-error font-semibold">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>Dec 10</span>
+</div>
+</div>
+</div>
+<!-- Column Notice -->
+<div class="p-space-xs bg-surface-container rounded-lg flex items-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-base">info</span>
+<span class="font-label-code-sm text-label-code-sm">2 upstream milestones pending</span>
+</div>
+</div>
+<!-- COLUMN 4: DONE -->
+<div class="kanban-col flex flex-col gap-space-sm bg-surface-container-low p-space-sm rounded-xl">
+<!-- Header -->
+<div class="flex items-center justify-between px-space-xs py-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+<span class="font-headline-sm text-body-lg text-on-surface uppercase tracking-wide">Done</span>
+<span class="bg-surface-container-high text-on-surface font-label-code-sm text-label-code-sm px-2 py-0.5 rounded-full font-bold">2</span>
+</div>
+<button class="p-space-2xs hover:bg-surface-container-high rounded text-on-surface-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+<!-- Card 7 -->
+<div class="task-card bg-surface-container-lowest/80 rounded-xl p-space-md shadow-sm transition-all flex flex-col gap-space-sm relative group opacity-90 hover:opacity-100 cursor-grab active:cursor-grabbing" data-category="finance" data-status="done">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps bg-surface-container text-on-surface-variant px-2 py-0.5 rounded uppercase">finance</span>
+<span class="font-label-caps text-label-caps bg-surface-container-high text-on-surface-variant px-2 py-0.5 rounded font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">check_circle</span> VERIFIED
+          </span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface-variant line-through">Determine Budget Baseline ($50,000)</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant/80">Allocation locked: $18k Venue, $14k Food, $8k Photo/Music, $10k Misc.</p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+<span class="font-label-code-sm text-label-code-sm font-semibold">Completed</span>
+</div>
+<div class="flex items-center gap-1 font-label-code-sm text-label-code-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">event_available</span>
+<span>Oct 15</span>
+</div>
+</div>
+</div>
+<!-- Card 8 -->
+<div class="task-card bg-surface-container-lowest/80 rounded-xl p-space-md shadow-sm transition-all flex flex-col gap-space-sm relative group opacity-90 hover:opacity-100 cursor-grab active:cursor-grabbing" data-category="venue" data-status="done">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps bg-surface-container text-on-surface-variant px-2 py-0.5 rounded uppercase">venue</span>
+<span class="font-label-caps text-label-caps bg-surface-container-high text-on-surface-variant px-2 py-0.5 rounded font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">check_circle</span> VERIFIED
+          </span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface-variant line-through">Book Primary Venue (The Grand Conservatory)</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant/80">Security deposit and insurance contracts countersigned.</p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+<span class="font-label-code-sm text-label-code-sm font-semibold">Completed</span>
+</div>
+<div class="flex items-center gap-1 font-label-code-sm text-label-code-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">event_available</span>
+<span>Nov 01</span>
+</div>
+</div>
+</div>
+<!-- Historical Archive Info -->
+<div class="text-center py-space-xs">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">2 tasks archived this cycle</span>
+</div>
+</div>
+</div>
+<!-- Realtime Toast / Notification Hub -->
+<div class="fixed bottom-6 right-6 bg-inverse-surface text-inverse-on-surface px-space-md py-space-sm rounded-xl shadow-xl flex items-center gap-space-sm transform translate-y-24 opacity-0 pointer-events-none transition-all duration-300 z-50" id="actionToast">
+<span class="material-symbols-outlined text-primary-fixed">info</span>
+<span class="font-body-sm text-body-sm" id="toastMsg">Kanban dataset exported successfully</span>
+</div>
+</div>
+<script>
+  // Simple Filter and Search Micro-Interactions
+  const searchInput = document.getElementById('taskSearchInput');
+  const taskCards = document.querySelectorAll('.task-card');
+  const filterChips = document.querySelectorAll('.filter-chip');
+  const toast = document.getElementById('actionToast');
+  const toastMsg = document.getElementById('toastMsg');
+  const exportBtn = document.getElementById('exportBtn');
+  const masterSelect = document.getElementById('masterSelect');
+
+  function showToast(msg) {
+    if (!toast) return;
+    toastMsg.textContent = msg;
+    toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+    setTimeout(() => {
+      toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+    }, 2800);
+  }
+
+  // Filter Buttons
+  filterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      filterChips.forEach(c => {
+        c.className = 'filter-chip text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-label-caps text-label-caps px-space-sm py-space-xs rounded-lg transition-all';
+      });
+      chip.className = 'filter-chip bg-primary text-on-primary font-label-caps text-label-caps px-space-sm py-space-xs rounded-lg transition-all';
+      
+      const filter = chip.getAttribute('data-filter');
+      taskCards.forEach(card => {
+        const status = card.getAttribute('data-status');
+        if (filter === 'all') {
+          card.style.display = 'flex';
+        } else if (filter === 'ready' && status === 'ready') {
+          card.style.display = 'flex';
+        } else if (filter === 'blocked' && status === 'blocked') {
+          card.style.display = 'flex';
+        } else if (filter === 'completed' && status === 'done') {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Real-time Text Filter
+  searchInput?.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    taskCards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      if (text.includes(term)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+
+  // Select all checkbox feedback
+  masterSelect?.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      showToast('All 8 production tasks selected for batch action');
+    }
+  });
+
+  // Export action
+  exportBtn?.addEventListener('click', () => {
+    showToast('Exported Sarah & Michael Wedding Kanban (CSV/JSON)');
+  });
+</script></main></div></body></html>

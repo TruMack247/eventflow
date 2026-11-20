@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"inverse-on-surface":"#eef0fa","inverse-surface":"#2d3138","on-secondary-container":"#61656b","surface-container-lowest":"#ffffff","on-secondary-fixed":"#181c21","inverse-primary":"#c1c1ff","tertiary-fixed":"#ffdcc5","secondary-fixed-dim":"#c3c6ce","on-error":"#ffffff","primary-container":"#5a5ce3","tertiary-fixed-dim":"#ffb782","on-secondary-fixed-variant":"#43474d","on-tertiary":"#ffffff","surface-tint":"#4a4bd3","secondary-fixed":"#dfe2ea","outline":"#767586","on-surface":"#181c23","tertiary":"#83450a","surface-container-low":"#f1f3fd","on-primary-fixed":"#07006c","surface-container-high":"#e5e8f2","on-background":"#181c23","surface-variant":"#dfe2ec","on-tertiary-container":"#ffede3","on-tertiary-fixed":"#301400","secondary-container":"#dfe2ea","primary-fixed-dim":"#c1c1ff","surface-container":"#ebeef7","surface-dim":"#d7dae3","on-primary-container":"#f2efff","error":"#ba1a1a","on-secondary":"#ffffff","on-primary-fixed-variant":"#302fbb","error-container":"#ffdad6","surface":"#f9f9ff","secondary":"#5b5f65","on-tertiary-fixed-variant":"#703800","tertiary-container":"#a15c22","outline-variant":"#c7c4d7","primary":"#4041c9","surface-bright":"#f9f9ff","on-primary":"#ffffff","surface-container-highest":"#dfe2ec","primary-fixed":"#e1e0ff","on-surface-variant":"#464554","background":"#f9f9ff","on-error-container":"#93000a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1rem","space-2xl":"2rem","gutter-dense":"0.5rem","space-2xs":"0.125rem","margin-mobile":"1rem","gutter":"1rem","space-xs":"0.25rem","space-sm":"0.5rem","space-xl":"1.5rem","space-md":"0.75rem","margin":"1.5rem"},"fontFamily":{"headline-md":["Inter"],"label-code-sm":["JetBrains Mono"],"headline-sm":["Inter"],"body-md":["Inter"],"body-sm":["Inter"],"headline-lg":["Inter"],"headline-xl":["Inter"],"body-lg":["Inter"],"label-caps":["Inter"],"label-code-md":["JetBrains Mono"]},"fontSize":{"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-code-sm":["11px",{"lineHeight":"14px","letterSpacing":"-0.005em","fontWeight":"500"}],"headline-sm":["15px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.005em","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["15px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"label-caps":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"label-code-md":["12px",{"lineHeight":"16px","letterSpacing":"-0.01em","fontWeight":"500"}]}}}};</script></head><body class="bg-surface font-body-md text-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-14 px-space-md flex items-center gap-space-sm bg-surface-container-lowest"><img alt="EventFlow Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrA3rWR0_JGezqrqJN5t0THSzx1MHcLH7YYwM_IgGzegNuTCOiosiSCoGtC9zVru96F25HheQf3LqlBavALq8Wm5jEDprgpzZGfbqZqmaOihPxdap89x2L9bXdnBDmQRbUNY5cbC8a03KsdefUq25Jdeyjuobznu8xtpIFXx39l72Jrge6BRKiMeeF7zEGstBpgAIoxT2kskYGL0wjRjHcsB30AjWQDVTpDMvDwc2uc"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">EventFlow</span></div><div class="px-space-md py-space-sm"><div class="w-full bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Active Event</span><span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-high text-primary font-semibold">Confirmed</span></div><div class="flex items-center justify-between gap-space-xs"><div class="flex flex-col min-w-0"><span class="font-headline-sm text-body-md text-on-surface truncate">Sarah &amp; Michael's Wedding</span><span class="font-body-sm text-body-sm text-on-surface-variant">May 24, 2027</span></div><span class="material-symbols-outlined text-on-surface-variant text-base">unfold_more</span></div></div></div><div class="px-space-md pt-space-xs"><div class="px-space-xs py-space-2xs"><span class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase">Navigate</span></div><nav class="mt-space-2xs flex flex-col gap-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="global-sidebar" href="#"><span class="material-symbols-outlined text-lg">dashboard_customize</span><span class="font-body-md text-body-md">Global Sidebar</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="event-dashboard" href="#"><span class="material-symbols-outlined text-lg">space_dashboard</span><span class="font-body-md text-body-md">Event Dashboard</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="tasks-workflow" href="#"><span class="material-symbols-outlined text-lg">checklist</span><span class="font-body-md text-body-md">Tasks &amp; Workflow</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="timeline-dependencies" href="#"><span class="material-symbols-outlined text-lg">timeline</span><span class="font-body-md text-body-md">Timeline Dependencies</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="contacts-vendors" href="#"><span class="material-symbols-outlined text-lg">group</span><span class="font-body-md text-body-md">Contacts &amp; Vendors</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="templates" href="#"><span class="material-symbols-outlined text-lg">dataset</span><span class="font-body-md text-body-md">Templates</span></a></nav></div><div class="px-space-md py-space-md"><div class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-space-sm"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Event Quick Stats</span><span class="font-label-code-sm text-label-code-sm text-primary font-medium">185D REMAIN</span></div><div class="flex flex-col gap-space-2xs"><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Days Until Event</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">185 Days</span></div><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Budget Burn (35%)</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">$17.5k / $50k</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary h-full w-[35%]"></div></div></div><div class="flex flex-col gap-space-2xs pt-space-2xs"><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Task Progress (42%)</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">18 of 43 tasks</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary-container h-full w-[42%]"></div></div></div></div></div></div><div class="p-space-md bg-surface-container-lowest shadow-[0_-1px_6px_rgba(0,0,0,0.02)]"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqWGf2xWE2D8pGxf1w2rdewdfpzM6U-TgVmP5yKQcOY2fml7hWLmyPkKrOzAZbSsLHpN_u9YDBZDtQ4n_6rvmqUdM9wp1PScd9cQHce0xuoW1tPkJrnZ9U8mNJNieP9LivhR-er4uudHUx--oWSWcSygJZk8idImDMSLWiV9p06x3zTBHfHJYg44QFF8vacnM1F0_oWodSq0XuLTJdm4_FKocsATq1I_0EXz7_fgM"/><div class="flex flex-col min-w-0"><span class="font-headline-sm text-body-md text-on-surface truncate">Elena Vance</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">Lead Coordinator</span></div></div><div class="flex items-center gap-space-2xs"><button class="p-space-2xs rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-lg">notifications</span></button><button class="p-space-2xs rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-lg">settings</span></button></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-sm w-96"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-2xs rounded-lg w-full text-on-surface-variant"><span class="material-symbols-outlined text-lg">search</span><span class="font-body-sm text-body-sm flex-1 text-on-surface-variant">Search events, dependencies, vendors...</span><kbd class="font-label-code-sm text-label-code-sm bg-surface-container-high px-space-xs py-space-2xs rounded text-on-surface">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><div class="relative"><button class="p-space-2xs rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span></button></div><button class="bg-primary text-on-primary font-headline-sm text-body-md px-space-md py-space-xs rounded-lg hover:bg-primary-container transition-colors flex items-center gap-space-xs" type="button"><span class="material-symbols-outlined text-base">add</span><span>New Event</span></button></div></header><main class="relative pt-14 bg-surface w-full px-space-xl"><div class="flex flex-col w-full">
+<!-- Backdrop / Canvas Background with Subtle Data Flow Graph -->
+<div class="relative w-full py-space-xl pb-space-2xl min-h-[calc(100vh-3.5rem)] flex items-start justify-center">
+<!-- Ambient Structural Canvas Background Pattern -->
+<div class="absolute inset-0 pointer-events-none opacity-40 overflow-hidden">
+<svg class="w-full h-full text-outline-variant" height="100%" width="100%">
+<defs>
+<pattern height="32" id="grid-pattern" patternunits="userSpaceOnUse" width="32">
+<circle cx="2" cy="2" fill="currentColor" opacity="0.3" r="1"></circle>
+</pattern>
+</defs>
+<rect fill="url(#grid-pattern)" height="100%" width="100%"></rect>
+</svg>
+</div>
+<!-- Centered High-Focus Task Detail Panel / Modal Container (Level 4 Elevation) -->
+<div class="relative w-full max-w-4xl bg-surface-container-lowest rounded-xl shadow-2xl overflow-hidden flex flex-col z-10 my-space-sm">
+<!-- Top Micro Sub-bar: Breadcrumb & Quick Action Controls -->
+<div class="bg-surface-container-low px-space-xl py-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs font-label-code-sm text-label-code-sm text-on-surface-variant">
+<span class="flex items-center gap-space-2xs text-secondary hover:text-on-surface transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">checklist</span>
+            Tasks &amp; Workflow
+          </span>
+<span class="text-outline-variant">/</span>
+<span class="text-secondary font-medium">Catering Logistics</span>
+<span class="text-outline-variant">/</span>
+<span class="bg-surface-container-high px-space-xs py-space-2xs rounded text-primary font-semibold">Node #TK-402</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="flex items-center gap-space-2xs text-secondary hover:text-on-surface px-space-xs py-space-2xs rounded bg-surface-container-lowest hover:bg-surface-container transition-colors shadow-sm text-body-sm font-body-sm" type="button">
+<span class="material-symbols-outlined text-base">history</span>
+<span>Audit Log</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container-lowest hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-base">close</span>
+</button>
+</div>
+</div>
+<!-- Main Detail Header -->
+<div class="p-space-xl bg-surface-container-lowest flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-space-md">
+<div class="flex flex-col gap-space-2xs max-w-2xl">
+<div class="flex items-center gap-space-sm flex-wrap">
+<!-- Micro-Badge: Active Unlocked State -->
+<span class="inline-flex items-center gap-space-2xs px-space-xs py-space-2xs rounded bg-[#217B44]/10 text-[#217B44] font-label-caps text-label-caps tracking-wider uppercase">
+<span class="w-2 h-2 rounded-full bg-[#217B44] animate-pulse"></span>
+                Catering • Unlocked
+              </span>
+<span class="font-label-code-sm text-label-code-sm text-secondary bg-surface-container-low px-space-xs py-space-2xs rounded">
+                CRITICAL_PATH // PHASE-02
+              </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-space-2xs">
+              Finalize Catering Menu &amp; Dietary Requirements
+            </h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Confirm seasonal tasting selections, headcounts by meal profile, and finalize formal allergen protocol with head chef for Sarah &amp; Michael’s Wedding banquet.
+            </p>
+</div>
+<!-- Mark Complete Primary Action -->
+<div class="flex items-center gap-space-sm flex-shrink-0">
+<button class="bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-body-md px-space-md py-space-sm rounded-lg shadow-sm transition-all flex items-center gap-space-xs active:scale-[0.98]" id="markCompleteBtn" type="button">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span id="markCompleteLabel">Mark Complete</span>
+</button>
+</div>
+</div>
+<!-- 3 Dense Metadata Badges -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm pt-space-xs">
+<!-- Due Date Item -->
+<div class="bg-surface-container-low rounded-lg p-space-sm flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-lg">calendar_month</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Due Milestone</span>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold truncate">Nov 28, 2026</span>
+</div>
+</div>
+<!-- Assigned Vendor Item -->
+<div class="bg-surface-container-low rounded-lg p-space-sm flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-lg">restaurant</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Assigned Vendor</span>
+<span class="font-headline-sm text-body-md text-on-surface truncate">Artisan Table Catering</span>
+</div>
+</div>
+<!-- Prerequisite Readiness Item -->
+<div class="bg-surface-container-low rounded-lg p-space-sm flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-[#217B44]/10 flex items-center justify-center text-[#217B44] flex-shrink-0">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Prereqs Complete</span>
+<span class="font-label-code-md text-label-code-md text-[#217B44] font-semibold truncate">2 of 2 · 100% Unlocked</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Workspace Body: Two-Column System Config & Dependency Flow -->
+<div class="grid grid-cols-1 lg:grid-cols-12 bg-surface-container-low/40 p-space-xl gap-space-xl">
+<!-- Left Section: Prerequisite Chain & Visual Flow (7 Cols) -->
+<div class="lg:col-span-7 flex flex-col gap-space-lg">
+<!-- Prerequisite Dependency Chain Graph Container -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-base">alt_route</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Prerequisite Dependency Graph</h2>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-secondary bg-surface-container px-space-xs py-space-2xs rounded">CHAIN_SYNCED</span>
+</div>
+<!-- Upstream Tasks Section -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Upstream Required Precedents</span>
+<!-- Prerequisite Node 1 -->
+<div class="group bg-surface-container-low hover:bg-surface-container rounded-lg p-space-sm flex items-center justify-between transition-colors">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-6 h-6 rounded-full bg-[#217B44]/10 text-[#217B44] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md text-on-surface truncate">Determine Catering Budget Allocation</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant truncate">#TK-104 · $50,000 Total Pool Assigned</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs flex-shrink-0">
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-[#217B44]/15 text-[#217B44] font-semibold">RESOLVED</span>
+</div>
+</div>
+<!-- Prerequisite Node 2 -->
+<div class="group bg-surface-container-low hover:bg-surface-container rounded-lg p-space-sm flex items-center justify-between transition-colors">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-6 h-6 rounded-full bg-[#217B44]/10 text-[#217B44] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md text-on-surface truncate">Book Primary Venue &amp; Commercial Kitchen</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant truncate">#TK-208 · The Grand Conservatory Confirmed</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs flex-shrink-0">
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-[#217B44]/15 text-[#217B44] font-semibold">RESOLVED</span>
+</div>
+</div>
+</div>
+<!-- Inline SVG Flow Connector -->
+<div class="flex items-center justify-center py-space-2xs">
+<svg class="h-6 w-full max-w-xs text-primary" fill="none" viewbox="0 0 200 24">
+<path class="animate-pulse" d="M100 0 V 16 M95 12 L 100 18 L 105 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<!-- Downstream Blocked Tasks Section -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Direct Downstream Blocks</span>
+<span class="font-label-code-sm text-label-code-sm text-error font-medium flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-xs">lock</span> 1 Dependent Node Awaiting This Task
+                </span>
+</div>
+<!-- Downstream Node -->
+<div class="bg-surface-container-high/60 rounded-lg p-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-6 h-6 rounded-full bg-error-container text-error flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-sm">lock</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md text-on-surface truncate">Print Day-of Menus &amp; Seating Place Cards</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant truncate">#TK-488 · Dependent on final guest meal counts</span>
+</div>
+</div>
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-error/10 text-error font-semibold flex-shrink-0">
+                  LOCKED
+                </span>
+</div>
+</div>
+</div>
+<!-- Tasting Preview Card (Editorial Visual Depth) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Vendor Visual Reference &amp; Kitchen Notes</h3>
+<span class="font-label-code-sm text-label-code-sm text-primary">PORTFOLIO SYNC</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="relative rounded-lg overflow-hidden h-28 group">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Plated gourmet wedding catering dish featuring pan-seared sea bass with vibrant microgreens, edible flowers, and golden saffron purée on a dark slate plate with cinematic culinary lighting, high dynamic range." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-z21SwvksD4li6rh28Puf2niHxu65HyPk-suWH_E58a8pVC6iixCzDkV4HTsHivkFZgAw6iFmB3hPAO9g5AyFQI7_Fw7AttP_KLcsZApU6S76R7TQX2MtzLrHaeB08ZRku99zD00zMfepKcxRJ6qlYaZXmXDBTTTCjSJrm1xS-MSe-e5I8dMwKGOEZnGDInJemLxCcl7v4Vs6f3v0dJlbP0rX4bw6850zpy7AM9c"/>
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-transparent to-transparent flex items-end p-space-xs">
+<span class="font-label-code-sm text-label-code-sm text-inverse-on-surface">Option A: Seared Bass</span>
+</div>
+</div>
+<div class="relative rounded-lg overflow-hidden h-28 group">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Exquisite seasonal vegetarian tartlet with heirloom roasted beets, whipped goat cheese, and crushed pistachios styled for an upscale luxury wedding reception, warm ambient glow." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeeWp5_UZTw4Uau0061TcVlmI6Sn1g49rRNlsvp9VJeBR2td8LFfR6CEYnbogJUimqniEwQyUUZPiWQqQceH6Tb_IDPRgsC-lNCMduEwcgGD0u3qU7TP99moh6M1uYc9WFZokvvYl2AzDUxSvaRZUF1kyWd7Rs8mWxRW-PhKOueullG0ISEyPuxPz1JMZ4D0wnZwKHe6RddAjpcHPqB5oV9T9CKbLeVs_o_mLM398"/>
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-transparent to-transparent flex items-end p-space-xs">
+<span class="font-label-code-sm text-label-code-sm text-inverse-on-surface">Option B: Heritage Tartlet</span>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">
+              "Final sign-off must include custom vegan wine pairings and a secondary dessert station for lactose-free guests."
+            </p>
+</div>
+</div>
+<!-- Right Section: Task Configuration & Dietary Counters (5 Cols) -->
+<div class="lg:col-span-5 flex flex-col gap-space-lg">
+<!-- Configuration Form Fields -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-base">tune</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Task Settings</h2>
+</div>
+<!-- Form: Vendor Category Dropdown -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="vendorCategory">Vendor Category</label>
+<div class="relative">
+<select class="w-full h-8 px-space-sm bg-surface-container-low text-on-surface font-body-md text-body-md rounded-lg appearance-none focus:outline-none focus:bg-surface-container cursor-pointer transition-colors pr-8" id="vendorCategory">
+<option selected="">Catering &amp; Culinary</option>
+<option>Floral &amp; Botanical Design</option>
+<option>Stationery &amp; Calligraphy</option>
+<option>Audio, Lighting &amp; Sound</option>
+<option>Photography &amp; Media</option>
+</select>
+<span class="material-symbols-outlined text-on-surface-variant absolute right-2 top-2 pointer-events-none text-base">expand_more</span>
+</div>
+</div>
+<!-- Form: Assignee Selection -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Assigned Coordinator</label>
+<div class="flex items-center gap-space-sm bg-surface-container-low p-space-xs rounded-lg">
+<img class="w-7 h-7 rounded-full object-cover flex-shrink-0" data-alt="Professional corporate headshot of Elena Vance, lead wedding coordinator with a welcoming smile, modern clean background, soft daylight portrait photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi0GC5yG7kvpZSf_AsWJPYLXrueIpbYJ_y5c9c5ohE2hX8uzDVb17PvpVV-roUfTVpbwNHimD5msZKbk6fQZW21uxL1A_bY3evQ4JETfH5Su5_2wYkRYvBrtGEgWsb9kGHdsf1YQ_fhxz2_0fEtGTfGobsxDLXAH9RxHHkbz62Coin9Vppoaj7mfSUTAD40nWplkXEimPC2vaK8GHwPxeTvzWt0ilvgEgKo3O1GIA"/>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-headline-sm text-body-md text-on-surface truncate">Elena Vance</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Lead Planner · Full Access</span>
+</div>
+<button class="text-primary hover:text-primary-container px-space-xs py-space-2xs font-body-sm text-body-sm font-medium" type="button">
+                  Reassign
+                </button>
+</div>
+</div>
+<!-- Form: Financial Allocation Breakdown -->
+<div class="flex flex-col gap-space-2xs pt-space-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Budget Commitment</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">$12,500 / $15,000</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500 w-[83%]"></div>
+</div>
+<div class="flex justify-between text-body-sm font-body-sm text-on-surface-variant">
+<span>83.3% Allocated</span>
+<span>$2,500 Buffer</span>
+</div>
+</div>
+</div>
+<!-- Dietary Specifications Matrix -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-base">eco</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Dietary Matrix</h3>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">44 TOTAL REQS</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Item 1: Gluten Free -->
+<div class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary"></div>
+<span class="font-body-md text-body-md text-on-surface font-medium truncate">Gluten Free (Celiac Verified)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high text-sm font-semibold" onclick="updateCount('gf', -1)" type="button">-</button>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold w-7 text-center" id="gfCount">12</span>
+<button class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high text-sm font-semibold" onclick="updateCount('gf', 1)" type="button">+</button>
+</div>
+</div>
+<!-- Item 2: Vegetarian -->
+<div class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-2.5 h-2.5 rounded-full bg-[#217B44]"></div>
+<span class="font-body-md text-body-md text-on-surface font-medium truncate">Vegetarian (Lacto-Ovo)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high text-sm font-semibold" onclick="updateCount('veg', -1)" type="button">-</button>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold w-7 text-center" id="vegCount">24</span>
+<button class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high text-sm font-semibold" onclick="updateCount('veg', 1)" type="button">+</button>
+</div>
+</div>
+<!-- Item 3: Vegan -->
+<div class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-2.5 h-2.5 rounded-full bg-primary"></div>
+<span class="font-body-md text-body-md text-on-surface font-medium truncate">Strict Vegan (Plant-Based)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high text-sm font-semibold" onclick="updateCount('vegan', -1)" type="button">-</button>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold w-7 text-center" id="veganCount">8</span>
+<button class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high text-sm font-semibold" onclick="updateCount('vegan', 1)" type="button">+</button>
+</div>
+</div>
+</div>
+<!-- Kitchen Dispatch Verification State -->
+<div class="pt-space-xs flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant">
+<span class="flex items-center gap-space-2xs text-[#217B44]">
+<span class="material-symbols-outlined text-base">check_circle</span>
+                Kitchen Confirmed
+              </span>
+<span class="font-label-code-sm text-label-code-sm">Updated 2h ago</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Bar at Bottom (Sticky Modal Footer) -->
+<div class="p-space-lg bg-surface-container-lowest flex flex-col sm:flex-row items-center justify-between gap-space-md shadow-lg">
+<!-- Left Info: Financial Commitment & Lock Status -->
+<div class="flex items-center gap-space-sm w-full sm:w-auto">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-base">lock</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-2xs">
+<span class="font-label-code-md text-label-code-md text-on-surface font-bold">$12,500 Committed</span>
+<span class="font-label-caps text-label-caps text-[#217B44] bg-[#217B44]/10 px-space-2xs rounded">Approved</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Vendor contract countersigned &amp; escrow held</span>
+</div>
+</div>
+<!-- Right Buttons: Reset and Primary Save -->
+<div class="flex items-center gap-space-sm w-full sm:w-auto justify-end">
+<button class="px-space-md py-space-sm rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-headline-sm text-body-md shadow-sm transition-colors" id="resetChangesBtn" type="button">
+            Reset
+          </button>
+<button class="bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-body-md px-space-xl py-space-sm rounded-lg shadow-sm transition-all active:scale-[0.98] flex items-center gap-space-xs" id="saveChangesBtn" type="button">
+<span class="material-symbols-outlined text-base">save</span>
+<span>Save Task Changes</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Logic for State Toggles and Counter Manipulations -->
+<script>
+    (function() {
+      const counts = { gf: 12, veg: 24, vegan: 8 };
+
+      window.updateCount = function(type, delta) {
+        if (counts[type] + delta >= 0) {
+          counts[type] += delta;
+          const el = document.getElementById(type + 'Count');
+          if (el) el.textContent = counts[type];
+        }
+      };
+
+      const completeBtn = document.getElementById('markCompleteBtn');
+      const completeLabel = document.getElementById('markCompleteLabel');
+      let isCompleted = false;
+
+      if (completeBtn && completeLabel) {
+        completeBtn.addEventListener('click', function() {
+          isCompleted = !isCompleted;
+          if (isCompleted) {
+            completeBtn.classList.remove('bg-primary', 'hover:bg-primary-container', 'text-on-primary');
+            completeBtn.classList.add('bg-[#217B44]', 'hover:bg-[#1a6337]', 'text-white');
+            completeLabel.textContent = 'Completed (Undo)';
+          } else {
+            completeBtn.classList.remove('bg-[#217B44]', 'hover:bg-[#1a6337]', 'text-white');
+            completeBtn.classList.add('bg-primary', 'hover:bg-primary-container', 'text-on-primary');
+            completeLabel.textContent = 'Mark Complete';
+          }
+        });
+      }
+
+      const saveBtn = document.getElementById('saveChangesBtn');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', function() {
+          const originalText = saveBtn.innerHTML;
+          saveBtn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">refresh</span><span>Saving...</span>';
+          saveBtn.disabled = true;
+          setTimeout(function() {
+            saveBtn.innerHTML = '<span class="material-symbols-outlined text-base">check</span><span>Changes Saved</span>';
+            setTimeout(function() {
+              saveBtn.innerHTML = originalText;
+              saveBtn.disabled = false;
+            }, 1500);
+          }, 600);
+        });
+      }
+
+      const resetBtn = document.getElementById('resetChangesBtn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+          counts.gf = 12;
+          counts.veg = 24;
+          counts.vegan = 8;
+          document.getElementById('gfCount').textContent = counts.gf;
+          document.getElementById('vegCount').textContent = counts.veg;
+          document.getElementById('veganCount').textContent = counts.vegan;
+        });
+      }
+    })();
+  </script>
+</div></main></div></body></html>

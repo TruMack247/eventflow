@@ -28,3 +28,9 @@
 - [x] Task W3: Implement event date shift and cascade task rescheduling (`reschedule_event`, `shift_task_due_date`) in `src/event_planner/workflow.py`
 - [x] Task W4: Add comprehensive unit tests in `tests/test_workflow.py` for gating, ready tasks, and cascading reschedules
 - [x] Task W5: Add integration tests connecting workflow engine with SQLite repository in `tests/test_workflow_persistence_integration.py`
+
+## Phase 4: Stitch UI Integration
+- [x] Task U1: Import Stitch export layout and assets from `stitch_eventflow_planning_engine`
+- [x] Task U2: Build storage-agnostic live web server and API layer in `src/event_planner/web/server.py`
+- [x] Task U3: Connect Stitch Dashboard, Actionable Hero, Kanban board, and Templates views to SQLite persistence and workflow engine
+- [x] Task U4: Live browser verification of rendered UI and interactive state transitions at `http://127.0.0.1:8080`

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"inverse-on-surface":"#eef0fa","inverse-surface":"#2d3138","on-secondary-container":"#61656b","surface-container-lowest":"#ffffff","on-secondary-fixed":"#181c21","inverse-primary":"#c1c1ff","tertiary-fixed":"#ffdcc5","secondary-fixed-dim":"#c3c6ce","on-error":"#ffffff","primary-container":"#5a5ce3","tertiary-fixed-dim":"#ffb782","on-secondary-fixed-variant":"#43474d","on-tertiary":"#ffffff","surface-tint":"#4a4bd3","secondary-fixed":"#dfe2ea","outline":"#767586","on-surface":"#181c23","tertiary":"#83450a","surface-container-low":"#f1f3fd","on-primary-fixed":"#07006c","surface-container-high":"#e5e8f2","on-background":"#181c23","surface-variant":"#dfe2ec","on-tertiary-container":"#ffede3","on-tertiary-fixed":"#301400","secondary-container":"#dfe2ea","primary-fixed-dim":"#c1c1ff","surface-container":"#ebeef7","surface-dim":"#d7dae3","on-primary-container":"#f2efff","error":"#ba1a1a","on-secondary":"#ffffff","on-primary-fixed-variant":"#302fbb","error-container":"#ffdad6","surface":"#f9f9ff","secondary":"#5b5f65","on-tertiary-fixed-variant":"#703800","tertiary-container":"#a15c22","outline-variant":"#c7c4d7","primary":"#4041c9","surface-bright":"#f9f9ff","on-primary":"#ffffff","surface-container-highest":"#dfe2ec","primary-fixed":"#e1e0ff","on-surface-variant":"#464554","background":"#f9f9ff","on-error-container":"#93000a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1rem","space-2xl":"2rem","gutter-dense":"0.5rem","space-2xs":"0.125rem","margin-mobile":"1rem","gutter":"1rem","space-xs":"0.25rem","space-sm":"0.5rem","space-xl":"1.5rem","space-md":"0.75rem","margin":"1.5rem"},"fontFamily":{"headline-md":["Inter"],"label-code-sm":["JetBrains Mono"],"headline-sm":["Inter"],"body-md":["Inter"],"body-sm":["Inter"],"headline-lg":["Inter"],"headline-xl":["Inter"],"body-lg":["Inter"],"label-caps":["Inter"],"label-code-md":["JetBrains Mono"]},"fontSize":{"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-code-sm":["11px",{"lineHeight":"14px","letterSpacing":"-0.005em","fontWeight":"500"}],"headline-sm":["15px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.005em","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["15px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"label-caps":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"label-code-md":["12px",{"lineHeight":"16px","letterSpacing":"-0.01em","fontWeight":"500"}]}}}};</script></head><body class="bg-surface font-body-md text-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-14 px-space-md flex items-center gap-space-sm bg-surface-container-lowest"><img alt="EventFlow Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrA3rWR0_JGezqrqJN5t0THSzx1MHcLH7YYwM_IgGzegNuTCOiosiSCoGtC9zVru96F25HheQf3LqlBavALq8Wm5jEDprgpzZGfbqZqmaOihPxdap89x2L9bXdnBDmQRbUNY5cbC8a03KsdefUq25Jdeyjuobznu8xtpIFXx39l72Jrge6BRKiMeeF7zEGstBpgAIoxT2kskYGL0wjRjHcsB30AjWQDVTpDMvDwc2uc"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">EventFlow</span></div><div class="px-space-md py-space-sm"><div class="w-full bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Active Event</span><span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-high text-primary font-semibold">Confirmed</span></div><div class="flex items-center justify-between gap-space-xs"><div class="flex flex-col min-w-0"><span class="font-headline-sm text-body-md text-on-surface truncate">Sarah &amp; Michael's Wedding</span><span class="font-body-sm text-body-sm text-on-surface-variant">May 24, 2027</span></div><span class="material-symbols-outlined text-on-surface-variant text-base">unfold_more</span></div></div></div><div class="px-space-md pt-space-xs"><div class="px-space-xs py-space-2xs"><span class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase">Navigate</span></div><nav class="mt-space-2xs flex flex-col gap-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-colors bg-primary-container text-on-primary-container font-semibold" data-path="global-sidebar" href="#"><span class="material-symbols-outlined text-lg">dashboard_customize</span><span class="font-body-md text-body-md">Global Sidebar</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="event-dashboard" href="#"><span class="material-symbols-outlined text-lg">space_dashboard</span><span class="font-body-md text-body-md">Event Dashboard</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="tasks-workflow" href="#"><span class="material-symbols-outlined text-lg">checklist</span><span class="font-body-md text-body-md">Tasks &amp; Workflow</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="timeline-dependencies" href="#"><span class="material-symbols-outlined text-lg">timeline</span><span class="font-body-md text-body-md">Timeline Dependencies</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="contacts-vendors" href="#"><span class="material-symbols-outlined text-lg">group</span><span class="font-body-md text-body-md">Contacts &amp; Vendors</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="templates" href="#"><span class="material-symbols-outlined text-lg">dataset</span><span class="font-body-md text-body-md">Templates</span></a></nav></div><div class="px-space-md py-space-md"><div class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-space-sm"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Event Quick Stats</span><span class="font-label-code-sm text-label-code-sm text-primary font-medium">185D REMAIN</span></div><div class="flex flex-col gap-space-2xs"><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Days Until Event</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">185 Days</span></div><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Budget Burn (35%)</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">$17.5k / $50k</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary h-full w-[35%]"></div></div></div><div class="flex flex-col gap-space-2xs pt-space-2xs"><div class="flex justify-between items-center"><span class="font-body-sm text-body-sm text-on-surface-variant">Task Progress (42%)</span><span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">18 of 43 tasks</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary-container h-full w-[42%]"></div></div></div></div></div></div><div class="p-space-md bg-surface-container-lowest shadow-[0_-1px_6px_rgba(0,0,0,0.02)]"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqWGf2xWE2D8pGxf1w2rdewdfpzM6U-TgVmP5yKQcOY2fml7hWLmyPkKrOzAZbSsLHpN_u9YDBZDtQ4n_6rvmqUdM9wp1PScd9cQHce0xuoW1tPkJrnZ9U8mNJNieP9LivhR-er4uudHUx--oWSWcSygJZk8idImDMSLWiV9p06x3zTBHfHJYg44QFF8vacnM1F0_oWodSq0XuLTJdm4_FKocsATq1I_0EXz7_fgM"/><div class="flex flex-col min-w-0"><span class="font-headline-sm text-body-md text-on-surface truncate">Elena Vance</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">Lead Coordinator</span></div></div><div class="flex items-center gap-space-2xs"><button class="p-space-2xs rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-lg">notifications</span></button><button class="p-space-2xs rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-lg">settings</span></button></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-sm w-96"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-2xs rounded-lg w-full text-on-surface-variant"><span class="material-symbols-outlined text-lg">search</span><span class="font-body-sm text-body-sm flex-1 text-on-surface-variant">Search events, dependencies, vendors...</span><kbd class="font-label-code-sm text-label-code-sm bg-surface-container-high px-space-xs py-space-2xs rounded text-on-surface">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><div class="relative"><button class="p-space-2xs rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span></button></div><button class="bg-primary text-on-primary font-headline-sm text-body-md px-space-md py-space-xs rounded-lg hover:bg-primary-container transition-colors flex items-center gap-space-xs" type="button"><span class="material-symbols-outlined text-base">add</span><span>New Event</span></button></div></header><main class="relative pt-14 bg-surface w-full px-space-xl"><div class="flex flex-col w-full pb-space-2xl">
+<!-- Stepper Header Section -->
+<div class="w-full bg-surface-container-lowest shadow-sm rounded-xl p-space-lg mb-space-lg">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">layers</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Step 2 of 3</span>
+<span class="inline-block w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-medium">EVENT ARCHETYPE CONFIG</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Archetype Wizard • Sarah &amp; Michael's Wedding</span>
+</div>
+</div>
+<!-- Linear Stepper Pills -->
+<div class="flex items-center gap-space-xs">
+<!-- Step 1: Completed -->
+<div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-low text-on-surface">
+<div class="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<span class="font-body-sm text-body-sm font-semibold">1. Event Details</span>
+</div>
+<div class="w-6 h-0.5 bg-surface-container-highest"></div>
+<!-- Step 2: Active -->
+<div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-primary-container text-on-primary-container shadow-sm">
+<div class="w-5 h-5 rounded-full bg-on-primary-container text-primary flex items-center justify-center font-label-code-sm text-label-code-sm font-bold">
+            2
+          </div>
+<span class="font-body-sm text-body-sm font-semibold">2. Choose Template</span>
+</div>
+<div class="w-6 h-0.5 bg-surface-container-highest"></div>
+<!-- Step 3: Upcoming -->
+<div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container text-on-surface-variant opacity-75">
+<div class="w-5 h-5 rounded-full bg-surface-container-high flex items-center justify-center font-label-code-sm text-label-code-sm">
+            3
+          </div>
+<span class="font-body-sm text-body-sm">3. Template Preview</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Wizard Content Split View: Guidance Panel & Blueprint Selector -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Context / Instruction Rail (4 Cols) -->
+<div class="lg:col-span-4 flex flex-col gap-space-md">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md relative overflow-hidden">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-lg">schema</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider text-primary">Planning Seed Engine</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Choose Planning Template</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs leading-relaxed">
+            Select a pre-calculated dependency template to automatically seed milestone tasks, relative day offsets, and vendor categories for <span class="font-semibold text-on-surface">Sarah &amp; Michael's Wedding</span>.
+          </p>
+</div>
+<!-- 4 Summary Highlights -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-sm">
+<div class="flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-primary text-base mt-0.5">calendar_clock</span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">Pre-calculated Milestone Offsets</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Calibrated timeline from -365d down to execution day 0.</span>
+</div>
+</div>
+<div class="flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-primary text-base mt-0.5">account_tree</span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">Strict Prerequisite Chains</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Venues lock catering deadlines, invitations unblock RSVP lists.</span>
+</div>
+</div>
+<div class="flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-primary text-base mt-0.5">storefront</span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">Default Vendor Categorization</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pre-mapped contract milestones and payment deposit gates.</span>
+</div>
+</div>
+<div class="flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-primary text-base mt-0.5">tune</span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">Fully Customizable Post-Seed</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Add, disconnect, or recalculate any milestone in the workflow matrix.</span>
+</div>
+</div>
+</div>
+<!-- Pro Tip Box -->
+<div class="bg-surface-container px-space-md py-space-sm rounded-lg flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-xl">lightbulb</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            You can modify task dependencies, buffer days, and critical milestone paths later in the workflow engine.
+          </p>
+</div>
+<!-- Inline Visual Spark Telemetry -->
+<div class="pt-space-xs flex flex-col gap-space-2xs">
+<div class="flex justify-between items-center text-on-surface-variant font-label-caps text-label-caps uppercase">
+<span>Critical Path Coverage</span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-semibold">94.2% READY</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[94.2%] transition-all duration-500"></div>
+</div>
+</div>
+</div>
+<!-- Quick Template Attributes Summary Card -->
+<div class="bg-surface-container-low p-space-md rounded-xl shadow-sm flex flex-col gap-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Target Date Horizon</span>
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">May 24, 2027</span>
+<span class="font-label-code-sm text-label-code-sm bg-surface-container-highest px-space-xs py-space-2xs rounded font-medium text-primary">T-185 DAYS</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Applied templates will dynamically recalculate date locks relative to Sarah &amp; Michael's fixed event timestamp.
+        </p>
+</div>
+</div>
+<!-- Right Template Selection Rail (8 Cols) -->
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<!-- Section Label & View Toggles -->
+<div class="flex items-center justify-between px-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">Available Archetypes</span>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container-high text-on-surface-variant">3 Presets</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Select 1 option to load graph preview</span>
+</div>
+<!-- Template Cards Stack -->
+<div class="flex flex-col gap-space-md">
+<!-- 1. Standard Wedding (SELECTED) -->
+<div class="cursor-pointer group relative bg-surface-container-lowest rounded-xl p-space-lg shadow-sm transition-all duration-200 ring-2 ring-primary bg-primary/[0.02]" id="card-wedding" onclick="selectTemplate('wedding')">
+<!-- Active Indicator Check -->
+<div class="absolute top-space-md right-space-md flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-primary text-on-primary font-semibold tracking-wider">
+              RECOMMENDED
+            </span>
+<div class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-sm" id="check-wedding">
+<span class="material-symbols-outlined text-base">check</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm pr-28">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Standard Wedding</span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-semibold bg-surface-container-low px-space-xs py-space-2xs rounded">52 CORE TASKS GENERATED</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Comprehensive marital orchestrator blueprint</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+              Comprehensive 142-task workflow covering venue, catering, photography, attire, and decor with pre-wired milestone gates. Automatically structures critical deposits, tasting menus, floral mocks, and final walk-through constraints.
+            </p>
+<!-- Metadata Metrics -->
+<div class="grid grid-cols-3 gap-space-sm bg-surface-container-low p-space-sm rounded-lg mt-space-xs">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Initial Tasks</span>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold">142 Items (52 Core)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Milestones</span>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold">8 Hard Gates</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Lead Horizon</span>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold">-365 Days</span>
+</div>
+</div>
+<!-- Tags & Archetype Pills -->
+<div class="flex flex-wrap items-center gap-space-xs pt-space-xs">
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container text-on-surface font-medium">#Venue</span>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container text-on-surface font-medium">#Catering</span>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container text-on-surface font-medium">#Photography</span>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container text-on-surface font-medium">#FloralDesign</span>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container text-on-surface font-medium">#AudioLighting</span>
+</div>
+</div>
+</div>
+<!-- 2. Corporate Tech Summit -->
+<div class="cursor-pointer group relative bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-all duration-200 bg-surface-container-lowest" id="card-summit" onclick="selectTemplate('summit')">
+<div class="absolute top-space-md right-space-md flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-high text-on-surface-variant font-semibold tracking-wider">
+              CONFERENCE
+            </span>
+<div class="w-6 h-6 rounded-full bg-surface-container-high text-transparent flex items-center justify-center transition-colors" id="check-summit">
+<span class="material-symbols-outlined text-base">check</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm pr-28">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">podium</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Corporate Tech Summit</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant bg-surface-container-low px-space-xs py-space-2xs rounded">98 TASKS</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Multi-track production &amp; attendee logistics</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Multi-track conference blueprint with sponsor management, AV production, speaker logistics, and tiered registrations. Engineered with stage rehearsal dependencies, badge fulfillment timelines, and livestream routing locks.
+            </p>
+<!-- Metadata Metrics -->
+<div class="grid grid-cols-3 gap-space-sm bg-surface-container-low p-space-sm rounded-lg mt-space-xs">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Initial Tasks</span>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold">98 Tasks</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Milestones</span>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold">6 Hard Gates</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Lead Horizon</span>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold">-180 Days</span>
+</div>
+</div>
+<!-- Tags -->
+<div class="flex flex-wrap items-center gap-space-xs pt-space-xs">
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container text-on-surface font-medium">#Keynote</span>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container text-on-surface font-medium">#AV</span>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container text-on-surface font-medium">#Catering</span>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container text-on-surface font-medium">#Ticketing</span>
+</div>
+</div>
+</div>
+<!-- 3. Blank Canvas -->
+<div class="cursor-pointer group relative bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-all duration-200" id="card-blank" onclick="selectTemplate('blank')">
+<div class="absolute top-space-md right-space-md flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-high text-on-surface-variant font-semibold tracking-wider">
+              CUSTOM
+            </span>
+<div class="w-6 h-6 rounded-full bg-surface-container-high text-transparent flex items-center justify-center transition-colors" id="check-blank">
+<span class="material-symbols-outlined text-base">check</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm pr-28">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">crop_square</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Blank Canvas</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant bg-surface-container-low px-space-xs py-space-2xs rounded">0 INITIAL TASKS</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Empty node canvas for bespoke workflows</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Start with an empty dependency tree and define custom nodes, milestones, and prerequisites from scratch. Best suited for unconventional event formats, internal activations, or importing third-party task databases.
+            </p>
+<!-- Metadata Metrics -->
+<div class="grid grid-cols-3 gap-space-sm bg-surface-container-low p-space-sm rounded-lg mt-space-xs">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Initial Tasks</span>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold">0 Seeded</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Milestones</span>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold">Manual Setup</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Lead Horizon</span>
+<span class="font-label-code-md text-label-code-md text-on-surface font-semibold">Flexible</span>
+</div>
+</div>
+<!-- Tags -->
+<div class="flex flex-wrap items-center gap-space-xs pt-space-xs">
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container text-on-surface font-medium">#Bespoke</span>
+<span class="font-label-code-sm text-label-code-sm px-space-xs py-space-2xs rounded bg-surface-container text-on-surface font-medium">#Modular</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Wizard Fixed Sticky Action Bar -->
+<div class="sticky bottom-4 mt-space-xl z-30">
+<div class="bg-surface-container-lowest/95 backdrop-blur-md rounded-xl p-space-md shadow-xl flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<!-- Status Left -->
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">layers</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold" id="summary-task-count">52 Core Tasks Generated</span>
+<span class="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container-high text-primary font-bold">READY TO SEED</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant" id="summary-template-name">Selected: Standard Wedding Archetype</span>
+</div>
+</div>
+<!-- Action Buttons Right -->
+<div class="flex items-center gap-space-sm w-full sm:w-auto justify-end">
+<button class="w-full sm:w-auto bg-surface-container-low hover:bg-surface-container-high text-on-surface font-headline-sm text-body-md px-space-md py-space-xs rounded-lg transition-colors flex items-center justify-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-base">arrow_back</span>
+<span>Back to Details</span>
+</button>
+<button class="w-full sm:w-auto bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-body-md px-space-lg py-space-xs rounded-lg shadow-sm hover:shadow transition-all flex items-center justify-center gap-space-xs" id="apply-btn" type="button">
+<span class="material-symbols-outlined text-base">auto_fix_high</span>
+<span id="apply-btn-label">Apply Standard Wedding Template</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  let currentSelected = 'wedding';
+
+  const templatesData = {
+    wedding: {
+      name: 'Standard Wedding',
+      tasks: '52 Core Tasks Generated',
+      button: 'Apply Standard Wedding Template'
+    },
+    summit: {
+      name: 'Corporate Tech Summit',
+      tasks: '98 Tasks Generated',
+      button: 'Apply Tech Summit Template'
+    },
+    blank: {
+      name: 'Blank Canvas',
+      tasks: '0 Tasks (Manual Construction)',
+      button: 'Initialize Blank Canvas'
+    }
+  };
+
+  function selectTemplate(key) {
+    currentSelected = key;
+    const cards = ['wedding', 'summit', 'blank'];
+
+    cards.forEach(card => {
+      const el = document.getElementById('card-' + card);
+      const chk = document.getElementById('check-' + card);
+      if (card === key) {
+        el.classList.add('ring-2', 'ring-primary', 'bg-primary/[0.02]');
+        el.classList.remove('bg-surface-container-lowest');
+        chk.classList.remove('bg-surface-container-high', 'text-transparent');
+        chk.classList.add('bg-primary', 'text-on-primary');
+      } else {
+        el.classList.remove('ring-2', 'ring-primary', 'bg-primary/[0.02]');
+        el.classList.add('bg-surface-container-lowest');
+        chk.classList.add('bg-surface-container-high', 'text-transparent');
+        chk.classList.remove('bg-primary', 'text-on-primary');
+      }
+    });
+
+    const info = templatesData[key];
+    document.getElementById('summary-task-count').textContent = info.tasks;
+    document.getElementById('summary-template-name').textContent = 'Selected: ' + info.name + ' Archetype';
+    document.getElementById('apply-btn-label').textContent = info.button;
+  }
+</script></main></div></body></html>
