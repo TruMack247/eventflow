@@ -13,7 +13,7 @@
 
 ## Phase 2: Persistence Layer
 - [x] Task P0: Draft Persistence section in SPEC.md with schema, foreign keys, join table, and repository contract
-- [ ] Task P1: Define abstract repository protocol/interface in `src/event_planner/repository.py`
+- [x] Task P1: Define abstract repository protocol/interface in `src/event_planner/repository.py`
 - [ ] Task P2: Implement schema initialization and foreign key enforcement in `src/event_planner/sqlite_repository.py`
 - [ ] Task P3: Implement template persistence (`save_template`, `get_template`) in SQLite repository
 - [ ] Task P4: Implement atomic bundle persistence (`save_event_bundle`, transactions, join table `task_dependencies`)

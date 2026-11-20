@@ -34,3 +34,15 @@
   - Template task IDs dynamically mapped to unique task IDs upon instantiation while preserving dependency graphs.
 - **Next step**:
   - Expand templates (e.g. corporate conferences, birthday parties) or implement persistence/export storage (JSON/SQLite).
+
+## 2026-11-20 (Task P1)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented [repository.py](file:///d:/Business/Event%20Planner/src/event_planner/repository.py) with the abstract `EventRepository` interface adhering to SPEC.md.
+  - Ran pytest suite; all 19 existing tests pass.
+- **Half-done**:
+  - Task P2 (SQLite concrete implementation setup).
+- **Decisions**:
+  - Kept repository interface strictly decoupled from sqlite3 or any storage-specific drivers.
+- **Next step**:
+  - Implement Task P2: Schema initialization and foreign key enforcement in `src/event_planner/sqlite_repository.py`.
