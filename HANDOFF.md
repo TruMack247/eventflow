@@ -86,3 +86,17 @@
   - Maintained transactions with `with self.conn:` ensuring automatic commit on success and rollback on any constraint violation or runtime error.
 - **Next step**:
   - Implement Task P5: Query & deletion operations (`get_event`, `get_tasks_for_event`, `get_contacts_for_event`, `delete_event`, `save_task`, `get_task`).
+
+## 2026-11-20 (Task P5)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented `get_event`, `get_tasks_for_event`, `get_contacts_for_event`, `delete_event`, `save_task`, and `get_task` in [sqlite_repository.py](file:///d:/Business/Event%20Planner/src/event_planner/sqlite_repository.py).
+  - Reconstructed `Task.depends_on` lists via SQL join with `task_dependencies`.
+  - Confirmed cascading deletes for events, tasks, dependencies, and contacts.
+  - All 19 existing pytest tests pass.
+- **Half-done**:
+  - Task P6 (Comprehensive in-memory SQLite repository unit tests).
+- **Decisions**:
+  - Structured queries to load dependencies in a single query when fetching multiple tasks for an event to avoid N+1 query patterns.
+- **Next step**:
+  - Implement Task P6: Add in-memory SQLite unit tests for all repository operations and edge cases in `tests/test_sqlite_repository.py`.

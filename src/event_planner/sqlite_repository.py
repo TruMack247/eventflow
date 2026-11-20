@@ -254,19 +254,189 @@ class SQLiteEventRepository(EventRepository):
                 )
 
     def get_event(self, event_id: str) -> Optional[Event]:
-        raise NotImplementedError
+        """Fetch an event by identifier."""
+        cursor = self.conn.execute(
+            """
+            SELECT id, name, date, status, budget, template_id
+            FROM events
+            WHERE id = ?;
+            """,
+            (event_id,),
+        )
+        row = cursor.fetchone()
+        if not row:
+            return None
+
+        event_date = (
+            datetime.fromisoformat(row["date"]).date()
+            if "T" not in row["date"] and len(row["date"]) == 10
+            else datetime.fromisoformat(row["date"])
+        )
+
+        return Event(
+            id=row["id"],
+            name=row["name"],
+            date=event_date,
+            status=EventStatus(row["status"]),
+            budget=Decimal(str(row["budget"])),
+            template_id=row["template_id"],
+        )
 
     def get_tasks_for_event(self, event_id: str) -> List[Task]:
-        raise NotImplementedError
+        """Fetch all tasks for an event with reconstructed depends_on lists."""
+        cursor = self.conn.execute(
+            """
+            SELECT id, event_id, title, due_date, status, vendor_category
+            FROM tasks
+            WHERE event_id = ?
+            ORDER BY due_date ASC;
+            """,
+            (event_id,),
+        )
+        task_rows = cursor.fetchall()
+        if not task_rows:
+            return []
+
+        # Fetch all dependencies for tasks belonging to this event
+        dep_cursor = self.conn.execute(
+            """
+            SELECT td.task_id, td.depends_on_task_id
+            FROM task_dependencies td
+            JOIN tasks t ON td.task_id = t.id
+            WHERE t.event_id = ?;
+            """,
+            (event_id,),
+        )
+        deps_by_task: dict[str, list[str]] = {}
+        for dep_row in dep_cursor.fetchall():
+            deps_by_task.setdefault(dep_row["task_id"], []).append(
+                dep_row["depends_on_task_id"]
+            )
+
+        tasks: List[Task] = []
+        for row in task_rows:
+            task_due_date = (
+                datetime.fromisoformat(row["due_date"]).date()
+                if "T" not in row["due_date"] and len(row["due_date"]) == 10
+                else datetime.fromisoformat(row["due_date"])
+            )
+            tasks.append(
+                Task(
+                    id=row["id"],
+                    event_id=row["event_id"],
+                    title=row["title"],
+                    due_date=task_due_date,
+                    status=TaskStatus(row["status"]),
+                    depends_on=deps_by_task.get(row["id"], []),
+                    vendor_category=row["vendor_category"],
+                )
+            )
+        return tasks
 
     def get_contacts_for_event(self, event_id: str) -> List[Contact]:
-        raise NotImplementedError
+        """Fetch all contacts associated with the event."""
+        cursor = self.conn.execute(
+            """
+            SELECT id, event_id, name, email, role
+            FROM contacts
+            WHERE event_id = ?;
+            """,
+            (event_id,),
+        )
+        return [
+            Contact(
+                id=row["id"],
+                event_id=row["event_id"],
+                name=row["name"],
+                email=row["email"],
+                role=row["role"],
+            )
+            for row in cursor.fetchall()
+        ]
 
     def delete_event(self, event_id: str) -> bool:
-        raise NotImplementedError
+        """Delete an event and its cascading tasks, dependencies, and contacts."""
+        with self.conn:
+            cursor = self.conn.execute("DELETE FROM events WHERE id = ?;", (event_id,))
+            return cursor.rowcount > 0
 
     def save_task(self, task: Task) -> None:
-        raise NotImplementedError
+        """Persist or update an individual task and synchronize its depends_on join entries."""
+        task_due_str = (
+            task.due_date.isoformat()
+            if isinstance(task.due_date, (date, datetime))
+            else str(task.due_date)
+        )
+        with self.conn:
+            self.conn.execute(
+                """
+                INSERT INTO tasks (id, event_id, title, due_date, status, vendor_category)
+                VALUES (?, ?, ?, ?, ?, ?)
+                ON CONFLICT(id) DO UPDATE SET
+                    event_id = excluded.event_id,
+                    title = excluded.title,
+                    due_date = excluded.due_date,
+                    status = excluded.status,
+                    vendor_category = excluded.vendor_category;
+                """,
+                (
+                    task.id,
+                    task.event_id,
+                    task.title,
+                    task_due_str,
+                    task.status.value,
+                    task.vendor_category,
+                ),
+            )
+            self.conn.execute(
+                "DELETE FROM task_dependencies WHERE task_id = ?;",
+                (task.id,),
+            )
+            for dep_id in task.depends_on:
+                self.conn.execute(
+                    """
+                    INSERT INTO task_dependencies (task_id, depends_on_task_id)
+                    VALUES (?, ?);
+                    """,
+                    (task.id, dep_id),
+                )
 
     def get_task(self, task_id: str) -> Optional[Task]:
-        raise NotImplementedError
+        """Fetch a single task by identifier with its reconstructed depends_on list."""
+        cursor = self.conn.execute(
+            """
+            SELECT id, event_id, title, due_date, status, vendor_category
+            FROM tasks
+            WHERE id = ?;
+            """,
+            (task_id,),
+        )
+        row = cursor.fetchone()
+        if not row:
+            return None
+
+        dep_cursor = self.conn.execute(
+            """
+            SELECT depends_on_task_id
+            FROM task_dependencies
+            WHERE task_id = ?;
+            """,
+            (task_id,),
+        )
+        depends_on = [dep_row["depends_on_task_id"] for dep_row in dep_cursor.fetchall()]
+
+        task_due_date = (
+            datetime.fromisoformat(row["due_date"]).date()
+            if "T" not in row["due_date"] and len(row["due_date"]) == 10
+            else datetime.fromisoformat(row["due_date"])
+        )
+
+        return Task(
+            id=row["id"],
+            event_id=row["event_id"],
+            title=row["title"],
+            due_date=task_due_date,
+            status=TaskStatus(row["status"]),
+            depends_on=depends_on,
+            vendor_category=row["vendor_category"],
+        )
