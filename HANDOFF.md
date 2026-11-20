@@ -100,3 +100,21 @@
   - Structured queries to load dependencies in a single query when fetching multiple tasks for an event to avoid N+1 query patterns.
 - **Next step**:
   - Implement Task P6: Add in-memory SQLite unit tests for all repository operations and edge cases in `tests/test_sqlite_repository.py`.
+
+## 2026-11-20 (Task P6)
+- **Agent**: Antigravity
+- **Finished**:
+  - Authored unit test suite in [test_sqlite_repository.py](file:///d:/Business/Event%20Planner/tests/test_sqlite_repository.py) covering:
+    - `PRAGMA foreign_keys` enforcement.
+    - Template saving, retrieval, and missing template cases.
+    - Atomic bundle commits, task dependency join table persistence, and contact associations.
+    - Transactional rollback on invalid bundle payloads.
+    - Foreign key cascade deletions across events, tasks, dependencies, and contacts.
+    - Single task updates and dynamic dependency graph synchronization.
+  - Ran pytest suite; all 26 tests passing.
+- **Half-done**:
+  - Task P7 (Disk-based round-trip persistence tests).
+- **Decisions**:
+  - Used pytest fixtures with `:memory:` SQLite connections ensuring pristine isolated state per test.
+- **Next step**:
+  - Implement Task P7: Add disk-based round-trip persistence tests verifying survival across closed/reopened connections.
