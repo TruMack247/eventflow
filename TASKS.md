@@ -15,7 +15,7 @@
 - [x] Task P0: Draft Persistence section in SPEC.md with schema, foreign keys, join table, and repository contract
 - [x] Task P1: Define abstract repository protocol/interface in `src/event_planner/repository.py`
 - [x] Task P2: Implement schema initialization and foreign key enforcement in `src/event_planner/sqlite_repository.py`
-- [ ] Task P3: Implement template persistence (`save_template`, `get_template`) in SQLite repository
+- [x] Task P3: Implement template persistence (`save_template`, `get_template`) in SQLite repository
 - [ ] Task P4: Implement atomic bundle persistence (`save_event_bundle`, transactions, join table `task_dependencies`)
 - [ ] Task P5: Implement query & deletion operations (`get_event`, `get_tasks_for_event`, `get_contacts_for_event`, `delete_event`, `save_task`, `get_task`)
 - [ ] Task P6: Add in-memory SQLite unit tests for all repository operations and edge cases in `tests/test_sqlite_repository.py`

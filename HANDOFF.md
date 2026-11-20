@@ -59,3 +59,16 @@
   - Maintained single-module boundary where `sqlite3` is only imported in `sqlite_repository.py`.
 - **Next step**:
   - Implement Task P3: Template persistence (`save_template`, `get_template`) in SQLite repository.
+
+## 2026-11-20 (Task P3)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented `save_template` and `get_template` in [sqlite_repository.py](file:///d:/Business/Event%20Planner/src/event_planner/sqlite_repository.py) with JSON serialization of `TemplateTask` lists.
+  - Verified round-trip saving and retrieval of templates including the built-in wedding template.
+  - All 19 pytest tests pass.
+- **Half-done**:
+  - Task P4 (Atomic event bundle persistence).
+- **Decisions**:
+  - Serialized `TemplateTask` configurations into `default_tasks_json` column on `templates` table, keeping template blueprints portable and decoupled from event instances.
+- **Next step**:
+  - Implement Task P4: Atomic bundle persistence (`save_event_bundle`, transactions, join table `task_dependencies`).

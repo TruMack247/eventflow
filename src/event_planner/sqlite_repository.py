@@ -102,10 +102,38 @@ class SQLiteEventRepository(EventRepository):
             self.conn.close()
 
     def save_template(self, template: Template) -> None:
-        raise NotImplementedError
+        """Persist or update a template blueprint with JSON-serialized tasks."""
+        tasks_data = [t.model_dump() for t in template.default_tasks]
+        tasks_json = json.dumps(tasks_data)
+        with self.conn:
+            self.conn.execute(
+                """
+                INSERT INTO templates (id, name, default_tasks_json)
+                VALUES (?, ?, ?)
+                ON CONFLICT(id) DO UPDATE SET
+                    name = excluded.name,
+                    default_tasks_json = excluded.default_tasks_json;
+                """,
+                (template.id, template.name, tasks_json),
+            )
 
     def get_template(self, template_id: str) -> Optional[Template]:
-        raise NotImplementedError
+        """Fetch a template blueprint by identifier."""
+        cursor = self.conn.execute(
+            "SELECT id, name, default_tasks_json FROM templates WHERE id = ?;",
+            (template_id,),
+        )
+        row = cursor.fetchone()
+        if not row:
+            return None
+
+        raw_tasks = json.loads(row["default_tasks_json"])
+        default_tasks = [TemplateTask(**t) for t in raw_tasks]
+        return Template(
+            id=row["id"],
+            name=row["name"],
+            default_tasks=default_tasks,
+        )
 
     def save_event_bundle(
         self,
