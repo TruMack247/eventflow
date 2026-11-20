@@ -61,9 +61,115 @@ A blueprint for instantiating events with predefined task sets and relative sche
 | `depends_on` | `List[str]` | Default: `[]`, references `template_task_id` | Intra-template prerequisites. |
 | `vendor_category` | `Optional[str]` | Optional | Recommended vendor category. |
 
+
 ---
 
-## Out of Scope for v1
+## Persistence (SQLite)
+
+The persistence layer is storage-agnostic from the perspective of core models and engines. The repository interface defines abstract contracts, while `sqlite_repository.py` implements the concrete SQLite storage using standard Python `sqlite3`.
+
+### Schema & Tables
+
+All tables enforce foreign keys (`PRAGMA foreign_keys = ON` on every connection) and cascading deletes where appropriate.
+
+```sql
+CREATE TABLE IF NOT EXISTS templates (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    default_tasks_json TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS events (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    date TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (status IN ('draft', 'confirmed', 'completed', 'cancelled')),
+    budget REAL NOT NULL CHECK (budget >= 0),
+    template_id TEXT,
+    FOREIGN KEY (template_id) REFERENCES templates (id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS tasks (
+    id TEXT PRIMARY KEY,
+    event_id TEXT NOT NULL,
+    title TEXT NOT NULL,
+    due_date TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (status IN ('todo', 'in_progress', 'done')),
+    vendor_category TEXT,
+    FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS task_dependencies (
+    task_id TEXT NOT NULL,
+    depends_on_task_id TEXT NOT NULL,
+    PRIMARY KEY (task_id, depends_on_task_id),
+    FOREIGN KEY (task_id) REFERENCES tasks (id) ON DELETE CASCADE,
+    FOREIGN KEY (depends_on_task_id) REFERENCES tasks (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS contacts (
+    id TEXT PRIMARY KEY,
+    event_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    role TEXT NOT NULL,
+    FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
+);
+```
+
+### Table Definitions
+
+1. **`templates`**:
+   - `id` (TEXT, PK): Primary key identifier.
+   - `name` (TEXT, NOT NULL): Display name.
+   - `default_tasks_json` (TEXT, NOT NULL): JSON serialization of default template tasks and offsets.
+2. **`events`**:
+   - `id` (TEXT, PK): Primary key identifier.
+   - `name` (TEXT, NOT NULL): Event name.
+   - `date` (TEXT, NOT NULL): ISO 8601 formatted date/datetime string.
+   - `status` (TEXT, NOT NULL): Lifecycle state (`draft`, `confirmed`, `completed`, `cancelled`).
+   - `budget` (REAL, NOT NULL): Budget amount ($\ge 0$).
+   - `template_id` (TEXT, NULLABLE, FK -> `templates.id`): References source template.
+3. **`tasks`**:
+   - `id` (TEXT, PK): Primary key identifier.
+   - `event_id` (TEXT, NOT NULL, FK -> `events.id` ON DELETE CASCADE): Parent event.
+   - `title` (TEXT, NOT NULL): Title of the task.
+   - `due_date` (TEXT, NOT NULL): ISO 8601 formatted due date string.
+   - `status` (TEXT, NOT NULL): Task state (`todo`, `in_progress`, `done`).
+   - `vendor_category` (TEXT, NULLABLE): Optional vendor tag.
+4. **`task_dependencies`** (Join Table):
+   - `task_id` (TEXT, NOT NULL, FK -> `tasks.id` ON DELETE CASCADE): The dependent task.
+   - `depends_on_task_id` (TEXT, NOT NULL, FK -> `tasks.id` ON DELETE CASCADE): The prerequisite task that must be completed first.
+   - `PRIMARY KEY (task_id, depends_on_task_id)`: Enforces unique dependency pairs.
+5. **`contacts`**:
+   - `id` (TEXT, PK): Primary key identifier.
+   - `event_id` (TEXT, NOT NULL, FK -> `events.id` ON DELETE CASCADE): Parent event.
+   - `name` (TEXT, NOT NULL): Contact name.
+   - `email` (TEXT, NOT NULL): Contact email address.
+   - `role` (TEXT, NOT NULL): Role description.
+
+### Repository Operations Contract
+
+The repository provides abstract storage operations for events, tasks, contacts, and templates:
+
+- `save_template(template: Template) -> None`: Inserts or updates a template blueprint.
+- `get_template(template_id: str) -> Optional[Template]`: Retrieves a template by ID.
+- `save_event_bundle(event: Event, tasks: List[Task], contacts: Optional[List[Contact]] = None) -> None`:
+  - Atomic, all-or-nothing transactional operation (`BEGIN IMMEDIATE` / `COMMIT`).
+  - Persists the `Event`, each `Task`, all join rows in `task_dependencies`, and optional `contacts`.
+  - If any constraint or write fails, the entire transaction rolls back.
+- `get_event(event_id: str) -> Optional[Event]`: Fetches an event by ID.
+- `get_tasks_for_event(event_id: str) -> List[Task]`: Fetches all tasks for an event, reconstructing their `depends_on` lists via join from `task_dependencies`.
+- `get_contacts_for_event(event_id: str) -> List[Contact]`: Fetches all contacts associated with the event.
+- `delete_event(event_id: str) -> bool`: Deletes an event and cascades to its tasks, dependencies, and contacts.
+- `save_task(task: Task) -> None`: Inserts or updates an individual task and syncs its `task_dependencies` join table entries within a transaction.
+- `get_task(task_id: str) -> Optional[Task]`: Fetches a single task by ID with its reconstructed `depends_on` list.
+
+### Constraints & Invariants
+- `PRAGMA foreign_keys = ON;` must be executed immediately on opening any connection.
+- Transactions must guarantee atomicity for all bundled writes (Event + Tasks + Dependencies).
+- Only `sqlite_repository.py` imports `sqlite3`.
+
 The following capabilities are deliberately excluded from the v1 scope:
 - **Email Sending & Notifications**: No SMTP, transactional email, or automated reminder triggers.
 - **Payments & Financial Transactions**: No payment gateways, invoice processing, or escrow integrations.
