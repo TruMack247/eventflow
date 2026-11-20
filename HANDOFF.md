@@ -46,3 +46,16 @@
   - Kept repository interface strictly decoupled from sqlite3 or any storage-specific drivers.
 - **Next step**:
   - Implement Task P2: Schema initialization and foreign key enforcement in `src/event_planner/sqlite_repository.py`.
+
+## 2026-11-20 (Task P2)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented `SQLiteEventRepository` skeleton in [sqlite_repository.py](file:///d:/Business/Event%20Planner/src/event_planner/sqlite_repository.py) executing DDL schema definitions for `templates`, `events`, `tasks`, `task_dependencies`, and `contacts`.
+  - Enforced `PRAGMA foreign_keys = ON;` upon connection initialization.
+  - Ran pytest suite; all 19 tests pass.
+- **Half-done**:
+  - Task P3 (Template persistence).
+- **Decisions**:
+  - Maintained single-module boundary where `sqlite3` is only imported in `sqlite_repository.py`.
+- **Next step**:
+  - Implement Task P3: Template persistence (`save_template`, `get_template`) in SQLite repository.
