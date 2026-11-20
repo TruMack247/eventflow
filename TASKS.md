@@ -26,5 +26,5 @@
 - [x] Task W1: Implement transition validation and dependency gating (`transition_task_status`, `BlockedTaskError`, reopen checks) in `src/event_planner/workflow.py`
 - [x] Task W2: Implement actionable / ready tasks query (`get_actionable_tasks`) in `src/event_planner/workflow.py`
 - [x] Task W3: Implement event date shift and cascade task rescheduling (`reschedule_event`, `shift_task_due_date`) in `src/event_planner/workflow.py`
-- [ ] Task W4: Add comprehensive unit tests in `tests/test_workflow.py` for gating, ready tasks, and cascading reschedules
+- [x] Task W4: Add comprehensive unit tests in `tests/test_workflow.py` for gating, ready tasks, and cascading reschedules
 - [ ] Task W5: Add integration tests connecting workflow engine with SQLite repository in `tests/test_workflow_persistence_integration.py`

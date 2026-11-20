@@ -172,3 +172,23 @@
   - Applied breadth-first traversal to push child task due dates when a prerequisite task is postponed past them.
 - **Next step**:
   - Implement Task W4: Add comprehensive unit tests in `tests/test_workflow.py` for gating, ready tasks, and cascading reschedules.
+
+## 2026-11-20 (Task W4)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented comprehensive test suite in [test_workflow.py](file:///d:/Business/Event%20Planner/tests/test_workflow.py) with 10 unit tests covering:
+    - Normal status progression (`TODO` $\to$ `IN_PROGRESS` $\to$ `DONE`).
+    - Gating protection rejecting transition when prerequisites are incomplete (`BlockedTaskError`).
+    - Downstream protection preventing reopen of completed tasks when dependents are active (`DependentTasksBlockReopenError`).
+    - Force-cascading reopen resets.
+    - Querying actionable/ready tasks across lifecycle changes.
+    - Full event date shifting with task date delta synchronization.
+    - Cascading task due date postponement across downstream dependencies.
+    - Maximum boundary validation (e.g. task pushed beyond event date).
+  - Ran pytest suite; all 37 tests pass.
+- **Half-done**:
+  - Task W5 (Integration tests with SQLite repository).
+- **Decisions**:
+  - Verified edge cases including chains of tasks and boundary collisions.
+- **Next step**:
+  - Implement Task W5: Add integration tests connecting workflow engine with SQLite repository in `tests/test_workflow_persistence_integration.py`.
