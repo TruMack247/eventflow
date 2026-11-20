@@ -192,3 +192,20 @@
   - Verified edge cases including chains of tasks and boundary collisions.
 - **Next step**:
   - Implement Task W5: Add integration tests connecting workflow engine with SQLite repository in `tests/test_workflow_persistence_integration.py`.
+
+## 2026-11-20 (Task W5)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented end-to-end integration test in [test_workflow_persistence_integration.py](file:///d:/Business/Event%20Planner/tests/test_workflow_persistence_integration.py) verifying:
+    - Wedding template instantiation and bundle persistence.
+    - Querying actionable tasks from persistent storage.
+    - Status progression (`TODO` -> `IN_PROGRESS` -> `DONE`) through dependency gates.
+    - Fan-out unblocking of parallel downstream tasks (photo, catering, invitations) upon completion of prerequisites (venue).
+    - Event rescheduling and database persistence with preserved relative offsets.
+  - Ran pytest suite; all 38 tests pass.
+- **Half-done**:
+  - Phase 3 Workflow & Schedule Execution Engine fully completed.
+- **Decisions**:
+  - Validated that the workflow engine and SQLite persistence layer integrate cleanly with zero coupling or interface adjustments.
+- **Next step**:
+  - Phase 3 complete. Ready for CLI interface or multi-template expansion.
