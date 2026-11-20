@@ -131,3 +131,17 @@
   - Validated that `tempfile.TemporaryDirectory` safely handles file creation, connection teardown, and clean removal on Windows.
 - **Next step**:
   - Phase 2 complete. Ready for next phase (CLI interface, event lifecycle operations, or additional template engines).
+
+## 2026-11-20 (Task W1)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented `transition_task_status`, `BlockedTaskError`, and `DependentTasksBlockReopenError` in [workflow.py](file:///d:/Business/Event%20Planner/src/event_planner/workflow.py).
+  - Enforced dependency completion gating before advancing tasks to `in_progress` or `done`.
+  - Added downstream reopening protection with optional forced cascading reset.
+  - Ran pytest suite; all 27 tests pass.
+- **Half-done**:
+  - Task W2 (Actionable / ready tasks query).
+- **Decisions**:
+  - Implemented in-memory status transitions storage-agnostically so it can be used with any repository implementation or standalone in business logic.
+- **Next step**:
+  - Implement Task W2: Actionable / ready tasks query (`get_actionable_tasks`) in `src/event_planner/workflow.py`.

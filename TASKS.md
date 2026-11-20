@@ -23,7 +23,7 @@
 
 ## Phase 3: Workflow & Schedule Execution Engine
 - [x] Task W0: Draft Workflow & Execution Engine specification in SPEC.md
-- [ ] Task W1: Implement transition validation and dependency gating (`transition_task_status`, `BlockedTaskError`, reopen checks) in `src/event_planner/workflow.py`
+- [x] Task W1: Implement transition validation and dependency gating (`transition_task_status`, `BlockedTaskError`, reopen checks) in `src/event_planner/workflow.py`
 - [ ] Task W2: Implement actionable / ready tasks query (`get_actionable_tasks`) in `src/event_planner/workflow.py`
 - [ ] Task W3: Implement event date shift and cascade task rescheduling (`reschedule_event`, `shift_task_due_date`) in `src/event_planner/workflow.py`
 - [ ] Task W4: Add comprehensive unit tests in `tests/test_workflow.py` for gating, ready tasks, and cascading reschedules
