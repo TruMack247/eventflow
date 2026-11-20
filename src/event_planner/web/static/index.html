@@ -91,6 +91,10 @@
           <span class="material-symbols-outlined text-lg">checklist</span>
           <span>Tasks &amp; Workflow</span>
         </button>
+        <button onclick="switchTab('timeline')" id="nav-timeline" class="nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface">
+          <span class="material-symbols-outlined text-lg">timeline</span>
+          <span>Timeline Dependencies</span>
+        </button>
         <button onclick="switchTab('vendors')" id="nav-vendors" class="nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface">
           <span class="material-symbols-outlined text-lg">group</span>
           <span>Contacts &amp; Vendors</span>
@@ -311,6 +315,45 @@
             <div id="col-done" class="space-y-3 min-h-[150px]"></div>
           </div>
 
+        </div>
+      </section>
+
+      <!-- ================= 2.5 TIMELINE & DIRECTED DEPENDENCIES ================= -->
+      <section id="tab-timeline" class="tab-content space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-primary bg-surface-container-high px-2 py-0.5 rounded">Directed Acyclic Graph</span>
+              <span class="text-xs font-mono text-on-surface-variant">Topological Execution Order</span>
+            </div>
+            <h2 class="text-xl font-bold tracking-tight text-on-surface">Timeline &amp; Directed Dependencies</h2>
+            <p class="text-xs text-on-surface-variant mt-0.5">Chronological flow and milestone gating. Shift dates to recalculate dependent cascades.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="promptReschedule()" class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm">
+              <span class="material-symbols-outlined text-sm">event_repeat</span>
+              <span>Reschedule Event Date</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Directed Graph Canvas -->
+        <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-container-high/60 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-surface-container-high/50 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-lg">schema</span>
+              <h3 class="text-sm font-bold text-on-surface">Milestone Dependency Pipeline</h3>
+            </div>
+            <div class="flex items-center gap-4 text-xs">
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span> Done</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-primary"></span> Ready (Unblocked)</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Locked (Blocked)</span>
+            </div>
+          </div>
+
+          <div id="timelineGraphContainer" class="space-y-3 pt-2">
+            <!-- Dynamically populated chronological dependency nodes -->
+          </div>
         </div>
       </section>
 
@@ -614,6 +657,102 @@
 
       // Kanban Columns
       renderKanban(tasks);
+
+      // Timeline Dependencies Graph
+      renderTimelineGraph(tasks, event);
+    }
+
+    function renderTimelineGraph(tasks, event) {
+      const container = document.getElementById("timelineGraphContainer");
+      if (!container) return;
+
+      const taskMap = Object.fromEntries(tasks.map(t => [t.id, t]));
+      // Sort tasks chronologically by due date
+      const sorted = [...tasks].sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
+
+      container.innerHTML = sorted.map((t, idx) => {
+        const stateKey = t.workflow_state;
+        let borderClass = "border-surface-container-high";
+        let dotColor = "bg-primary";
+        let statusTag = "READY";
+        let statusBadge = "bg-primary/10 text-primary";
+
+        if (stateKey === "done") {
+          borderClass = "border-emerald-600/30 bg-emerald-50/20";
+          dotColor = "bg-emerald-600";
+          statusTag = "DONE";
+          statusBadge = "bg-emerald-100 text-emerald-800";
+        } else if (stateKey === "in_progress") {
+          borderClass = "border-blue-600/30 bg-blue-50/20";
+          dotColor = "bg-blue-600 animate-pulse";
+          statusTag = "IN PROGRESS";
+          statusBadge = "bg-blue-100 text-blue-800";
+        } else if (stateKey === "blocked") {
+          borderClass = "border-amber-500/30 bg-amber-50/10";
+          dotColor = "bg-amber-500";
+          statusTag = "BLOCKED";
+          statusBadge = "bg-amber-100 text-amber-800";
+        }
+
+        const prereqTitles = (t.depends_on || []).map(id => taskMap[id] ? taskMap[id].title : id);
+
+        return `
+          <div class="relative pl-6 pb-2 border-l-2 ${idx === sorted.length - 1 ? 'border-transparent' : 'border-surface-container-high'}">
+            <!-- Node dot on timeline -->
+            <div class="absolute -left-[9px] top-3.5 w-4 h-4 rounded-full ${dotColor} border-2 border-surface-container-lowest shadow-sm flex items-center justify-center"></div>
+
+            <div class="bg-surface-container-low rounded-xl p-4 border ${borderClass} flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs">
+              <div class="flex flex-col gap-1 min-w-0 flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">${t.vendor_category || "GENERAL"}</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded ${statusBadge}">${statusTag}</span>
+                  <span class="text-xs font-mono text-on-surface-variant">Due: ${t.due_date}</span>
+                </div>
+                <h4 onclick="openTaskModal('${t.id}')" class="font-bold text-sm text-on-surface hover:text-primary cursor-pointer truncate ${stateKey === 'done' ? 'line-through text-on-surface-variant' : ''}">
+                  ${t.title}
+                </h4>
+                ${prereqTitles.length ? `
+                  <div class="text-[11px] text-on-surface-variant flex items-center gap-1.5 flex-wrap mt-0.5">
+                    <span class="material-symbols-outlined text-xs text-primary">arrow_forward</span>
+                    <span class="font-medium">Depends on:</span>
+                    ${prereqTitles.map(name => `<span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface font-medium">${name}</span>`).join("")}
+                  </div>
+                ` : `<span class="text-[11px] text-on-surface-variant/70 italic">Root milestone • No prerequisites</span>`}
+              </div>
+
+              <!-- Quick Shift / Action controls -->
+              <div class="flex items-center gap-2 shrink-0">
+                <button onclick="promptShiftTaskDate('${t.id}', '${t.due_date}')" class="px-2.5 py-1.5 rounded-lg border border-surface-container-high bg-surface-container-lowest text-xs font-medium hover:bg-surface-container-high transition-colors flex items-center gap-1" title="Shift due date and cascade to dependent tasks">
+                  <span class="material-symbols-outlined text-sm">schedule</span>
+                  <span>Shift Date</span>
+                </button>
+                <button onclick="openTaskModal('${t.id}')" class="px-2.5 py-1.5 rounded-lg bg-surface-container-highest text-xs font-semibold hover:bg-surface-container-high transition-colors">
+                  Details
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function promptShiftTaskDate(taskId, currentDueDate) {
+      const newDueDate = prompt("Enter new task due date (YYYY-MM-DD):", currentDueDate);
+      if (!newDueDate || newDueDate === currentDueDate) return;
+
+      try {
+        const res = await fetch("/api/tasks/shift_due_date", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ task_id: taskId, new_due_date: newDueDate, cascade: true })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Date shift failed");
+        showToast("Task shifted and downstream dependencies recalculated!");
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
+      }
     }
 
     function renderKanban(tasks) {

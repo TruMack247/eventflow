@@ -181,6 +181,37 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
             except (BlockedTaskError, DependentTasksBlockReopenError, ValueError) as err:
                 return self.send_json(400, {"error": str(err)})
 
+        elif path == "/api/tasks/shift_due_date":
+            task_id = post_data.get("task_id")
+            new_due_date_str = post_data.get("new_due_date")
+            cascade = bool(post_data.get("cascade", True))
+
+            task = self.repo.get_task(task_id)
+            if not task:
+                return self.send_json(404, {"error": f"Task '{task_id}' not found"})
+
+            all_tasks = self.repo.get_tasks_for_event(task.event_id)
+            event = self.repo.get_event(task.event_id)
+            new_due_date = date.fromisoformat(new_due_date_str)
+
+            try:
+                updated_tasks = shift_task_due_date(
+                    all_tasks,
+                    task_id=task_id,
+                    new_due_date=new_due_date,
+                    cascade=cascade,
+                    max_boundary_date=event.date if event else None,
+                )
+                for t in updated_tasks:
+                    self.repo.save_task(t)
+
+                return self.send_json(200, {
+                    "success": True,
+                    "tasks": [t.model_dump() for t in updated_tasks],
+                })
+            except WorkflowError as err:
+                return self.send_json(400, {"error": str(err)})
+
         elif path == "/api/events" and length:
             name = post_data.get("name", "New Event")
             target_date_str = post_data.get("date")
