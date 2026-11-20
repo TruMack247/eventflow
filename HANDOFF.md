@@ -118,3 +118,16 @@
   - Used pytest fixtures with `:memory:` SQLite connections ensuring pristine isolated state per test.
 - **Next step**:
   - Implement Task P7: Add disk-based round-trip persistence tests verifying survival across closed/reopened connections.
+
+## 2026-11-20 (Task P7)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented disk-based round-trip test in [test_roundtrip_persistence.py](file:///d:/Business/Event%20Planner/tests/test_roundtrip_persistence.py).
+  - Confirmed data survival (events, templates, tasks with relative dates, and join table dependencies) when saving to an on-disk SQLite file, closing the connection, and reopening with a distinct repository instance.
+  - Ran pytest suite; all 27 tests pass.
+- **Half-done**:
+  - Phase 2 Persistence Layer fully completed.
+- **Decisions**:
+  - Validated that `tempfile.TemporaryDirectory` safely handles file creation, connection teardown, and clean removal on Windows.
+- **Next step**:
+  - Phase 2 complete. Ready for next phase (CLI interface, event lifecycle operations, or additional template engines).
