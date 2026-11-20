@@ -1,5 +1,6 @@
 # Tasks
 
+## Phase 1: Core Engine & Scaffolding
 - [x] Project setup & initial scaffolding (AGENTS.md, SPEC.md, TASKS.md, HANDOFF.md)
 - [x] Draft v1 data model in SPEC.md
 - [x] Task 1: Initialize Python project packaging (`pyproject.toml`, directory structure `src/event_planner`, and pytest config)
@@ -9,3 +10,13 @@
 - [x] Task 5: Build comprehensive test suite for models and dependency validator using pytest
 - [x] Task 6: Implement Template Loader & Event instantiation engine (resolving relative offsets and mapping dependency IDs)
 - [x] Task 7: Define wedding template blueprint and test end-to-end wedding event generation
+
+## Phase 2: Persistence Layer
+- [x] Task P0: Draft Persistence section in SPEC.md with schema, foreign keys, join table, and repository contract
+- [ ] Task P1: Define abstract repository protocol/interface in `src/event_planner/repository.py`
+- [ ] Task P2: Implement schema initialization and foreign key enforcement in `src/event_planner/sqlite_repository.py`
+- [ ] Task P3: Implement template persistence (`save_template`, `get_template`) in SQLite repository
+- [ ] Task P4: Implement atomic bundle persistence (`save_event_bundle`, transactions, join table `task_dependencies`)
+- [ ] Task P5: Implement query & deletion operations (`get_event`, `get_tasks_for_event`, `get_contacts_for_event`, `delete_event`, `save_task`, `get_task`)
+- [ ] Task P6: Add in-memory SQLite unit tests for all repository operations and edge cases in `tests/test_sqlite_repository.py`
+- [ ] Task P7: Add disk-based round-trip persistence tests verifying survival across closed/reopened connections
