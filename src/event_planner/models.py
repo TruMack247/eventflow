@@ -28,6 +28,8 @@ class Event(BaseModel):
     date: DateOrDatetime = Field(..., description="Event date")
     status: EventStatus = Field(default=EventStatus.DRAFT, description="Event lifecycle state")
     budget: Decimal = Field(..., ge=0, description="Total allocated budget")
+    partner_1_name: str = Field(default="Alex", description="Name of first partner / planner")
+    partner_2_name: str = Field(default="Jordan", description="Name of second partner / fiancée")
     template_id: Optional[str] = Field(default=None, description="Optional template reference")
 
     @field_validator("name")

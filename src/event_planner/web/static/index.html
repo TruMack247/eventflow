@@ -167,6 +167,10 @@
         </div>
       </div>
       <div class="flex items-center gap-3">
+        <button onclick="openEventSettingsModal()" class="px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/5 text-primary text-xs font-semibold hover:bg-primary/10 transition-colors flex items-center gap-1.5" title="Customize Couple Names, Budget & Date">
+          <span class="material-symbols-outlined text-sm">favorite</span>
+          <span>Our Wedding Settings</span>
+        </button>
         <button onclick="openNewEventModal()" class="bg-primary text-white font-semibold text-xs px-3.5 py-1.5 rounded-lg hover:bg-primary-container transition-colors flex items-center gap-1.5 shadow-sm">
           <span class="material-symbols-outlined text-base">add</span>
           <span>New Event</span>
@@ -266,22 +270,28 @@
 
           <!-- Partner Ownership Breakdown (Play 1) -->
           <div class="bg-surface-container-lowest rounded-2xl p-5 border border-surface-container-high/60 shadow-sm flex flex-col justify-between gap-3">
-            <div class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-primary text-xl">group</span>
-              <h3 class="text-base font-bold text-on-surface">Partner Ownership</h3>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-xl">group</span>
+                <h3 class="text-base font-bold text-on-surface">Partner Ownership</h3>
+              </div>
+              <button onclick="openEventSettingsModal()" class="text-xs text-primary font-semibold hover:underline flex items-center gap-0.5">
+                <span class="material-symbols-outlined text-xs">edit</span>
+                <span>Edit Names</span>
+              </button>
             </div>
             <div class="space-y-2.5">
               <div class="flex items-center justify-between p-2.5 rounded-xl bg-blue-50/70 border border-blue-200/60">
                 <div class="flex items-center gap-2">
-                  <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-[10px] flex items-center justify-center">A</span>
-                  <span class="text-xs font-bold text-blue-900">Alex</span>
+                  <span id="dashAvatarP1" class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-[10px] flex items-center justify-center">A</span>
+                  <span id="dashLabelP1" class="text-xs font-bold text-blue-900">Alex</span>
                 </div>
                 <span id="dashCountAlex" class="text-xs font-mono font-bold text-blue-800">0 tasks</span>
               </div>
               <div class="flex items-center justify-between p-2.5 rounded-xl bg-rose-50/70 border border-rose-200/60">
                 <div class="flex items-center gap-2">
-                  <span class="w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-[10px] flex items-center justify-center">J</span>
-                  <span class="text-xs font-bold text-rose-900">Jordan</span>
+                  <span id="dashAvatarP2" class="w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-[10px] flex items-center justify-center">J</span>
+                  <span id="dashLabelP2" class="text-xs font-bold text-rose-900">Jordan</span>
                 </div>
                 <span id="dashCountJordan" class="text-xs font-mono font-bold text-rose-800">0 tasks</span>
               </div>
@@ -344,8 +354,8 @@
             </div>
             <div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-surface-container-high/60">
               <button onclick="setAssigneeFilter('all')" id="assignee-filter-all" class="assignee-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-on-surface text-white">All Owners</button>
-              <button onclick="setAssigneeFilter('Alex')" id="assignee-filter-Alex" class="assignee-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-blue-700">Alex</button>
-              <button onclick="setAssigneeFilter('Jordan')" id="assignee-filter-Jordan" class="assignee-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-rose-700">Jordan</button>
+              <button onclick="setAssigneeFilter(state?.partner_names?.[0] || 'Alex')" id="assignee-filter-p1" class="assignee-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-blue-700">Alex</button>
+              <button onclick="setAssigneeFilter(state?.partner_names?.[1] || 'Jordan')" id="assignee-filter-p2" class="assignee-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-rose-700">Jordan</button>
               <button onclick="setAssigneeFilter('Both')" id="assignee-filter-Both" class="assignee-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-indigo-700">Both</button>
             </div>
           </div>
@@ -620,39 +630,107 @@
       <div class="px-6 py-4 border-b border-surface-container-high flex items-center justify-between bg-surface-container-low">
         <div class="flex items-center gap-2">
           <span class="w-6 h-6 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xs">1</span>
-          <h3 class="text-sm font-bold text-on-surface">Create New Event</h3>
+          <h3 class="text-sm font-bold text-on-surface">Start New Wedding Planning</h3>
         </div>
         <button onclick="closeNewEventModal()" class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-high">
           <span class="material-symbols-outlined text-lg">close</span>
         </button>
       </div>
       <form onsubmit="handleCreateEvent(event)" class="p-6 space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Partner 1 (You)</label>
+            <input required id="newPartner1" oninput="autoUpdateNewEventTitle()" placeholder="e.g. Chris" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary font-semibold"/>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Partner 2 (Fiancée)</label>
+            <input required id="newPartner2" oninput="autoUpdateNewEventTitle()" placeholder="e.g. Taylor" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary font-semibold"/>
+          </div>
+        </div>
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Event Name</label>
-          <input required id="newEventName" placeholder="e.g. Summer Tech Summit 2027" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary"/>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Wedding / Event Name</label>
+          <input required id="newEventName" placeholder="e.g. Chris &amp; Taylor's Wedding" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary"/>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Event Date</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Target Wedding Date</label>
             <input required type="date" id="newEventDate" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary"/>
           </div>
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Budget ($)</label>
-            <input required type="number" step="1000" id="newEventBudget" value="35000" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary"/>
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Target Budget ($)</label>
+            <input required type="number" step="1000" id="newEventBudget" value="40000" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary font-mono"/>
           </div>
         </div>
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Lifecycle Template Blueprint</label>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Milestone Lifecycle Blueprint</label>
           <select id="newEventTemplate" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary">
-            <option value="wedding_standard_v1">Standard Wedding Template (7 milestone tasks)</option>
+            <option value="wedding_standard_v1">Standard Wedding Template (Clean Milestones &amp; Sub-Checklists)</option>
           </select>
+        </div>
+        <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200/60 text-xs text-emerald-800 flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm text-emerald-600">verified</span>
+          <span>Instantiates pristine milestone checklists without any dummy expenses or fake links.</span>
         </div>
         <div class="pt-3 border-t border-surface-container-high flex justify-end gap-2">
           <button type="button" onclick="closeNewEventModal()" class="px-3 py-2 rounded-lg text-xs font-medium text-on-surface-variant hover:bg-surface-container-low">Cancel</button>
           <button type="submit" class="bg-primary text-white text-xs font-semibold px-4 py-2 rounded-lg hover:bg-primary-container shadow-sm flex items-center gap-1">
             <span class="material-symbols-outlined text-sm">rocket_launch</span>
-            <span>Instantiate Event</span>
+            <span>Create Our Wedding</span>
           </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EVENT SETTINGS MODAL (Couple Profile & Wedding Customizer) -->
+  <div id="eventSettingsModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest w-full max-w-lg rounded-2xl shadow-2xl border border-surface-container-high overflow-hidden flex flex-col">
+      <div class="px-6 py-4 border-b border-surface-container-high flex items-center justify-between bg-surface-container-low">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-xl">favorite</span>
+          <h3 class="text-sm font-bold text-on-surface">Couple Profile &amp; Wedding Settings</h3>
+        </div>
+        <button onclick="closeEventSettingsModal()" class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-high">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+      <form onsubmit="handleSaveEventSettings(event)" class="p-6 space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Partner 1 (You)</label>
+            <input required id="settingsPartner1" placeholder="e.g. Chris" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface font-semibold focus:outline-none focus:border-primary"/>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Partner 2 (Fiancée)</label>
+            <input required id="settingsPartner2" placeholder="e.g. Taylor" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface font-semibold focus:outline-none focus:border-primary"/>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Wedding / Event Title</label>
+          <input required id="settingsEventName" placeholder="e.g. Chris &amp; Taylor's Wedding" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary"/>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Wedding Date</label>
+            <input required type="date" id="settingsEventDate" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary"/>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Total Budget ($)</label>
+            <input required type="number" step="500" id="settingsEventBudget" class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface font-mono focus:outline-none focus:border-primary"/>
+          </div>
+        </div>
+        <div class="pt-3 border-t border-surface-container-high flex items-center justify-between">
+          <button type="button" onclick="handleDeleteCurrentEvent()" class="px-3 py-2 rounded-lg text-xs font-semibold text-rose-600 hover:bg-rose-50 flex items-center gap-1 border border-rose-200">
+            <span class="material-symbols-outlined text-sm">delete_forever</span>
+            <span>Delete This Event</span>
+          </button>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="closeEventSettingsModal()" class="px-3 py-2 rounded-lg text-xs font-medium text-on-surface-variant hover:bg-surface-container-low">Cancel</button>
+            <button type="submit" class="bg-primary text-white text-xs font-semibold px-4 py-2 rounded-lg hover:bg-primary-container shadow-sm flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">check</span>
+              <span>Save &amp; Apply</span>
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -816,11 +894,13 @@
     }
 
     function getAssigneeBadge(assignee) {
+      const p1 = state?.partner_names?.[0] || "Alex";
+      const p2 = state?.partner_names?.[1] || "Jordan";
       const a = assignee || "Both";
-      if (a === "Alex") {
-        return `<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>Alex</span>`;
-      } else if (a === "Jordan") {
-        return `<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>Jordan</span>`;
+      if (a === p1) {
+        return `<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>${p1}</span>`;
+      } else if (a === p2) {
+        return `<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>${p2}</span>`;
       } else {
         return `<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>Both</span>`;
       }
@@ -849,8 +929,41 @@
     }
 
     function render() {
-      if (!state) return;
+      if (!state || !state.event) {
+        document.getElementById("dashEventTitle").innerText = "No Event Selected";
+        document.getElementById("dashEventBadge").innerText = "START FRESH";
+        document.getElementById("dashEventDate").innerText = "Ready to plan";
+        document.getElementById("dashCountdown").innerText = "Set up your wedding date";
+        document.getElementById("dashBudgetText").innerText = "Budget: $0.00";
+        document.getElementById("dashTaskCount").innerText = "0 / 0";
+        document.getElementById("dashProgressPct").innerText = "0%";
+        document.getElementById("actionableCardsContainer").innerHTML = `
+          <div class="col-span-full py-12 text-center space-y-3 bg-surface-container-low rounded-2xl p-8 border border-dashed border-primary/40">
+            <span class="material-symbols-outlined text-4xl text-primary">favorite</span>
+            <h3 class="text-lg font-bold text-on-surface">Welcome to EventFlow!</h3>
+            <p class="text-xs text-on-surface-variant max-w-sm mx-auto">Start planning your dream wedding together with clean milestone checklists and real-time partner sync.</p>
+            <button onclick="openNewEventModal()" class="px-4 py-2.5 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-container shadow-sm inline-flex items-center gap-1.5 mt-2">
+              <span class="material-symbols-outlined text-sm">rocket_launch</span>
+              <span>Set Up Our Wedding</span>
+            </button>
+          </div>
+        `;
+        document.getElementById("dashContactsList").innerHTML = "";
+        return;
+      }
+
       const { event, days_remaining, total_tasks, completed_tasks, progress_percentage, tasks, actionable_tasks, contacts } = state;
+      const p1 = state.partner_names?.[0] || "Alex";
+      const p2 = state.partner_names?.[1] || "Jordan";
+
+      // Update persona dropdown in bottom-left footer
+      const personaSelect = document.getElementById("personaSelector");
+      if (personaSelect) {
+        personaSelect.innerHTML = `
+          <option value="${p1}" ${activePersona === p1 ? 'selected' : ''}>${p1} (Me)</option>
+          <option value="${p2}" ${activePersona === p2 ? 'selected' : ''}>${p2} (Partner)</option>
+        `;
+      }
 
       // Sidebar & Header Telemetry
       document.getElementById("sidebarEventDate").innerText = event.date;
@@ -901,9 +1014,26 @@
 
       // Partner Breakdown (Play 1)
       if (state.assignee_counts) {
-        document.getElementById("dashCountAlex").innerText = `${state.assignee_counts.Alex || 0} tasks`;
-        document.getElementById("dashCountJordan").innerText = `${state.assignee_counts.Jordan || 0} tasks`;
+        document.getElementById("dashLabelP1").innerText = p1;
+        document.getElementById("dashAvatarP1").innerText = p1.charAt(0).toUpperCase();
+        document.getElementById("dashCountAlex").innerText = `${state.assignee_counts[p1] || 0} tasks`;
+
+        document.getElementById("dashLabelP2").innerText = p2;
+        document.getElementById("dashAvatarP2").innerText = p2.charAt(0).toUpperCase();
+        document.getElementById("dashCountJordan").innerText = `${state.assignee_counts[p2] || 0} tasks`;
         document.getElementById("dashCountBoth").innerText = `${state.assignee_counts.Both || 0} tasks`;
+      }
+
+      // Update Kanban filter button labels
+      const filterP1 = document.getElementById("assignee-filter-p1");
+      const filterP2 = document.getElementById("assignee-filter-p2");
+      if (filterP1) {
+        filterP1.innerText = p1;
+        filterP1.onclick = () => setAssigneeFilter(p1);
+      }
+      if (filterP2) {
+        filterP2.innerText = p2;
+        filterP2.onclick = () => setAssigneeFilter(p2);
       }
 
       // Filtered actionable tasks
@@ -1294,19 +1424,30 @@
       if (!task) return;
       currentModalTaskId = taskId;
 
+      const p1 = state.partner_names?.[0] || "Alex";
+      const p2 = state.partner_names?.[1] || "Jordan";
+
       document.getElementById("modalTaskId").innerText = `ID: ${task.id.slice(0, 8)}`;
       document.getElementById("modalTaskCategory").innerText = (task.vendor_category || "GENERAL").toUpperCase();
       document.getElementById("modalTaskTitle").innerText = task.title;
       document.getElementById("modalTaskDueDate").innerText = task.due_date;
       document.getElementById("modalTaskStatus").innerText = task.status.toUpperCase();
 
+      const modalAssigneeSelect = document.getElementById("modalTaskAssignee");
+      if (modalAssigneeSelect) {
+        modalAssigneeSelect.innerHTML = `
+          <option value="${p1}">${p1}</option>
+          <option value="${p2}">${p2}</option>
+          <option value="Both">Both (Shared Collaboration)</option>
+        `;
+      }
       const assigneeVal = task.assignee || "Both";
-      document.getElementById("modalTaskAssignee").value = assigneeVal;
+      modalAssigneeSelect.value = assigneeVal;
       const badgeEl = document.getElementById("modalTaskAssigneeBadge");
       badgeEl.innerText = assigneeVal;
-      badgeEl.className = assigneeVal === "Alex" 
+      badgeEl.className = assigneeVal === p1
         ? "text-[10px] font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800"
-        : (assigneeVal === "Jordan" ? "text-[10px] font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-800" : "text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-800");
+        : (assigneeVal === p2 ? "text-[10px] font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-800" : "text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-800");
 
       // Costs & Balances (Play 2)
       document.getElementById("modalEstimatedCost").value = Number(task.estimated_cost || 0);
@@ -1372,6 +1513,81 @@
       document.getElementById("taskModalBackdrop").classList.add("hidden");
     }
 
+    function openEventSettingsModal() {
+      if (!state || !state.event) {
+        showToast("No active event to configure. Click New Event to create one.");
+        return;
+      }
+      const ev = state.event;
+      const p1 = state.partner_names?.[0] || "Alex";
+      const p2 = state.partner_names?.[1] || "Jordan";
+
+      document.getElementById("settingsPartner1").value = p1;
+      document.getElementById("settingsPartner2").value = p2;
+      document.getElementById("settingsEventName").value = ev.name;
+      document.getElementById("settingsEventDate").value = ev.date;
+      document.getElementById("settingsEventBudget").value = Number(ev.budget);
+
+      document.getElementById("eventSettingsModal").classList.remove("hidden");
+    }
+
+    function closeEventSettingsModal() {
+      document.getElementById("eventSettingsModal").classList.add("hidden");
+    }
+
+    async function handleSaveEventSettings(e) {
+      e.preventDefault();
+      if (!currentEventId) return;
+      const p1 = document.getElementById("settingsPartner1").value.trim();
+      const p2 = document.getElementById("settingsPartner2").value.trim();
+      const name = document.getElementById("settingsEventName").value.trim();
+      const date = document.getElementById("settingsEventDate").value;
+      const budget = parseFloat(document.getElementById("settingsEventBudget").value);
+
+      try {
+        const res = await fetch(`/api/events/${currentEventId}/settings`, {
+          method: "POST",
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ partner_1_name: p1, partner_2_name: p2, name, date, budget })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Failed to save settings");
+        showToast("Wedding settings updated!");
+        closeEventSettingsModal();
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    async function handleDeleteCurrentEvent() {
+      if (!confirm(`Are you sure you want to delete '${state?.event?.name || "this event"}'? This cannot be undone.`)) {
+        return;
+      }
+      try {
+        const res = await fetch(`/api/events/${currentEventId}/delete`, {
+          method: "POST",
+          headers: getAuthHeaders()
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Failed to delete event");
+        showToast("Event deleted.");
+        closeEventSettingsModal();
+        currentEventId = "";
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    function autoUpdateNewEventTitle() {
+      const p1 = document.getElementById("newPartner1").value.trim();
+      const p2 = document.getElementById("newPartner2").value.trim();
+      if (p1 && p2) {
+        document.getElementById("newEventName").value = `${p1} & ${p2}'s Wedding`;
+      }
+    }
+
     function openNewEventModal(preselectedTmpl = "") {
       const modal = document.getElementById("newEventModal");
       const dateInput = document.getElementById("newEventDate");
@@ -1394,16 +1610,25 @@
       const date = document.getElementById("newEventDate").value;
       const budget = document.getElementById("newEventBudget").value;
       const templateId = document.getElementById("newEventTemplate").value;
+      const p1 = document.getElementById("newPartner1")?.value.trim() || "Alex";
+      const p2 = document.getElementById("newPartner2")?.value.trim() || "Jordan";
 
       try {
         const res = await fetch("/api/events", {
           method: "POST",
           headers: getAuthHeaders(),
-          body: JSON.stringify({ name, date, budget, template_id: templateId })
+          body: JSON.stringify({
+            name,
+            date,
+            budget,
+            template_id: templateId,
+            partner_1_name: p1,
+            partner_2_name: p2
+          })
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Event creation failed");
-        showToast("New event instantiated from template!");
+        showToast("New wedding instantiated!");
         closeNewEventModal();
         currentEventId = data.event.id;
         refreshData();

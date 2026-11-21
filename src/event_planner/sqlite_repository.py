@@ -40,6 +40,8 @@ class SQLiteEventRepository(EventRepository):
         date TEXT NOT NULL,
         status TEXT NOT NULL CHECK (status IN ('draft', 'confirmed', 'completed', 'cancelled')),
         budget REAL NOT NULL CHECK (budget >= 0),
+        partner_1_name TEXT DEFAULT 'Alex',
+        partner_2_name TEXT DEFAULT 'Jordan',
         template_id TEXT,
         FOREIGN KEY (template_id) REFERENCES templates (id) ON DELETE SET NULL
     );
@@ -102,7 +104,7 @@ class SQLiteEventRepository(EventRepository):
         """Executes table creation DDL and applies incremental column migrations."""
         with self.conn:
             self.conn.executescript(self.SCHEMA_SQL)
-            # Automatic schema migration for existing databases
+            # Automatic schema migration for existing databases: tasks table
             cursor = self.conn.execute("PRAGMA table_info(tasks);")
             columns = {row["name"] for row in cursor.fetchall()}
             migrations = [
@@ -116,6 +118,14 @@ class SQLiteEventRepository(EventRepository):
             for col_name, alter_stmt in migrations:
                 if col_name not in columns:
                     self.conn.execute(alter_stmt)
+
+            # Automatic schema migration: events table
+            ev_cursor = self.conn.execute("PRAGMA table_info(events);")
+            ev_columns = {row["name"] for row in ev_cursor.fetchall()}
+            if "partner_1_name" not in ev_columns:
+                self.conn.execute("ALTER TABLE events ADD COLUMN partner_1_name TEXT DEFAULT 'Alex';")
+            if "partner_2_name" not in ev_columns:
+                self.conn.execute("ALTER TABLE events ADD COLUMN partner_2_name TEXT DEFAULT 'Jordan';")
 
     def close(self) -> None:
         """Closes the underlying SQLite connection if owned."""
@@ -192,13 +202,15 @@ class SQLiteEventRepository(EventRepository):
             # 1. Upsert event
             self.conn.execute(
                 """
-                INSERT INTO events (id, name, date, status, budget, template_id)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO events (id, name, date, status, budget, partner_1_name, partner_2_name, template_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(id) DO UPDATE SET
                     name = excluded.name,
                     date = excluded.date,
                     status = excluded.status,
                     budget = excluded.budget,
+                    partner_1_name = excluded.partner_1_name,
+                    partner_2_name = excluded.partner_2_name,
                     template_id = excluded.template_id;
                 """,
                 (
@@ -207,6 +219,8 @@ class SQLiteEventRepository(EventRepository):
                     event_date_str,
                     event.status.value,
                     float(event.budget),
+                    getattr(event, "partner_1_name", "Alex") or "Alex",
+                    getattr(event, "partner_2_name", "Jordan") or "Jordan",
                     event.template_id,
                 ),
             )
@@ -294,7 +308,7 @@ class SQLiteEventRepository(EventRepository):
         """Fetch an event by identifier."""
         cursor = self.conn.execute(
             """
-            SELECT id, name, date, status, budget, template_id
+            SELECT id, name, date, status, budget, partner_1_name, partner_2_name, template_id
             FROM events
             WHERE id = ?;
             """,
@@ -310,12 +324,17 @@ class SQLiteEventRepository(EventRepository):
             else datetime.fromisoformat(row["date"])
         )
 
+        p1 = row["partner_1_name"] if "partner_1_name" in row.keys() and row["partner_1_name"] else "Alex"
+        p2 = row["partner_2_name"] if "partner_2_name" in row.keys() and row["partner_2_name"] else "Jordan"
+
         return Event(
             id=row["id"],
             name=row["name"],
             date=event_date,
             status=EventStatus(row["status"]),
             budget=Decimal(str(row["budget"])),
+            partner_1_name=p1,
+            partner_2_name=p2,
             template_id=row["template_id"],
         )
 

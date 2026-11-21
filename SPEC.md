@@ -17,6 +17,8 @@ Represents a single planned event instance.
 | `date` | `date` / `datetime` | Required | Planned event date. |
 | `status` | `str` / `Enum` | Required, one of: `draft`, `confirmed`, `completed`, `cancelled` | Current lifecycle state. |
 | `budget` | `Decimal` / `float` | Required, $\ge 0$ | Total allocated budget. |
+| `partner_1_name` | `str` | Optional, default `"Alex"` | Name of primary partner / planner (e.g., `"Chris"`). |
+| `partner_2_name` | `str` | Optional, default `"Jordan"` | Name of co-partner / fiancée (e.g., `"Taylor"`). |
 | `template_id` | `Optional[str]` | Optional, references `Template.id` | Source template if generated from one. |
 
 ### 2. Task
@@ -98,6 +100,8 @@ CREATE TABLE IF NOT EXISTS events (
     date TEXT NOT NULL,
     status TEXT NOT NULL CHECK (status IN ('draft', 'confirmed', 'completed', 'cancelled')),
     budget REAL NOT NULL CHECK (budget >= 0),
+    partner_1_name TEXT DEFAULT 'Alex',
+    partner_2_name TEXT DEFAULT 'Jordan',
     template_id TEXT,
     FOREIGN KEY (template_id) REFERENCES templates (id) ON DELETE SET NULL
 );

@@ -150,14 +150,17 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
             total_paid = sum(t.paid_amount for t in tasks)
             remaining_balance = total_actual - total_paid
 
+            p1 = getattr(event, "partner_1_name", "Alex") or "Alex"
+            p2 = getattr(event, "partner_2_name", "Jordan") or "Jordan"
             assignee_counts = {
-                "Alex": sum(1 for t in tasks if t.assignee == "Alex"),
-                "Jordan": sum(1 for t in tasks if t.assignee == "Jordan"),
-                "Both": sum(1 for t in tasks if t.assignee in ("Both", "")),
+                p1: sum(1 for t in tasks if t.assignee == p1),
+                p2: sum(1 for t in tasks if t.assignee == p2),
+                "Both": sum(1 for t in tasks if t.assignee not in (p1, p2) or t.assignee in ("Both", "")),
             }
 
             overview_data = {
                 "event": event.model_dump(),
+                "partner_names": [p1, p2],
                 "days_remaining": days_remain,
                 "total_tasks": total_tasks,
                 "completed_tasks": completed_tasks,
@@ -268,6 +271,8 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
             name = post_data.get("name", "New Event")
             target_date_str = post_data.get("date")
             budget_val = post_data.get("budget", 25000.0)
+            p1_name = (post_data.get("partner_1_name") or "Alex").strip()
+            p2_name = (post_data.get("partner_2_name") or "Jordan").strip()
             template_id = post_data.get("template_id", "wedding_standard_v1")
 
             new_id = f"EVT-{int(datetime.now().timestamp()) % 100000:04d}"
@@ -280,11 +285,15 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
                 date=target_date,
                 status=EventStatus.CONFIRMED,
                 budget=Decimal(str(budget_val)),
+                partner_1_name=p1_name,
+                partner_2_name=p2_name,
                 template_id=template_id,
             )
 
             if template:
                 tasks = instantiate_event_from_template(new_event, template)
+                # Populate clean actionable steps without dummy financial amounts or fake links
+                create_clean_wedding_checklists(tasks, p1_name, p2_name)
             else:
                 tasks = []
 
@@ -293,9 +302,9 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
                 Contact(
                     id=f"cnt-{new_id}-1",
                     event_id=new_id,
-                    name="Elena Vance",
-                    email="elena.vance@eventflow.internal",
-                    role="Lead Coordinator",
+                    name=f"{p1_name} & {p2_name}",
+                    email=f"wedding@{p1_name.lower()}{p2_name.lower()}.internal",
+                    role="Host Couple",
                 )
             ]
 
@@ -305,6 +314,45 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
                 "event": new_event.model_dump(),
                 "tasks_count": len(tasks),
             })
+
+        elif path.startswith("/api/events/") and path.endswith("/settings"):
+            event_id = path.split("/")[3]
+            event = self.repo.get_event(event_id)
+            if not event:
+                return self.send_json(404, {"error": "Event not found"})
+
+            old_p1 = event.partner_1_name
+            old_p2 = event.partner_2_name
+
+            if "name" in post_data and post_data["name"].strip():
+                event.name = post_data["name"].strip()
+            if "budget" in post_data:
+                event.budget = Decimal(str(post_data["budget"]))
+            if "date" in post_data and post_data["date"].strip():
+                event.date = date.fromisoformat(post_data["date"].strip())
+            if "partner_1_name" in post_data and post_data["partner_1_name"].strip():
+                event.partner_1_name = post_data["partner_1_name"].strip()
+            if "partner_2_name" in post_data and post_data["partner_2_name"].strip():
+                event.partner_2_name = post_data["partner_2_name"].strip()
+
+            tasks = self.repo.get_tasks_for_event(event_id)
+            # Reassign tasks from old names to new names if changed
+            for t in tasks:
+                if t.assignee == old_p1:
+                    t.assignee = event.partner_1_name
+                    self.repo.save_task(t)
+                elif t.assignee == old_p2:
+                    t.assignee = event.partner_2_name
+                    self.repo.save_task(t)
+
+            contacts = self.repo.get_contacts_for_event(event_id)
+            self.repo.save_event_bundle(event, tasks, contacts)
+            return self.send_json(200, {"success": True, "event": event.model_dump()})
+
+        elif path.startswith("/api/events/") and path.endswith("/delete"):
+            event_id = path.split("/")[3]
+            deleted = self.repo.delete_event(event_id)
+            return self.send_json(200, {"success": deleted})
 
         elif path.startswith("/api/events/") and path.endswith("/reschedule"):
             event_id = path.split("/")[3]
@@ -389,6 +437,18 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
 
         return self.send_json(404, {"error": "Endpoint not found"})
 
+    def do_DELETE(self):
+        parsed = urlparse(self.path)
+        path = parsed.path
+        if path.startswith("/api/"):
+            if not self.check_auth():
+                return self.send_unauthorized()
+        if path.startswith("/api/events/"):
+            event_id = path.split("/")[3]
+            deleted = self.repo.delete_event(event_id)
+            return self.send_json(200, {"success": deleted})
+        return self.send_json(404, {"error": "Endpoint not found"})
+
     def serve_static_file(self, req_path: str):
         if req_path in ("", "/"):
             req_path = "/index.html"
@@ -424,6 +484,60 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
             self.wfile.write(content)
         except Exception as e:
             self.send_error(500, f"Error reading file: {str(e)}")
+
+
+def create_clean_wedding_checklists(tasks: List[Task], p1: str, p2: str) -> None:
+    for t in tasks:
+        low = t.title.lower()
+        t.estimated_cost = Decimal("0.00")
+        t.actual_cost = Decimal("0.00")
+        t.paid_amount = Decimal("0.00")
+        t.notes = ""
+        if "budget" in low:
+            t.assignee = "Both"
+            t.checklist = [
+                ChecklistItem(id="chk-b1", text="Draft initial guest count", completed=False),
+                ChecklistItem(id="chk-b2", text="Agree on total budget ceiling", completed=False),
+            ]
+        elif "venue" in low:
+            t.assignee = p1
+            t.checklist = [
+                ChecklistItem(id="chk-v1", text="Tour top 3 potential venues", completed=False),
+                ChecklistItem(id="chk-v2", text="Review catering & noise policies", completed=False),
+                ChecklistItem(id="chk-v3", text="Sign contract & submit deposit", completed=False),
+            ]
+        elif "photo" in low:
+            t.assignee = p2
+            t.checklist = [
+                ChecklistItem(id="chk-p1", text="Review photographer portfolios", completed=False),
+                ChecklistItem(id="chk-p2", text="Schedule video interview", completed=False),
+                ChecklistItem(id="chk-p3", text="Confirm shot list & family photos", completed=False),
+            ]
+        elif "catering" in low:
+            t.assignee = p1
+            t.checklist = [
+                ChecklistItem(id="chk-c1", text="Attend menu tasting", completed=False),
+                ChecklistItem(id="chk-c2", text="Finalize bar package & drinks", completed=False),
+            ]
+        elif "invitation" in low:
+            t.assignee = p2
+            t.checklist = [
+                ChecklistItem(id="chk-i1", text="Collect mailing addresses", completed=False),
+                ChecklistItem(id="chk-i2", text="Order invitation suite", completed=False),
+                ChecklistItem(id="chk-i3", text="Mail invites & track RSVPs", completed=False),
+            ]
+        elif "seating" in low:
+            t.assignee = "Both"
+            t.checklist = [
+                ChecklistItem(id="chk-s1", text="Confirm final RSVP count", completed=False),
+                ChecklistItem(id="chk-s2", text="Draft table seating arrangement", completed=False),
+            ]
+        elif "rehearsal" in low:
+            t.assignee = "Both"
+            t.checklist = [
+                ChecklistItem(id="chk-r1", text="Confirm officiant & wedding party", completed=False),
+                ChecklistItem(id="chk-r2", text="Schedule rehearsal dinner", completed=False),
+            ]
 
 
 def populate_demo_task_details(tasks: List[Task]) -> None:
