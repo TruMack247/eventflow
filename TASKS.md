@@ -29,8 +29,17 @@
 - [x] Task W4: Add comprehensive unit tests in `tests/test_workflow.py` for gating, ready tasks, and cascading reschedules
 - [x] Task W5: Add integration tests connecting workflow engine with SQLite repository in `tests/test_workflow_persistence_integration.py`
 
-## Phase 4: Stitch UI Integration
+## Phase 4: Stitch UI Integration & Interactive Fixes
 - [x] Task U1: Import Stitch export layout and assets from `stitch_eventflow_planning_engine`
 - [x] Task U2: Build storage-agnostic live web server and API layer in `src/event_planner/web/server.py`
 - [x] Task U3: Connect Stitch Dashboard, Actionable Hero, Kanban board, and Templates views to SQLite persistence and workflow engine
 - [x] Task U4: Live browser verification of rendered UI and interactive state transitions at `http://127.0.0.1:8080`
+- [x] Task U5: Add interactive Timeline & Directed Dependencies view with date cascade shifting
+
+## Phase 5: Cloud Deployment & Shared Partner Access
+- [x] Task C0: Draft Cloud Deployment & Shared Access Specification in SPEC.md
+- [ ] Task C1: Update `server.py` with environment variable configuration (`PORT`, `HOST`, `DATABASE_PATH`, `APP_PASSCODE`) and auth checks
+- [ ] Task C2: Add partner switcher ("Me" / "Partner") and optional passcode gate to UI in `index.html`
+- [ ] Task C3: Create production containerization (`Dockerfile`, `.dockerignore`)
+- [ ] Task C4: Create cloud deployment blueprints (`render.yaml` with persistent disk volume) and quick-start deploy guide
+- [ ] Task C5: Verify container build and test automated cloud deployment configurations
