@@ -233,3 +233,21 @@
   - Used standard library `http.server` to serve both JSON API endpoints and static assets without requiring extra frameworks like Flask or FastAPI.
 - **Next step**:
   - Ready for user feedback, additional template blueprints, or advanced timeline drag-and-drop features.
+
+## 2026-11-21 (Task C1)
+- **Agent**: Antigravity
+- **Finished**:
+  - Updated [server.py](file:///d:/Business/Event%20Planner/src/event_planner/web/server.py) with dynamic environment configuration:
+    - `PORT` (defaults to 8080 or cloud platform port)
+    - `HOST` (binds to `0.0.0.0` for cloud container hosting)
+    - `DATABASE_PATH` (defaults to persistent mount path e.g. `/data/event_planner.db` or local file)
+    - `APP_PASSCODE` (optional wedding passcode gate protecting APIs with `X-App-Passcode` headers)
+  - Implemented `/api/auth/status` and `/api/auth/verify` endpoints.
+  - Ensured auto-creation of parent database volume directories.
+  - Ran pytest suite; all 38 tests pass.
+- **Half-done**:
+  - Task C2 (Partner switcher and passcode gate modal in UI).
+- **Decisions**:
+  - Decoupled server listening port and host from hardcoded `127.0.0.1` so cloud platforms like Render or Fly can bind correctly.
+- **Next step**:
+  - Implement Task C2: Add partner switcher ("Me" / "Partner") and optional passcode gate to UI in `index.html`.

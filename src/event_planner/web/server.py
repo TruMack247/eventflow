@@ -28,7 +28,8 @@ from event_planner.workflow import (
 )
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
-DB_PATH = Path("event_planner.db")
+DB_PATH = Path(os.environ.get("DATABASE_PATH", "event_planner.db"))
+APP_PASSCODE = os.environ.get("APP_PASSCODE", "").strip()
 
 
 def decimal_and_date_serializer(obj: Any) -> Any:
@@ -68,10 +69,30 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
 
+    def check_auth(self) -> bool:
+        """Validates optional shared wedding passcode when APP_PASSCODE is set."""
+        if not APP_PASSCODE:
+            return True
+        header_passcode = self.headers.get("X-App-Passcode", "")
+        return header_passcode == APP_PASSCODE
+
+    def send_unauthorized(self):
+        self.send_json(401, {"error": "Unauthorized. Please provide valid shared wedding passcode."})
+
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path
         query = parse_qs(parsed.query)
+
+        if path == "/api/auth/status":
+            return self.send_json(200, {
+                "auth_required": bool(APP_PASSCODE),
+                "authenticated": self.check_auth() if APP_PASSCODE else True,
+            })
+
+        if path.startswith("/api/"):
+            if not self.check_auth():
+                return self.send_unauthorized()
 
         # API Endpoints
         if path == "/api/events":
@@ -149,6 +170,16 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
         path = parsed.path
         length = int(self.headers.get("Content-Length", 0))
         post_data = json.loads(self.rfile.read(length).decode("utf-8")) if length else {}
+
+        if path == "/api/auth/verify":
+            candidate = post_data.get("passcode", "").strip()
+            if not APP_PASSCODE or candidate == APP_PASSCODE:
+                return self.send_json(200, {"success": True, "authenticated": True})
+            return self.send_json(401, {"success": False, "error": "Invalid passcode"})
+
+        if path.startswith("/api/"):
+            if not self.check_auth():
+                return self.send_unauthorized()
 
         if path == "/api/tasks/transition":
             task_id = post_data.get("task_id")
@@ -364,12 +395,19 @@ def init_demo_database(repo: SQLiteEventRepository) -> str:
         return cursor.fetchone()["id"]
 
 
-def run_server(port: int = 8080):
+def run_server():
+    port = int(os.environ.get("PORT", 8080))
+    host = os.environ.get("HOST", "0.0.0.0")
+
+    # Ensure parent directory for database exists (especially on cloud volumes like /data)
+    if DB_PATH.parent:
+        DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
     repo = SQLiteEventRepository(str(DB_PATH))
     init_demo_database(repo)
     EventFlowAPIHandler.set_repo(repo)
-    server = HTTPServer(("127.0.0.1", port), EventFlowAPIHandler)
-    print(f"EventFlow UI server running at http://127.0.0.1:{port}")
+    server = HTTPServer((host, port), EventFlowAPIHandler)
+    print(f"EventFlow UI server running at http://{host}:{port} (DB: {DB_PATH}, Auth: {'Required' if APP_PASSCODE else 'Open'})")
     server.serve_forever()
 
 

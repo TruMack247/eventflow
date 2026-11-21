@@ -38,7 +38,7 @@
 
 ## Phase 5: Cloud Deployment & Shared Partner Access
 - [x] Task C0: Draft Cloud Deployment & Shared Access Specification in SPEC.md
-- [ ] Task C1: Update `server.py` with environment variable configuration (`PORT`, `HOST`, `DATABASE_PATH`, `APP_PASSCODE`) and auth checks
+- [x] Task C1: Update `server.py` with environment variable configuration (`PORT`, `HOST`, `DATABASE_PATH`, `APP_PASSCODE`) and auth checks
 - [ ] Task C2: Add partner switcher ("Me" / "Partner") and optional passcode gate to UI in `index.html`
 - [ ] Task C3: Create production containerization (`Dockerfile`, `.dockerignore`)
 - [ ] Task C4: Create cloud deployment blueprints (`render.yaml` with persistent disk volume) and quick-start deploy guide
