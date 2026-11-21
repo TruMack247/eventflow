@@ -265,3 +265,17 @@
   - Used browser `localStorage` for persona selection and passcode storage to avoid session dropouts or annoying repeated credential prompts.
 - **Next step**:
   - Implement Task C3: Create production containerization (`Dockerfile`, `.dockerignore`).
+
+## 2026-11-21 (Task C3)
+- **Agent**: Antigravity
+- **Finished**:
+  - Authored production [Dockerfile](file:///d:/Business/Event%20Planner/Dockerfile) using `python:3.11-slim`.
+  - Configured persistent mount point `/data` for `DATABASE_PATH=/data/event_planner.db`.
+  - Added [.dockerignore](file:///d:/Business/Event%20Planner/.dockerignore) to prevent caching local databases and artifacts into container layers.
+  - Ran pytest suite; all 38 tests pass.
+- **Half-done**:
+  - Task C4 (Cloud deployment blueprints `render.yaml` & quick-start guide).
+- **Decisions**:
+  - Pinned python:3.11-slim for minimal container footprint (~100MB) without external system dependencies.
+- **Next step**:
+  - Implement Task C4: Create cloud deployment blueprints (`render.yaml` with persistent disk volume) and quick-start deploy guide.
