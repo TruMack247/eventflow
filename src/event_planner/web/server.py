@@ -6,14 +6,15 @@ Uses Python standard library http.server (no external web framework required).
 import json
 import mimetypes
 import os
-from datetime import date, datetime
+import uuid
+from datetime import date, datetime, timedelta
 from decimal import Decimal
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from urllib.parse import urlparse, parse_qs
 
-from event_planner.models import Event, EventStatus, Task, TaskStatus, Contact
+from event_planner.models import Event, EventStatus, Task, TaskStatus, Contact, ChecklistItem
 from event_planner.templates import get_wedding_template
 from event_planner.engine import instantiate_event_from_template
 from event_planner.sqlite_repository import SQLiteEventRepository
@@ -144,12 +145,32 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
             completed_tasks = sum(1 for t in tasks if t.status == TaskStatus.DONE)
             progress_pct = round((completed_tasks / total_tasks * 100), 1) if total_tasks else 0.0
 
+            total_estimated = sum(t.estimated_cost for t in tasks)
+            total_actual = sum(t.actual_cost for t in tasks)
+            total_paid = sum(t.paid_amount for t in tasks)
+            remaining_balance = total_actual - total_paid
+
+            assignee_counts = {
+                "Alex": sum(1 for t in tasks if t.assignee == "Alex"),
+                "Jordan": sum(1 for t in tasks if t.assignee == "Jordan"),
+                "Both": sum(1 for t in tasks if t.assignee in ("Both", "")),
+            }
+
             overview_data = {
                 "event": event.model_dump(),
                 "days_remaining": days_remain,
                 "total_tasks": total_tasks,
                 "completed_tasks": completed_tasks,
                 "progress_percentage": progress_pct,
+                "budget_metrics": {
+                    "total_budget": float(event.budget),
+                    "total_estimated": float(total_estimated),
+                    "total_actual": float(total_actual),
+                    "total_paid": float(total_paid),
+                    "remaining_balance": float(remaining_balance),
+                    "budget_variance": float(event.budget - total_actual),
+                },
+                "assignee_counts": assignee_counts,
                 "tasks": categorized_tasks,
                 "actionable_tasks": [t.model_dump() for t in actionable],
                 "contacts": [c.model_dump() for c in contacts],
@@ -305,6 +326,67 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
                 "tasks": [t.model_dump() for t in updated_tasks],
             })
 
+        elif path == "/api/tasks/checklist/toggle":
+            task_id = post_data.get("task_id")
+            item_id = post_data.get("item_id")
+            forced_state = post_data.get("completed")
+
+            task = self.repo.get_task(task_id)
+            if not task:
+                return self.send_json(404, {"error": f"Task '{task_id}' not found"})
+
+            found = False
+            for item in task.checklist:
+                if item.id == item_id:
+                    item.completed = (not item.completed) if forced_state is None else bool(forced_state)
+                    found = True
+                    break
+
+            if not found:
+                return self.send_json(404, {"error": f"Checklist item '{item_id}' not found"})
+
+            self.repo.save_task(task)
+            return self.send_json(200, {"success": True, "task": task.model_dump()})
+
+        elif path == "/api/tasks/checklist/add":
+            task_id = post_data.get("task_id")
+            text = (post_data.get("text") or "").strip()
+            if not text:
+                return self.send_json(400, {"error": "Checklist item text cannot be empty"})
+
+            task = self.repo.get_task(task_id)
+            if not task:
+                return self.send_json(404, {"error": f"Task '{task_id}' not found"})
+
+            new_item_id = f"chk-{uuid.uuid4().hex[:8]}"
+            new_item = ChecklistItem(id=new_item_id, text=text, completed=False)
+            task.checklist.append(new_item)
+
+            self.repo.save_task(task)
+            return self.send_json(200, {"success": True, "task": task.model_dump(), "item": new_item.model_dump()})
+
+        elif path == "/api/tasks/update_details":
+            task_id = post_data.get("task_id")
+            task = self.repo.get_task(task_id)
+            if not task:
+                return self.send_json(404, {"error": f"Task '{task_id}' not found"})
+
+            if "assignee" in post_data:
+                task.assignee = str(post_data["assignee"])
+            if "notes" in post_data:
+                task.notes = str(post_data["notes"])
+            if "estimated_cost" in post_data:
+                task.estimated_cost = Decimal(str(post_data["estimated_cost"] or 0.0))
+            if "actual_cost" in post_data:
+                task.actual_cost = Decimal(str(post_data["actual_cost"] or 0.0))
+            if "paid_amount" in post_data:
+                task.paid_amount = Decimal(str(post_data["paid_amount"] or 0.0))
+            if "title" in post_data and post_data["title"].strip():
+                task.title = post_data["title"].strip()
+
+            self.repo.save_task(task)
+            return self.send_json(200, {"success": True, "task": task.model_dump()})
+
         return self.send_json(404, {"error": "Endpoint not found"})
 
     def serve_static_file(self, req_path: str):
@@ -344,6 +426,93 @@ class EventFlowAPIHandler(BaseHTTPRequestHandler):
             self.send_error(500, f"Error reading file: {str(e)}")
 
 
+def populate_demo_task_details(tasks: List[Task]) -> None:
+    for t in tasks:
+        low = t.title.lower()
+        if "budget" in low:
+            t.assignee = "Both"
+            t.estimated_cost = Decimal("0.00")
+            t.actual_cost = Decimal("0.00")
+            t.paid_amount = Decimal("0.00")
+            t.notes = "Shared wedding budget spreadsheet: https://docs.google.com/spreadsheets/d/wedding-budget"
+            if not t.checklist:
+                t.checklist = [
+                    ChecklistItem(id="chk-b1", text="Draft initial guest count", completed=True),
+                    ChecklistItem(id="chk-b2", text="Set $50,000 maximum budget ceiling", completed=True),
+                ]
+        elif "venue" in low:
+            t.assignee = "Alex"
+            t.estimated_cost = Decimal("18000.00")
+            t.actual_cost = Decimal("17500.00")
+            t.paid_amount = Decimal("5000.00")
+            t.notes = "Grand Palace Ballroom booked. Contact: Marcus Sterling (marcus@grandpalacevenue.com). Portal: https://grandpalacevenue.com/client-hub"
+            if not t.checklist:
+                t.checklist = [
+                    ChecklistItem(id="chk-v1", text="Tour top 3 downtown venues", completed=True),
+                    ChecklistItem(id="chk-v2", text="Review insurance & sound ordinances", completed=True),
+                    ChecklistItem(id="chk-v3", text="Sign contract & send deposit", completed=True),
+                    ChecklistItem(id="chk-v4", text="Final walkthrough & layout approval", completed=False),
+                ]
+        elif "photo" in low:
+            t.assignee = "Jordan"
+            t.estimated_cost = Decimal("4500.00")
+            t.actual_cost = Decimal("4200.00")
+            t.paid_amount = Decimal("1500.00")
+            t.notes = "Lumiere Studios portfolio: https://lumierestudios.co/weddings. 8-hour photography package + drone coverage."
+            if not t.checklist:
+                t.checklist = [
+                    ChecklistItem(id="chk-p1", text="Review photographer portfolios", completed=True),
+                    ChecklistItem(id="chk-p2", text="Introductory video call with studio", completed=True),
+                    ChecklistItem(id="chk-p3", text="Confirm shot list & family combinations", completed=False),
+                ]
+        elif "catering" in low:
+            t.assignee = "Alex"
+            t.estimated_cost = Decimal("12000.00")
+            t.actual_cost = Decimal("11500.00")
+            t.paid_amount = Decimal("3000.00")
+            t.notes = "Artisan Food SF contract signed. Contact: Jules Reed (jules@artisanfoodsf.com). Menu PDF: https://artisanfoodsf.com/proposals/evt-9284.pdf"
+            if not t.checklist:
+                t.checklist = [
+                    ChecklistItem(id="chk-c1", text="Collect guest dietary restrictions", completed=True),
+                    ChecklistItem(id="chk-c2", text="Chef tasting session (3 courses)", completed=False),
+                    ChecklistItem(id="chk-c3", text="Finalize bar package & champagne toast", completed=False),
+                ]
+        elif "invitation" in low:
+            t.assignee = "Jordan"
+            t.estimated_cost = Decimal("1200.00")
+            t.actual_cost = Decimal("1100.00")
+            t.paid_amount = Decimal("500.00")
+            t.notes = "Minted suite design: https://minted.com/design/782391. Proofs approved."
+            if not t.checklist:
+                t.checklist = [
+                    ChecklistItem(id="chk-i1", text="Gather physical mailing addresses", completed=True),
+                    ChecklistItem(id="chk-i2", text="Proofread text and RSVP deadlines", completed=True),
+                    ChecklistItem(id="chk-i3", text="Post and mail invitations", completed=False),
+                ]
+        elif "seating" in low:
+            t.assignee = "Both"
+            t.estimated_cost = Decimal("300.00")
+            t.actual_cost = Decimal("250.00")
+            t.paid_amount = Decimal("0.00")
+            t.notes = "Floorplan editor: https://allseated.com/floorplans/evt-9284"
+            if not t.checklist:
+                t.checklist = [
+                    ChecklistItem(id="chk-s1", text="Confirm total table count with venue", completed=False),
+                    ChecklistItem(id="chk-s2", text="Assign VIP tables & wedding party", completed=False),
+                ]
+        elif "rehearsal" in low:
+            t.assignee = "Both"
+            t.estimated_cost = Decimal("800.00")
+            t.actual_cost = Decimal("750.00")
+            t.paid_amount = Decimal("0.00")
+            t.notes = "Rehearsal 4:30 PM Friday before wedding. Rehearsal dinner at Luigi's Trattoria."
+            if not t.checklist:
+                t.checklist = [
+                    ChecklistItem(id="chk-r1", text="Confirm officiant schedule", completed=False),
+                    ChecklistItem(id="chk-r2", text="Share rehearsal dinner timeline with party", completed=False),
+                ]
+
+
 def init_demo_database(repo: SQLiteEventRepository) -> str:
     """Initializes standard wedding template and demo event if empty."""
     wedding_tmpl = get_wedding_template()
@@ -364,6 +533,8 @@ def init_demo_database(repo: SQLiteEventRepository) -> str:
         # Set budget task to DONE to have realistic initial actionable state
         budget_task = next(t for t in tasks if "budget" in t.title.lower())
         budget_task.status = TaskStatus.DONE
+
+        populate_demo_task_details(tasks)
 
         contacts = [
             Contact(
@@ -392,7 +563,14 @@ def init_demo_database(repo: SQLiteEventRepository) -> str:
         return event.id
     else:
         cursor.execute("SELECT id FROM events LIMIT 1;")
-        return cursor.fetchone()["id"]
+        first_event_id = cursor.fetchone()["id"]
+        # Upgrade any existing tasks without checklist or assignee
+        existing_tasks = repo.get_tasks_for_event(first_event_id)
+        if any(not t.checklist for t in existing_tasks):
+            populate_demo_task_details(existing_tasks)
+            for t in existing_tasks:
+                repo.save_task(t)
+        return first_event_id
 
 
 def run_server():

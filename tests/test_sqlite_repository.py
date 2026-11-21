@@ -4,7 +4,16 @@ from decimal import Decimal
 import sqlite3
 import pytest
 
-from event_planner.models import Event, EventStatus, Task, TaskStatus, Contact, Template, TemplateTask
+from event_planner.models import (
+    ChecklistItem,
+    Contact,
+    Event,
+    EventStatus,
+    Task,
+    TaskStatus,
+    Template,
+    TemplateTask,
+)
 from event_planner.sqlite_repository import SQLiteEventRepository
 
 
@@ -184,3 +193,93 @@ def test_save_and_update_single_task(repo):
     assert fetched.title == "Second Task (Updated)"
     assert fetched.status == TaskStatus.IN_PROGRESS
     assert fetched.depends_on == ["t-edit-1"]
+
+
+def test_task_extended_fields_persistence(repo):
+    event = Event(
+        id="evt-ext",
+        name="Extended Fields Event",
+        date=date(2027, 9, 20),
+        budget=Decimal("25000.00"),
+    )
+    t = Task(
+        id="t-ext-1",
+        event_id="evt-ext",
+        title="Florist Consultation",
+        due_date=date(2027, 5, 10),
+        status=TaskStatus.IN_PROGRESS,
+        assignee="Jordan",
+        notes="Mood board: https://pinterest.com/wedding-florals",
+        estimated_cost=Decimal("2200.00"),
+        actual_cost=Decimal("2050.00"),
+        paid_amount=Decimal("1000.00"),
+        checklist=[
+            ChecklistItem(id="chk-1", text="Select centerpiece flowers", completed=True),
+            ChecklistItem(id="chk-2", text="Confirm delivery time", completed=False),
+        ],
+    )
+    repo.save_event_bundle(event, [t])
+
+    # Test get_task
+    fetched = repo.get_task("t-ext-1")
+    assert fetched is not None
+    assert fetched.assignee == "Jordan"
+    assert "https://pinterest.com" in fetched.notes
+    assert fetched.estimated_cost == Decimal("2200.00")
+    assert fetched.actual_cost == Decimal("2050.00")
+    assert fetched.paid_amount == Decimal("1000.00")
+    assert len(fetched.checklist) == 2
+    assert fetched.checklist[0].text == "Select centerpiece flowers"
+    assert fetched.checklist[0].completed is True
+    assert fetched.checklist[1].completed is False
+
+    # Test get_tasks_for_event
+    all_tasks = repo.get_tasks_for_event("evt-ext")
+    assert len(all_tasks) == 1
+    assert all_tasks[0].assignee == "Jordan"
+    assert len(all_tasks[0].checklist) == 2
+
+    # Test update via save_task
+    fetched.checklist[1].completed = True
+    fetched.paid_amount = Decimal("2050.00")
+    fetched.status = TaskStatus.DONE
+    repo.save_task(fetched)
+
+    updated = repo.get_task("t-ext-1")
+    assert updated.status == TaskStatus.DONE
+    assert updated.paid_amount == Decimal("2050.00")
+    assert updated.checklist[1].completed is True
+
+
+def test_sqlite_schema_auto_migration(tmp_path):
+    db_file = str(tmp_path / "legacy.db")
+    # Simulate legacy table without new columns
+    conn = sqlite3.connect(db_file)
+    conn.execute("""
+        CREATE TABLE tasks (
+            id TEXT PRIMARY KEY,
+            event_id TEXT NOT NULL,
+            title TEXT NOT NULL,
+            due_date TEXT NOT NULL,
+            status TEXT NOT NULL,
+            vendor_category TEXT
+        );
+    """)
+    conn.execute("""
+        INSERT INTO tasks (id, event_id, title, due_date, status, vendor_category)
+        VALUES ('t-legacy', 'evt-1', 'Legacy Task', '2027-01-01', 'todo', 'catering');
+    """)
+    conn.commit()
+    conn.close()
+
+    # Now open with SQLiteEventRepository, which should run migrations safely
+    repo = SQLiteEventRepository(db_file)
+    t = repo.get_task("t-legacy")
+    assert t is not None
+    assert t.title == "Legacy Task"
+    assert t.assignee == "Both"
+    assert t.notes == ""
+    assert t.estimated_cost == Decimal("0.00")
+    assert t.checklist == []
+    repo.close()
+

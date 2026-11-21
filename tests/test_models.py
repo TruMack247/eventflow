@@ -5,11 +5,12 @@ import pytest
 from pydantic import ValidationError
 
 from event_planner.models import (
+    ChecklistItem,
+    Contact,
     Event,
     EventStatus,
     Task,
     TaskStatus,
-    Contact,
     Template,
     TemplateTask,
 )
@@ -121,3 +122,29 @@ def test_create_template_with_tasks():
     )
     assert len(template.default_tasks) == 2
     assert template.default_tasks[1].depends_on == ["t-1"]
+
+
+def test_task_extended_fields_and_checklist():
+    checklist_item = ChecklistItem(id="chk-1", text="Review contract clauses", completed=False)
+    task = Task(
+        id="tsk-exp-1",
+        event_id="evt-1",
+        title="Hire DJ & Lighting",
+        due_date=date(2027, 4, 1),
+        status=TaskStatus.TODO,
+        assignee="Alex",
+        notes="DJ website: https://partybeats.com - contract in Drive",
+        estimated_cost=Decimal("1500.00"),
+        actual_cost=Decimal("1400.00"),
+        paid_amount=Decimal("500.00"),
+        checklist=[checklist_item],
+    )
+    assert task.assignee == "Alex"
+    assert "https://partybeats.com" in task.notes
+    assert task.estimated_cost == Decimal("1500.00")
+    assert task.actual_cost == Decimal("1400.00")
+    assert task.paid_amount == Decimal("500.00")
+    assert len(task.checklist) == 1
+    assert task.checklist[0].text == "Review contract clauses"
+    assert not task.checklist[0].completed
+

@@ -38,6 +38,12 @@ class Event(BaseModel):
         return v.strip()
 
 
+class ChecklistItem(BaseModel):
+    id: str = Field(..., min_length=1, description="Sub-checklist item identifier")
+    text: str = Field(..., min_length=1, description="Actionable item text")
+    completed: bool = Field(default=False, description="Completion status")
+
+
 class Task(BaseModel):
     id: str = Field(..., min_length=1, description="Primary identifier")
     event_id: str = Field(..., min_length=1, description="Associated event identifier")
@@ -46,6 +52,12 @@ class Task(BaseModel):
     status: TaskStatus = Field(default=TaskStatus.TODO, description="Task status")
     depends_on: List[str] = Field(default_factory=list, description="IDs of prerequisite tasks")
     vendor_category: Optional[str] = Field(default=None, description="Optional vendor category tag")
+    assignee: str = Field(default="Both", description="Task owner: Alex, Jordan, or Both")
+    notes: str = Field(default="", description="Detailed notes, contract links, portfolio URLs")
+    estimated_cost: Decimal = Field(default=Decimal("0.00"), ge=0, description="Estimated budget allocation")
+    actual_cost: Decimal = Field(default=Decimal("0.00"), ge=0, description="Contracted or invoiced amount")
+    paid_amount: Decimal = Field(default=Decimal("0.00"), ge=0, description="Amount paid to date")
+    checklist: List[ChecklistItem] = Field(default_factory=list, description="Actionable sub-checklist items")
 
     @field_validator("title")
     @classmethod

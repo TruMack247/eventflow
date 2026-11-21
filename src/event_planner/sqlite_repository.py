@@ -6,6 +6,7 @@ from decimal import Decimal
 from typing import List, Optional, Union
 
 from event_planner.models import (
+    ChecklistItem,
     Contact,
     Event,
     EventStatus,
@@ -50,6 +51,12 @@ class SQLiteEventRepository(EventRepository):
         due_date TEXT NOT NULL,
         status TEXT NOT NULL CHECK (status IN ('todo', 'in_progress', 'done')),
         vendor_category TEXT,
+        assignee TEXT DEFAULT 'Both',
+        notes TEXT DEFAULT '',
+        estimated_cost REAL DEFAULT 0.0,
+        actual_cost REAL DEFAULT 0.0,
+        paid_amount REAL DEFAULT 0.0,
+        checklist_json TEXT DEFAULT '[]',
         FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
     );
 
@@ -80,7 +87,7 @@ class SQLiteEventRepository(EventRepository):
             self.conn = connection_or_path
             self._should_close = False
         else:
-            self.conn = sqlite3.connect(connection_or_path)
+            self.conn = sqlite3.connect(connection_or_path, check_same_thread=False)
             self._should_close = True
 
         self.conn.row_factory = sqlite3.Row
@@ -92,9 +99,23 @@ class SQLiteEventRepository(EventRepository):
         self.conn.execute("PRAGMA foreign_keys = ON;")
 
     def _init_schema(self) -> None:
-        """Executes table creation DDL."""
+        """Executes table creation DDL and applies incremental column migrations."""
         with self.conn:
             self.conn.executescript(self.SCHEMA_SQL)
+            # Automatic schema migration for existing databases
+            cursor = self.conn.execute("PRAGMA table_info(tasks);")
+            columns = {row["name"] for row in cursor.fetchall()}
+            migrations = [
+                ("assignee", "ALTER TABLE tasks ADD COLUMN assignee TEXT DEFAULT 'Both';"),
+                ("notes", "ALTER TABLE tasks ADD COLUMN notes TEXT DEFAULT '';"),
+                ("estimated_cost", "ALTER TABLE tasks ADD COLUMN estimated_cost REAL DEFAULT 0.0;"),
+                ("actual_cost", "ALTER TABLE tasks ADD COLUMN actual_cost REAL DEFAULT 0.0;"),
+                ("paid_amount", "ALTER TABLE tasks ADD COLUMN paid_amount REAL DEFAULT 0.0;"),
+                ("checklist_json", "ALTER TABLE tasks ADD COLUMN checklist_json TEXT DEFAULT '[]';"),
+            ]
+            for col_name, alter_stmt in migrations:
+                if col_name not in columns:
+                    self.conn.execute(alter_stmt)
 
     def close(self) -> None:
         """Closes the underlying SQLite connection if owned."""
@@ -197,16 +218,26 @@ class SQLiteEventRepository(EventRepository):
                     if isinstance(task.due_date, (date, datetime))
                     else str(task.due_date)
                 )
+                checklist_json = json.dumps([c.model_dump() for c in task.checklist])
                 self.conn.execute(
                     """
-                    INSERT INTO tasks (id, event_id, title, due_date, status, vendor_category)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    INSERT INTO tasks (
+                        id, event_id, title, due_date, status, vendor_category,
+                        assignee, notes, estimated_cost, actual_cost, paid_amount, checklist_json
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON CONFLICT(id) DO UPDATE SET
                         event_id = excluded.event_id,
                         title = excluded.title,
                         due_date = excluded.due_date,
                         status = excluded.status,
-                        vendor_category = excluded.vendor_category;
+                        vendor_category = excluded.vendor_category,
+                        assignee = excluded.assignee,
+                        notes = excluded.notes,
+                        estimated_cost = excluded.estimated_cost,
+                        actual_cost = excluded.actual_cost,
+                        paid_amount = excluded.paid_amount,
+                        checklist_json = excluded.checklist_json;
                     """,
                     (
                         task.id,
@@ -215,6 +246,12 @@ class SQLiteEventRepository(EventRepository):
                         task_due_str,
                         task.status.value,
                         task.vendor_category,
+                        task.assignee,
+                        task.notes,
+                        float(task.estimated_cost),
+                        float(task.actual_cost),
+                        float(task.paid_amount),
+                        checklist_json,
                     ),
                 )
 
@@ -286,7 +323,8 @@ class SQLiteEventRepository(EventRepository):
         """Fetch all tasks for an event with reconstructed depends_on lists."""
         cursor = self.conn.execute(
             """
-            SELECT id, event_id, title, due_date, status, vendor_category
+            SELECT id, event_id, title, due_date, status, vendor_category,
+                   assignee, notes, estimated_cost, actual_cost, paid_amount, checklist_json
             FROM tasks
             WHERE event_id = ?
             ORDER BY due_date ASC;
@@ -320,6 +358,9 @@ class SQLiteEventRepository(EventRepository):
                 if "T" not in row["due_date"] and len(row["due_date"]) == 10
                 else datetime.fromisoformat(row["due_date"])
             )
+            raw_checklist = json.loads(row["checklist_json"] or "[]")
+            checklist = [ChecklistItem(**c) for c in raw_checklist]
+
             tasks.append(
                 Task(
                     id=row["id"],
@@ -329,6 +370,12 @@ class SQLiteEventRepository(EventRepository):
                     status=TaskStatus(row["status"]),
                     depends_on=deps_by_task.get(row["id"], []),
                     vendor_category=row["vendor_category"],
+                    assignee=row["assignee"] or "Both",
+                    notes=row["notes"] or "",
+                    estimated_cost=Decimal(str(row["estimated_cost"] or 0.0)),
+                    actual_cost=Decimal(str(row["actual_cost"] or 0.0)),
+                    paid_amount=Decimal(str(row["paid_amount"] or 0.0)),
+                    checklist=checklist,
                 )
             )
         return tasks
@@ -367,17 +414,27 @@ class SQLiteEventRepository(EventRepository):
             if isinstance(task.due_date, (date, datetime))
             else str(task.due_date)
         )
+        checklist_json = json.dumps([c.model_dump() for c in task.checklist])
         with self.conn:
             self.conn.execute(
                 """
-                INSERT INTO tasks (id, event_id, title, due_date, status, vendor_category)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO tasks (
+                    id, event_id, title, due_date, status, vendor_category,
+                    assignee, notes, estimated_cost, actual_cost, paid_amount, checklist_json
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(id) DO UPDATE SET
                     event_id = excluded.event_id,
                     title = excluded.title,
                     due_date = excluded.due_date,
                     status = excluded.status,
-                    vendor_category = excluded.vendor_category;
+                    vendor_category = excluded.vendor_category,
+                    assignee = excluded.assignee,
+                    notes = excluded.notes,
+                    estimated_cost = excluded.estimated_cost,
+                    actual_cost = excluded.actual_cost,
+                    paid_amount = excluded.paid_amount,
+                    checklist_json = excluded.checklist_json;
                 """,
                 (
                     task.id,
@@ -386,6 +443,12 @@ class SQLiteEventRepository(EventRepository):
                     task_due_str,
                     task.status.value,
                     task.vendor_category,
+                    task.assignee,
+                    task.notes,
+                    float(task.estimated_cost),
+                    float(task.actual_cost),
+                    float(task.paid_amount),
+                    checklist_json,
                 ),
             )
             self.conn.execute(
@@ -405,7 +468,8 @@ class SQLiteEventRepository(EventRepository):
         """Fetch a single task by identifier with its reconstructed depends_on list."""
         cursor = self.conn.execute(
             """
-            SELECT id, event_id, title, due_date, status, vendor_category
+            SELECT id, event_id, title, due_date, status, vendor_category,
+                   assignee, notes, estimated_cost, actual_cost, paid_amount, checklist_json
             FROM tasks
             WHERE id = ?;
             """,
@@ -430,6 +494,8 @@ class SQLiteEventRepository(EventRepository):
             if "T" not in row["due_date"] and len(row["due_date"]) == 10
             else datetime.fromisoformat(row["due_date"])
         )
+        raw_checklist = json.loads(row["checklist_json"] or "[]")
+        checklist = [ChecklistItem(**c) for c in raw_checklist]
 
         return Task(
             id=row["id"],
@@ -439,4 +505,10 @@ class SQLiteEventRepository(EventRepository):
             status=TaskStatus(row["status"]),
             depends_on=depends_on,
             vendor_category=row["vendor_category"],
+            assignee=row["assignee"] or "Both",
+            notes=row["notes"] or "",
+            estimated_cost=Decimal(str(row["estimated_cost"] or 0.0)),
+            actual_cost=Decimal(str(row["actual_cost"] or 0.0)),
+            paid_amount=Decimal(str(row["paid_amount"] or 0.0)),
+            checklist=checklist,
         )

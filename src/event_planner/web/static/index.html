@@ -220,6 +220,82 @@
           </div>
         </div>
 
+        <!-- BUDGET & PARTNER METRICS (Play 1 & Play 2) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Live Budget Breakdown -->
+          <div class="md:col-span-2 bg-surface-container-lowest rounded-2xl p-5 border border-surface-container-high/60 shadow-sm flex flex-col justify-between gap-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-xl">payments</span>
+                <h3 class="text-base font-bold text-on-surface">Budget &amp; Expense Burn</h3>
+              </div>
+              <span id="dashBudgetRemainingPill" class="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">$0 Under Budget</span>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div class="bg-surface-container-low p-3 rounded-xl border border-surface-container-high/40">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Total Budget</span>
+                <p id="dashStatTotalBudget" class="text-base font-bold font-mono text-on-surface mt-0.5">$0</p>
+              </div>
+              <div class="bg-surface-container-low p-3 rounded-xl border border-surface-container-high/40">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Contracted / Actual</span>
+                <p id="dashStatActual" class="text-base font-bold font-mono text-blue-700 mt-0.5">$0</p>
+              </div>
+              <div class="bg-surface-container-low p-3 rounded-xl border border-surface-container-high/40">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Paid to Date</span>
+                <p id="dashStatPaid" class="text-base font-bold font-mono text-emerald-700 mt-0.5">$0</p>
+              </div>
+              <div class="bg-surface-container-low p-3 rounded-xl border border-surface-container-high/40">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Balance Due</span>
+                <p id="dashStatRemainingBalance" class="text-base font-bold font-mono text-amber-700 mt-0.5">$0</p>
+              </div>
+            </div>
+
+            <!-- Visual Budget Progress Bar -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-[11px] text-on-surface-variant">
+                <span>Payment Progress (<span id="dashPaidPct">0%</span> paid)</span>
+                <span>Committed: <span id="dashCommittedPct">0%</span> of budget</span>
+              </div>
+              <div class="w-full h-3 rounded-full bg-surface-container-high overflow-hidden flex">
+                <div id="dashPaidBar" class="bg-emerald-600 h-full transition-all duration-300" style="width: 0%"></div>
+                <div id="dashUnpaidCommittedBar" class="bg-blue-400 h-full transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Partner Ownership Breakdown (Play 1) -->
+          <div class="bg-surface-container-lowest rounded-2xl p-5 border border-surface-container-high/60 shadow-sm flex flex-col justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-xl">group</span>
+              <h3 class="text-base font-bold text-on-surface">Partner Ownership</h3>
+            </div>
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between p-2.5 rounded-xl bg-blue-50/70 border border-blue-200/60">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-[10px] flex items-center justify-center">A</span>
+                  <span class="text-xs font-bold text-blue-900">Alex</span>
+                </div>
+                <span id="dashCountAlex" class="text-xs font-mono font-bold text-blue-800">0 tasks</span>
+              </div>
+              <div class="flex items-center justify-between p-2.5 rounded-xl bg-rose-50/70 border border-rose-200/60">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-[10px] flex items-center justify-center">J</span>
+                  <span class="text-xs font-bold text-rose-900">Jordan</span>
+                </div>
+                <span id="dashCountJordan" class="text-xs font-mono font-bold text-rose-800">0 tasks</span>
+              </div>
+              <div class="flex items-center justify-between p-2.5 rounded-xl bg-indigo-50/70 border border-indigo-200/60">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-[10px] flex items-center justify-center">👥</span>
+                  <span class="text-xs font-bold text-indigo-900">Both / Shared</span>
+                </div>
+                <span id="dashCountBoth" class="text-xs font-mono font-bold text-indigo-800">0 tasks</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- HERO WIDGET: "Ready to Work On" (Actionable Tasks) -->
         <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-container-high/60 shadow-sm relative">
           <div class="flex items-center justify-between mb-4">
@@ -258,12 +334,20 @@
             <p class="text-xs text-on-surface-variant mt-0.5">Tasks respect strict dependency gating. Advancing requires all prerequisites to be Done.</p>
           </div>
           <!-- Filter Buttons Strip -->
-          <div class="flex items-center gap-1.5 bg-surface-container-low p-1 rounded-xl border border-surface-container-high/60">
-            <button onclick="setWorkflowFilter('all')" id="filter-all" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-primary text-white">All Tasks</button>
-            <button onclick="setWorkflowFilter('ready')" id="filter-ready" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">Ready</button>
-            <button onclick="setWorkflowFilter('blocked')" id="filter-blocked" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">Blocked</button>
-            <button onclick="setWorkflowFilter('in_progress')" id="filter-in_progress" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">In Progress</button>
-            <button onclick="setWorkflowFilter('done')" id="filter-done" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">Done</button>
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-surface-container-high/60">
+              <button onclick="setWorkflowFilter('all')" id="filter-all" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-primary text-white">All Tasks</button>
+              <button onclick="setWorkflowFilter('ready')" id="filter-ready" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">Ready</button>
+              <button onclick="setWorkflowFilter('blocked')" id="filter-blocked" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">Blocked</button>
+              <button onclick="setWorkflowFilter('in_progress')" id="filter-in_progress" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">In Progress</button>
+              <button onclick="setWorkflowFilter('done')" id="filter-done" class="filter-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface">Done</button>
+            </div>
+            <div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-surface-container-high/60">
+              <button onclick="setAssigneeFilter('all')" id="assignee-filter-all" class="assignee-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-on-surface text-white">All Owners</button>
+              <button onclick="setAssigneeFilter('Alex')" id="assignee-filter-Alex" class="assignee-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-blue-700">Alex</button>
+              <button onclick="setAssigneeFilter('Jordan')" id="assignee-filter-Jordan" class="assignee-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-rose-700">Jordan</button>
+              <button onclick="setAssigneeFilter('Both')" id="assignee-filter-Both" class="assignee-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-indigo-700">Both</button>
+            </div>
           </div>
         </div>
 
@@ -399,27 +483,36 @@
 
   <!-- TASK DETAIL MODAL (Stitch Task Detail Layout) -->
   <div id="taskModalBackdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-surface-container-lowest w-full max-w-2xl rounded-2xl shadow-2xl border border-surface-container-high overflow-hidden flex flex-col max-h-[90vh]">
-      <div class="px-6 py-4 border-b border-surface-container-high flex items-center justify-between bg-surface-container-low">
+    <div class="bg-surface-container-lowest w-full max-w-2xl rounded-2xl shadow-2xl border border-surface-container-high overflow-hidden flex flex-col max-h-[92vh]">
+      <!-- Header -->
+      <div class="px-6 py-4 border-b border-surface-container-high flex items-center justify-between bg-surface-container-low shrink-0">
         <div class="flex items-center gap-2">
           <span id="modalTaskCategory" class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-surface-container-highest text-primary">PLANNING</span>
           <span id="modalTaskId" class="text-xs font-mono text-on-surface-variant">ID: tsk-1</span>
+          <span id="modalTaskAssigneeBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">Alex</span>
         </div>
         <button onclick="closeTaskModal()" class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-high">
           <span class="material-symbols-outlined text-lg">close</span>
         </button>
       </div>
-      <div class="p-6 space-y-4 overflow-y-auto">
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-6 space-y-5 overflow-y-auto flex-1">
+        <!-- Title & Metadata -->
         <div>
           <h2 id="modalTaskTitle" class="text-xl font-bold text-on-surface">Task Title</h2>
-          <div class="flex items-center gap-3 text-xs text-on-surface-variant mt-1.5">
-            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">calendar_month</span> <span id="modalTaskDueDate">2027-04-01</span></span>
+          <div class="flex flex-wrap items-center gap-3 text-xs text-on-surface-variant mt-1.5 font-medium">
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">calendar_month</span>
+              <span id="modalTaskDueDate">2027-04-01</span>
+            </span>
             <span>•</span>
             <span id="modalTaskStatus" class="font-semibold text-primary">TODO</span>
           </div>
         </div>
 
-        <div class="bg-surface-container-low p-4 rounded-xl border border-surface-container-high space-y-2">
+        <!-- Prerequisite Dependencies Status -->
+        <div class="bg-surface-container-low p-3.5 rounded-xl border border-surface-container-high/60 space-y-2">
           <h4 class="text-xs font-bold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
             <span class="material-symbols-outlined text-sm text-primary">alt_route</span>
             <span>Prerequisite Dependencies</span>
@@ -428,8 +521,91 @@
             <!-- Dependencies list -->
           </div>
         </div>
+
+        <!-- PLAY 1: Partner Assignment & Sub-Checklist -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-primary">checklist</span>
+              <span>Actionable Sub-Checklist</span>
+            </h4>
+            <span id="modalChecklistProgressText" class="text-[11px] font-mono font-semibold text-primary">0 / 0 completed</span>
+          </div>
+
+          <!-- Checklist Items Container -->
+          <div id="modalChecklistItems" class="space-y-2">
+            <!-- Dynamically populated checklist items -->
+          </div>
+
+          <!-- Add Checklist Item Form -->
+          <form onsubmit="handleAddChecklistItem(event)" class="flex gap-2 pt-1">
+            <input id="newChecklistText" type="text" placeholder="Add actionable step (e.g., Review venue noise curfew)..." class="flex-1 text-xs p-2 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary"/>
+            <button type="submit" class="px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary-container flex items-center gap-1 shrink-0">
+              <span class="material-symbols-outlined text-sm">add</span>
+              <span>Add Step</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- PLAY 2: Budget & Expense Tracking -->
+        <div class="bg-surface-container-low p-4 rounded-xl border border-surface-container-high/60 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-primary">payments</span>
+              <span>Financial Allocation &amp; Costs</span>
+            </h4>
+            <span id="modalBalanceDueText" class="text-xs font-mono font-bold text-amber-700">Balance Due: $0.00</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">Estimated Cost ($)</label>
+              <input id="modalEstimatedCost" type="number" step="0.01" class="w-full text-xs p-2 rounded-lg border border-surface-container-high bg-surface-container-lowest text-on-surface font-mono focus:outline-none focus:border-primary"/>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">Actual / Contracted ($)</label>
+              <input id="modalActualCost" type="number" step="0.01" class="w-full text-xs p-2 rounded-lg border border-surface-container-high bg-surface-container-lowest text-on-surface font-mono focus:outline-none focus:border-primary"/>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">Paid to Date ($)</label>
+              <input id="modalPaidAmount" type="number" step="0.01" class="w-full text-xs p-2 rounded-lg border border-surface-container-high bg-surface-container-lowest text-on-surface font-mono focus:outline-none focus:border-primary"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- PLAY 3: Partner Owner, Notes, Links & Document Attachments -->
+        <div class="space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Task Owner (Assignee)</label>
+              <select id="modalTaskAssignee" class="w-full text-xs p-2 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary font-semibold">
+                <option value="Alex">Alex (Me)</option>
+                <option value="Jordan">Jordan (Partner)</option>
+                <option value="Both">Both (Shared Collaboration)</option>
+              </select>
+            </div>
+            <div class="flex items-end">
+              <button onclick="handleSaveTaskDetails()" class="w-full bg-surface-container-highest hover:bg-surface-container-high text-on-surface font-semibold text-xs py-2 px-3 rounded-lg border border-surface-container-high transition-colors flex items-center justify-center gap-1.5">
+                <span class="material-symbols-outlined text-sm text-primary">save</span>
+                <span>Save Costs &amp; Owner</span>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Vendor Notes, Contract Links &amp; Portals</label>
+            <textarea id="modalTaskNotes" rows="3" placeholder="Enter notes, portal credentials, payment terms, or paste links (e.g., https://...)..." class="w-full text-xs p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary"></textarea>
+            
+            <!-- Clickable Detected URLs -->
+            <div id="modalDetectedLinks" class="flex flex-wrap gap-1.5 mt-2">
+              <!-- Dynamically rendered detected link chips -->
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="px-6 py-3.5 border-t border-surface-container-high bg-surface-container-low flex items-center justify-between">
+
+      <!-- Footer with Workflow Status Controls -->
+      <div class="px-6 py-3.5 border-t border-surface-container-high bg-surface-container-low flex items-center justify-between shrink-0">
         <span class="text-xs text-on-surface-variant">Workflow Status Controls:</span>
         <div id="modalTaskActions" class="flex items-center gap-2">
           <!-- Dynamic action buttons -->
@@ -490,6 +666,8 @@
     let currentEventId = "EVT-9284";
     let state = null;
     let activeFilter = "all";
+    let activeAssigneeFilter = "all";
+    let currentModalTaskId = null;
     let searchQuery = "";
     let activePersona = localStorage.getItem("eventflow_persona") || "Me";
     let appPasscode = localStorage.getItem("eventflow_passcode") || "";
@@ -601,6 +779,16 @@
       if (state) renderKanban(state.tasks);
     }
 
+    function setAssigneeFilter(assignee) {
+      activeAssigneeFilter = assignee;
+      document.querySelectorAll(".assignee-btn").forEach(btn => {
+        btn.className = "assignee-btn px-2.5 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface";
+      });
+      const activeBtn = document.getElementById("assignee-filter-" + assignee);
+      if (activeBtn) activeBtn.className = "assignee-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-on-surface text-white";
+      if (state) renderKanban(state.tasks);
+    }
+
     async function loadTemplates() {
       try {
         const res = await fetch("/api/templates");
@@ -627,6 +815,39 @@
       } catch (e) {}
     }
 
+    function getAssigneeBadge(assignee) {
+      const a = assignee || "Both";
+      if (a === "Alex") {
+        return `<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>Alex</span>`;
+      } else if (a === "Jordan") {
+        return `<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>Jordan</span>`;
+      } else {
+        return `<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>Both</span>`;
+      }
+    }
+
+    function getChecklistBadge(checklist) {
+      if (!checklist || checklist.length === 0) return "";
+      const done = checklist.filter(c => c.completed).length;
+      const total = checklist.length;
+      const isComplete = done === total;
+      return `<span class="text-[9px] font-mono font-medium px-1.5 py-0.5 rounded flex items-center gap-1 ${isComplete ? 'bg-emerald-100 text-emerald-800' : 'bg-surface-container-high text-on-surface-variant'}">
+        <span class="material-symbols-outlined text-[11px] ${isComplete ? 'text-emerald-700' : 'text-primary'}">check_circle</span>
+        ${done}/${total}
+      </span>`;
+    }
+
+    function getCostBadge(task) {
+      const amt = Number(task.actual_cost || task.estimated_cost || 0);
+      if (amt <= 0) return "";
+      return `<span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200/60">$${amt >= 1000 ? (amt / 1000).toFixed(1) + 'k' : amt}</span>`;
+    }
+
+    function getLinkBadge(notes) {
+      if (!notes || !notes.includes("http")) return "";
+      return `<span class="material-symbols-outlined text-xs text-primary" title="Contract or vendor link available">link</span>`;
+    }
+
     function render() {
       if (!state) return;
       const { event, days_remaining, total_tasks, completed_tasks, progress_percentage, tasks, actionable_tasks, contacts } = state;
@@ -649,6 +870,42 @@
       document.getElementById("dashTaskProgress").style.width = `${progress_percentage}%`;
       document.getElementById("dashProgressPct").innerText = `${progress_percentage}%`;
 
+      // Live Budget Breakdown (Play 2)
+      if (state.budget_metrics) {
+        const bm = state.budget_metrics;
+        document.getElementById("dashStatTotalBudget").innerText = `$${Number(bm.total_budget).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        document.getElementById("dashStatActual").innerText = `$${Number(bm.total_actual).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        document.getElementById("dashStatPaid").innerText = `$${Number(bm.total_paid).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        document.getElementById("dashStatRemainingBalance").innerText = `$${Number(bm.remaining_balance).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+        const varVal = bm.budget_variance;
+        const pill = document.getElementById("dashBudgetRemainingPill");
+        if (varVal >= 0) {
+          pill.innerText = `$${Number(varVal).toLocaleString()} Under Budget`;
+          pill.className = "text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800";
+        } else {
+          pill.innerText = `$${Number(Math.abs(varVal)).toLocaleString()} Over Budget`;
+          pill.className = "text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800";
+        }
+
+        const paidPct = bm.total_actual > 0 ? Math.min(100, Math.round((bm.total_paid / bm.total_actual) * 100)) : 0;
+        const commitPct = bm.total_budget > 0 ? Math.min(100, Math.round((bm.total_actual / bm.total_budget) * 100)) : 0;
+        const paidOfBudgetPct = bm.total_budget > 0 ? Math.min(100, Math.round((bm.total_paid / bm.total_budget) * 100)) : 0;
+        const unpaidOfBudgetPct = Math.max(0, commitPct - paidOfBudgetPct);
+
+        document.getElementById("dashPaidPct").innerText = `${paidPct}%`;
+        document.getElementById("dashCommittedPct").innerText = `${commitPct}%`;
+        document.getElementById("dashPaidBar").style.width = `${paidOfBudgetPct}%`;
+        document.getElementById("dashUnpaidCommittedBar").style.width = `${unpaidOfBudgetPct}%`;
+      }
+
+      // Partner Breakdown (Play 1)
+      if (state.assignee_counts) {
+        document.getElementById("dashCountAlex").innerText = `${state.assignee_counts.Alex || 0} tasks`;
+        document.getElementById("dashCountJordan").innerText = `${state.assignee_counts.Jordan || 0} tasks`;
+        document.getElementById("dashCountBoth").innerText = `${state.assignee_counts.Both || 0} tasks`;
+      }
+
       // Filtered actionable tasks
       const filteredActionable = actionable_tasks.filter(t => 
         !searchQuery || t.title.toLowerCase().includes(searchQuery) || (t.vendor_category && t.vendor_category.toLowerCase().includes(searchQuery))
@@ -665,12 +922,18 @@
       } else {
         actionableContainer.innerHTML = filteredActionable.map(t => `
           <div class="bg-surface-container-low p-4 rounded-xl border border-primary/20 flex flex-col justify-between gap-3 shadow-sm hover:border-primary/50 transition-colors">
-            <div onclick="openTaskModal('${t.id}')" class="cursor-pointer">
-              <div class="flex items-center justify-between mb-1">
+            <div onclick="openTaskModal('${t.id}')" class="cursor-pointer space-y-1.5">
+              <div class="flex items-center justify-between">
                 <span class="text-[10px] font-bold uppercase tracking-wider text-primary">${t.vendor_category || "GENERAL"}</span>
                 <span class="text-[10px] font-mono text-on-surface-variant">Due: ${t.due_date}</span>
               </div>
-              <h4 class="font-bold text-sm text-on-surface hover:text-primary transition-colors">${t.title}</h4>
+              <h4 class="font-bold text-sm text-on-surface hover:text-primary transition-colors leading-snug">${t.title}</h4>
+              <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
+                ${getAssigneeBadge(t.assignee)}
+                ${getChecklistBadge(t.checklist)}
+                ${getCostBadge(t)}
+                ${getLinkBadge(t.notes)}
+              </div>
             </div>
             <div class="flex items-center gap-2 pt-2 border-t border-surface-container-high/60">
               <button onclick="transitionTask('${t.id}', 'in_progress')" class="flex-1 bg-primary text-white text-xs font-semibold py-1.5 rounded-lg hover:bg-primary-container transition-colors flex items-center justify-center gap-1">
@@ -813,8 +1076,13 @@
         const stateKey = t.workflow_state;
         countMap[stateKey] = (countMap[stateKey] || 0) + 1;
 
-        // Apply filter buttons
+        // Apply status filter
         if (activeFilter !== "all" && activeFilter !== stateKey) return;
+
+        // Apply partner owner filter (Play 1)
+        const taskAssignee = t.assignee || "Both";
+        if (activeAssigneeFilter !== "all" && taskAssignee !== activeAssigneeFilter) return;
+
         // Apply search query
         if (searchQuery && !t.title.toLowerCase().includes(searchQuery) && !(t.vendor_category && t.vendor_category.toLowerCase().includes(searchQuery))) {
           return;
@@ -859,12 +1127,18 @@
         }
 
         card.innerHTML = `
-          <div onclick="openTaskModal('${t.id}')" class="cursor-pointer">
-            <div class="flex items-center justify-between mb-1">
+          <div onclick="openTaskModal('${t.id}')" class="cursor-pointer space-y-1.5">
+            <div class="flex items-center justify-between">
               <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">${t.vendor_category || "GENERAL"}</span>
               <span class="text-[10px] font-mono text-on-surface-variant">${t.due_date}</span>
             </div>
-            <h4 class="text-xs font-bold text-on-surface ${stateKey === 'done' ? 'line-through text-on-surface-variant' : ''}">${t.title}</h4>
+            <h4 class="text-xs font-bold text-on-surface leading-snug ${stateKey === 'done' ? 'line-through text-on-surface-variant' : ''}">${t.title}</h4>
+            <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
+              ${getAssigneeBadge(t.assignee)}
+              ${getChecklistBadge(t.checklist)}
+              ${getCostBadge(t)}
+              ${getLinkBadge(t.notes)}
+            </div>
           </div>
           ${depBadge}
           ${controlsHtml}
@@ -879,10 +1153,146 @@
       document.getElementById("count-done").innerText = countMap.done || 0;
     }
 
+    function updateModalBalanceDue() {
+      const act = parseFloat(document.getElementById("modalActualCost").value) || 0;
+      const paid = parseFloat(document.getElementById("modalPaidAmount").value) || 0;
+      const bal = act - paid;
+      const el = document.getElementById("modalBalanceDueText");
+      el.innerText = `Balance Due: $${bal.toFixed(2)}`;
+      el.className = bal > 0 ? "text-xs font-mono font-bold text-amber-700" : "text-xs font-mono font-bold text-emerald-700";
+    }
+
+    function renderDetectedLinks(notes) {
+      const container = document.getElementById("modalDetectedLinks");
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      const matches = notes ? (notes.match(urlRegex) || []) : [];
+      if (matches.length === 0) {
+        container.innerHTML = "";
+        return;
+      }
+      container.innerHTML = matches.map(url => {
+        let label = "Open Resource";
+        try {
+          const u = new URL(url);
+          label = u.hostname.replace("www.", "") + (u.pathname.length > 1 ? u.pathname.slice(0, 15) : "");
+        } catch(e) {}
+        return `
+          <a href="${url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white text-[11px] font-semibold transition-colors">
+            <span class="material-symbols-outlined text-xs">open_in_new</span>
+            <span>${label}</span>
+          </a>
+        `;
+      }).join("");
+    }
+
+    function renderModalChecklist(task) {
+      const container = document.getElementById("modalChecklistItems");
+      const items = task.checklist || [];
+      const doneCount = items.filter(c => c.completed).length;
+      document.getElementById("modalChecklistProgressText").innerText = `${doneCount} of ${items.length} completed`;
+
+      if (items.length === 0) {
+        container.innerHTML = `<p class="text-xs text-on-surface-variant italic py-1">No checklist sub-steps yet. Add actionable steps below.</p>`;
+        return;
+      }
+
+      container.innerHTML = items.map(c => `
+        <label class="flex items-center gap-2.5 p-2 rounded-lg bg-surface-container-low hover:bg-surface-container-high/60 cursor-pointer transition-colors border border-surface-container-high/40">
+          <input type="checkbox" ${c.completed ? 'checked' : ''} onchange="toggleChecklistItem('${task.id}', '${c.id}')" class="rounded text-primary focus:ring-primary w-4 h-4 cursor-pointer"/>
+          <span class="text-xs text-on-surface flex-1 ${c.completed ? 'line-through text-on-surface-variant/70' : 'font-medium'}">${c.text}</span>
+        </label>
+      `).join("");
+    }
+
+    async function toggleChecklistItem(taskId, itemId) {
+      try {
+        const res = await fetch("/api/tasks/checklist/toggle", {
+          method: "POST",
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ task_id: taskId, item_id: itemId })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Toggle failed");
+        const idx = state.tasks.findIndex(t => t.id === taskId);
+        if (idx !== -1) {
+          state.tasks[idx] = { ...state.tasks[idx], ...data.task };
+          renderModalChecklist(state.tasks[idx]);
+          renderKanban(state.tasks);
+        }
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    async function handleAddChecklistItem(e) {
+      e.preventDefault();
+      if (!currentModalTaskId) return;
+      const input = document.getElementById("newChecklistText");
+      const text = (input.value || "").trim();
+      if (!text) return;
+
+      try {
+        const res = await fetch("/api/tasks/checklist/add", {
+          method: "POST",
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ task_id: currentModalTaskId, text: text })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Failed to add step");
+        input.value = "";
+        const idx = state.tasks.findIndex(t => t.id === currentModalTaskId);
+        if (idx !== -1) {
+          state.tasks[idx] = { ...state.tasks[idx], ...data.task };
+          renderModalChecklist(state.tasks[idx]);
+          renderKanban(state.tasks);
+        }
+        showToast("Checklist step added!");
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    async function handleSaveTaskDetails() {
+      if (!currentModalTaskId) return;
+      const assignee = document.getElementById("modalTaskAssignee").value;
+      const notes = document.getElementById("modalTaskNotes").value;
+      const estimated_cost = parseFloat(document.getElementById("modalEstimatedCost").value) || 0.0;
+      const actual_cost = parseFloat(document.getElementById("modalActualCost").value) || 0.0;
+      const paid_amount = parseFloat(document.getElementById("modalPaidAmount").value) || 0.0;
+
+      try {
+        const res = await fetch("/api/tasks/update_details", {
+          method: "POST",
+          headers: getAuthHeaders(),
+          body: JSON.stringify({
+            task_id: currentModalTaskId,
+            assignee,
+            notes,
+            estimated_cost,
+            actual_cost,
+            paid_amount
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Save failed");
+        showToast("Task details & financials saved!");
+        refreshData();
+        const badgeEl = document.getElementById("modalTaskAssigneeBadge");
+        badgeEl.innerText = assignee;
+        badgeEl.className = assignee === "Alex" 
+          ? "text-[10px] font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800"
+          : (assignee === "Jordan" ? "text-[10px] font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-800" : "text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-800");
+        renderDetectedLinks(notes);
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
     function openTaskModal(taskId) {
       if (!state) return;
       const task = state.tasks.find(t => t.id === taskId);
       if (!task) return;
+      currentModalTaskId = taskId;
 
       document.getElementById("modalTaskId").innerText = `ID: ${task.id.slice(0, 8)}`;
       document.getElementById("modalTaskCategory").innerText = (task.vendor_category || "GENERAL").toUpperCase();
@@ -890,6 +1300,30 @@
       document.getElementById("modalTaskDueDate").innerText = task.due_date;
       document.getElementById("modalTaskStatus").innerText = task.status.toUpperCase();
 
+      const assigneeVal = task.assignee || "Both";
+      document.getElementById("modalTaskAssignee").value = assigneeVal;
+      const badgeEl = document.getElementById("modalTaskAssigneeBadge");
+      badgeEl.innerText = assigneeVal;
+      badgeEl.className = assigneeVal === "Alex" 
+        ? "text-[10px] font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800"
+        : (assigneeVal === "Jordan" ? "text-[10px] font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-800" : "text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-800");
+
+      // Costs & Balances (Play 2)
+      document.getElementById("modalEstimatedCost").value = Number(task.estimated_cost || 0);
+      document.getElementById("modalActualCost").value = Number(task.actual_cost || 0);
+      document.getElementById("modalPaidAmount").value = Number(task.paid_amount || 0);
+      document.getElementById("modalActualCost").oninput = updateModalBalanceDue;
+      document.getElementById("modalPaidAmount").oninput = updateModalBalanceDue;
+      updateModalBalanceDue();
+
+      // Notes & URLs (Play 3)
+      document.getElementById("modalTaskNotes").value = task.notes || "";
+      renderDetectedLinks(task.notes || "");
+
+      // Sub-Checklist (Play 1)
+      renderModalChecklist(task);
+
+      // Dependencies
       const depContainer = document.getElementById("modalTaskDependencies");
       if (!task.depends_on || task.depends_on.length === 0) {
         depContainer.innerHTML = "<p class='italic text-on-surface-variant'>No prerequisite tasks. Ready to execute anytime.</p>";
