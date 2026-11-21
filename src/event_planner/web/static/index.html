@@ -50,10 +50,96 @@
     };
   </script>
 </head>
-<body class="bg-surface font-sans text-on-surface antialiased flex h-screen overflow-hidden">
+<body class="bg-surface font-sans text-on-surface antialiased flex flex-col md:flex-row h-screen overflow-hidden">
 
-  <!-- LEFT SIDEBAR (Stitch Global Sidebar) -->
-  <aside class="w-64 bg-surface-container-lowest border-r border-surface-container-high flex flex-col justify-between shrink-0 select-none">
+  <!-- MOBILE TOP HEADER (Visible only on mobile screens < 768px) -->
+  <div class="md:hidden bg-surface-container-lowest border-b border-surface-container-high px-4 py-2.5 flex items-center justify-between shrink-0 z-30">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-sm">EF</div>
+      <span class="font-semibold text-on-surface tracking-tight text-base">EventFlow</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="openEventSettingsModal()" class="p-1.5 rounded-lg border border-primary/30 bg-primary/5 text-primary text-xs font-semibold flex items-center gap-1" title="Settings">
+        <span class="material-symbols-outlined text-sm">favorite</span>
+        <span class="text-[11px]">Settings</span>
+      </button>
+      <button onclick="openNewEventModal()" class="bg-primary text-white p-1.5 rounded-lg flex items-center justify-center" title="New Event">
+        <span class="material-symbols-outlined text-sm">add</span>
+      </button>
+      <button onclick="toggleMobileMenu()" class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low" title="Open Menu">
+        <span class="material-symbols-outlined text-lg">menu</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- MOBILE SLIDE-OUT DRAWER / BACKDROP -->
+  <div id="mobileDrawerBackdrop" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-40 hidden md:hidden"></div>
+  <div id="mobileDrawer" class="fixed top-0 bottom-0 left-0 w-72 bg-surface-container-lowest z-50 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col justify-between border-r border-surface-container-high shadow-2xl">
+    <div class="flex flex-col">
+      <div class="h-14 px-4 flex items-center justify-between border-b border-surface-container-high/50">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-sm">EF</div>
+          <span class="font-semibold text-on-surface tracking-tight text-base">EventFlow</span>
+        </div>
+        <button onclick="toggleMobileMenu()" class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-low">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+
+      <!-- Mobile Active Event Selector -->
+      <div class="p-3">
+        <div class="w-full bg-surface-container-low rounded-xl p-3 flex flex-col gap-1.5 border border-surface-container-high/60">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-semibold tracking-wider text-on-surface-variant uppercase">Active Event</span>
+          </div>
+          <select id="mobileEventSelectorDropdown" onchange="switchActiveEvent(this.value); toggleMobileMenu();" class="w-full bg-transparent font-semibold text-xs text-on-surface cursor-pointer focus:outline-none truncate pr-4">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="px-2 pt-1 flex flex-col gap-1">
+        <button onclick="switchTab('dashboard'); toggleMobileMenu();" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-medium text-on-surface">
+          <span class="material-symbols-outlined text-base">space_dashboard</span>
+          <span>Event Dashboard</span>
+        </button>
+        <button onclick="switchTab('workflow'); toggleMobileMenu();" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-medium text-on-surface">
+          <span class="material-symbols-outlined text-base">checklist</span>
+          <span>Tasks &amp; Workflow</span>
+        </button>
+        <button onclick="switchTab('timeline'); toggleMobileMenu();" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-medium text-on-surface">
+          <span class="material-symbols-outlined text-base">timeline</span>
+          <span>Timeline Dependencies</span>
+        </button>
+        <button onclick="switchTab('vendors'); toggleMobileMenu();" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-medium text-on-surface">
+          <span class="material-symbols-outlined text-base">group</span>
+          <span>Contacts &amp; Vendors</span>
+        </button>
+        <button onclick="switchTab('templates'); toggleMobileMenu();" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-medium text-on-surface">
+          <span class="material-symbols-outlined text-base">dataset</span>
+          <span>Templates</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Mobile Persona Switcher -->
+    <div class="p-3 border-t border-surface-container-high/60 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div id="mobilePartnerAvatar" class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center font-bold text-xs text-primary">ME</div>
+        <select id="mobilePersonaSelector" onchange="switchPersona(this.value)" class="bg-transparent font-medium text-xs text-on-surface cursor-pointer focus:outline-none">
+          <option value="Me">Alex (Me)</option>
+          <option value="Partner">Jordan (Partner)</option>
+        </select>
+      </div>
+      <button onclick="refreshData(); toggleMobileMenu();" class="p-1 rounded text-on-surface-variant hover:text-on-surface" title="Refresh">
+        <span class="material-symbols-outlined text-base">refresh</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- LEFT SIDEBAR (Desktop Sidebar - hidden on mobile) -->
+  <aside class="hidden md:flex w-64 bg-surface-container-lowest border-r border-surface-container-high flex-col justify-between shrink-0 select-none">
     <div class="flex flex-col">
       <!-- Logo Header -->
       <div class="h-14 px-4 flex items-center justify-between border-b border-surface-container-high/50">
@@ -157,8 +243,8 @@
   <!-- MAIN VIEWPORT -->
   <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
 
-    <!-- Top Bar -->
-    <header class="h-14 px-6 border-b border-surface-container-high bg-surface-container-lowest flex items-center justify-between shrink-0 sticky top-0 z-20">
+    <!-- Top Bar (Desktop) -->
+    <header class="hidden md:flex h-14 px-6 border-b border-surface-container-high bg-surface-container-lowest items-center justify-between shrink-0 sticky top-0 z-20">
       <div class="flex items-center gap-4 flex-1 max-w-md">
         <!-- Live Quick Search -->
         <div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg w-full text-on-surface-variant border border-surface-container-high/60">
@@ -186,7 +272,7 @@
     </header>
 
     <!-- CONTENT TABS -->
-    <main class="p-6 max-w-7xl w-full mx-auto flex-1 flex flex-col gap-6">
+    <main class="p-3 sm:p-6 max-w-7xl w-full mx-auto flex-1 flex flex-col gap-6 pb-20 md:pb-6">
 
       <!-- ================= 1. EVENT DASHBOARD ================= -->
       <section id="tab-dashboard" class="tab-content active space-y-6">
@@ -491,6 +577,26 @@
     </main>
   </div>
 
+  <!-- MOBILE BOTTOM NAVIGATION DOCK (Visible only on screens < 768px) -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest/95 backdrop-blur-md border-t border-surface-container-high px-2 py-1.5 flex items-center justify-around z-30 shadow-lg">
+    <button onclick="switchTab('dashboard')" id="mobile-nav-dashboard" class="mobile-nav-btn flex flex-col items-center gap-0.5 py-1 px-2 rounded-lg text-primary">
+      <span class="material-symbols-outlined text-xl">space_dashboard</span>
+      <span class="text-[10px] font-semibold">Dashboard</span>
+    </button>
+    <button onclick="switchTab('workflow')" id="mobile-nav-workflow" class="mobile-nav-btn flex flex-col items-center gap-0.5 py-1 px-2 rounded-lg text-on-surface-variant">
+      <span class="material-symbols-outlined text-xl">checklist</span>
+      <span class="text-[10px] font-semibold">Tasks</span>
+    </button>
+    <button onclick="switchTab('timeline')" id="mobile-nav-timeline" class="mobile-nav-btn flex flex-col items-center gap-0.5 py-1 px-2 rounded-lg text-on-surface-variant">
+      <span class="material-symbols-outlined text-xl">timeline</span>
+      <span class="text-[10px] font-semibold">Timeline</span>
+    </button>
+    <button onclick="switchTab('vendors')" id="mobile-nav-vendors" class="mobile-nav-btn flex flex-col items-center gap-0.5 py-1 px-2 rounded-lg text-on-surface-variant">
+      <span class="material-symbols-outlined text-xl">group</span>
+      <span class="text-[10px] font-semibold">Vendors</span>
+    </button>
+  </nav>
+
   <!-- TASK DETAIL MODAL (Stitch Task Detail Layout) -->
   <div id="taskModalBackdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-surface-container-lowest w-full max-w-2xl rounded-2xl shadow-2xl border border-surface-container-high overflow-hidden flex flex-col max-h-[92vh]">
@@ -736,6 +842,25 @@
     </div>
   </div>
 
+  <!-- Passcode Entry Modal (For Mobile & Desktop When Auth Required) -->
+  <div id="passcodeModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest w-full max-w-sm rounded-2xl shadow-2xl border border-surface-container-high overflow-hidden p-6 text-center space-y-4">
+      <div class="w-12 h-12 rounded-full bg-primary/10 text-primary mx-auto flex items-center justify-center">
+        <span class="material-symbols-outlined text-2xl">lock</span>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-on-surface">Enter Wedding Passcode</h3>
+        <p class="text-xs text-on-surface-variant mt-1">Please enter your private passcode to unlock and sync your wedding planner.</p>
+      </div>
+      <form onsubmit="handlePasscodeSubmit(event)" class="space-y-3">
+        <input id="passcodeInput" type="password" placeholder="Enter Passcode..." required class="w-full text-center tracking-widest text-sm p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-on-surface focus:outline-none focus:border-primary font-mono"/>
+        <button type="submit" class="w-full bg-primary text-white text-xs font-semibold py-2.5 rounded-lg hover:bg-primary-container transition-colors shadow-sm">
+          Unlock Wedding
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION -->
   <div id="toast" class="fixed bottom-6 right-6 px-4 py-2.5 rounded-xl shadow-lg bg-on-surface text-white text-xs font-medium transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none z-50"></div>
 
@@ -758,17 +883,50 @@
       return headers;
     }
 
+    function toggleMobileMenu() {
+      const drawer = document.getElementById("mobileDrawer");
+      const backdrop = document.getElementById("mobileDrawerBackdrop");
+      if (!drawer) return;
+      const isOpen = !drawer.classList.contains("-translate-x-full");
+      if (isOpen) {
+        drawer.classList.add("-translate-x-full");
+        backdrop.classList.add("hidden");
+      } else {
+        drawer.classList.remove("-translate-x-full");
+        backdrop.classList.remove("hidden");
+      }
+    }
+
     function switchPersona(persona) {
       activePersona = persona;
       localStorage.setItem("eventflow_persona", persona);
       const avatar = document.getElementById("partnerAvatar");
+      const mobileAvatar = document.getElementById("mobilePartnerAvatar");
+      const p1 = state?.partner_names?.[0] || "Alex";
+      const p2 = state?.partner_names?.[1] || "Jordan";
+      const isP1 = persona === p1 || persona === "Me";
+      
+      const label = isP1 ? `${p1} (Me)` : `${p2} (Partner)`;
+      const initial = isP1 ? p1.charAt(0).toUpperCase() : p2.charAt(0).toUpperCase();
+
       if (avatar) {
-        avatar.innerText = persona === "Me" ? "ME" : "PT";
-        avatar.className = persona === "Me" 
+        avatar.innerText = initial;
+        avatar.className = isP1
           ? "w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-xs text-primary"
           : "w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center font-bold text-xs text-rose-600";
       }
-      showToast(`Switched active planner to ${persona === 'Me' ? 'Alex (Me)' : 'Jordan (Partner)'}`);
+      if (mobileAvatar) {
+        mobileAvatar.innerText = initial;
+        mobileAvatar.className = isP1
+          ? "w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center font-bold text-xs text-primary"
+          : "w-7 h-7 rounded-full bg-rose-500/20 flex items-center justify-center font-bold text-xs text-rose-600";
+      }
+      const desktopPersonaSelect = document.getElementById("personaSelector");
+      const mobilePersonaSelect = document.getElementById("mobilePersonaSelector");
+      if (desktopPersonaSelect) desktopPersonaSelect.value = persona;
+      if (mobilePersonaSelect) mobilePersonaSelect.value = persona;
+
+      showToast(`Switched active planner to ${label}`);
     }
 
     function showToast(msg, isError = false) {
@@ -788,11 +946,16 @@
       document.querySelectorAll(".nav-item").forEach(el => {
         el.className = "nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface";
       });
+      document.querySelectorAll(".mobile-nav-btn").forEach(el => {
+        el.className = "mobile-nav-btn flex flex-col items-center gap-0.5 py-1 px-2 rounded-lg text-on-surface-variant";
+      });
 
       const targetTab = document.getElementById("tab-" + tabName);
       const targetNav = document.getElementById("nav-" + tabName);
+      const targetMobileNav = document.getElementById("mobile-nav-" + tabName);
       if (targetTab) targetTab.classList.add("active");
       if (targetNav) targetNav.className = "nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-primary-container text-on-primary-container";
+      if (targetMobileNav) targetMobileNav.className = "mobile-nav-btn flex flex-col items-center gap-0.5 py-1 px-2 rounded-lg text-primary";
     }
 
     async function loadEventsList() {
@@ -805,17 +968,49 @@
         if (!res.ok) return;
         const events = await res.json();
         const select = document.getElementById("eventSelectorDropdown");
-        select.innerHTML = events.map(e => `
-          <option value="${e.id}" ${e.id === currentEventId ? 'selected' : ''}>${e.name}</option>
-        `).join("");
+        const mobileSelect = document.getElementById("mobileEventSelectorDropdown");
+        
+        if (events && events.length > 0) {
+          // If currentEventId is not set or not in list, default to the first event
+          if (!currentEventId || !events.some(e => e.id === currentEventId)) {
+            currentEventId = events[0].id;
+          }
+          const optionsHtml = events.map(e => `
+            <option value="${e.id}" ${e.id === currentEventId ? 'selected' : ''}>${e.name}</option>
+          `).join("");
+          if (select) select.innerHTML = optionsHtml;
+          if (mobileSelect) mobileSelect.innerHTML = optionsHtml;
+        } else {
+          currentEventId = "";
+          if (select) select.innerHTML = `<option value="">No Events</option>`;
+          if (mobileSelect) mobileSelect.innerHTML = `<option value="">No Events</option>`;
+        }
       } catch (err) {}
     }
 
     function promptForPasscode() {
-      const code = prompt("Please enter the shared wedding passcode:");
-      if (code) {
-        appPasscode = code.trim();
+      const modal = document.getElementById("passcodeModal");
+      if (modal) {
+        modal.classList.remove("hidden");
+        const input = document.getElementById("passcodeInput");
+        if (input) setTimeout(() => input.focus(), 100);
+      } else {
+        const code = prompt("Please enter the shared wedding passcode:");
+        if (code) {
+          appPasscode = code.trim();
+          localStorage.setItem("eventflow_passcode", appPasscode);
+          refreshData();
+        }
+      }
+    }
+
+    function handlePasscodeSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById("passcodeInput");
+      if (input && input.value) {
+        appPasscode = input.value.trim();
         localStorage.setItem("eventflow_passcode", appPasscode);
+        document.getElementById("passcodeModal").classList.add("hidden");
         refreshData();
       }
     }
@@ -828,6 +1023,11 @@
     async function refreshData() {
       try {
         await loadEventsList();
+        if (!currentEventId) {
+          state = null;
+          render();
+          return;
+        }
         const res = await fetch(`/api/events/${currentEventId}/overview`, { headers: getAuthHeaders() });
         if (res.status === 401) {
           promptForPasscode();
@@ -956,14 +1156,15 @@
       const p1 = state.partner_names?.[0] || "Alex";
       const p2 = state.partner_names?.[1] || "Jordan";
 
-      // Update persona dropdown in bottom-left footer
+      // Update persona dropdown in desktop footer and mobile drawer
+      const personaOptions = `
+        <option value="${p1}" ${activePersona === p1 ? 'selected' : ''}>${p1} (Me)</option>
+        <option value="${p2}" ${activePersona === p2 ? 'selected' : ''}>${p2} (Partner)</option>
+      `;
       const personaSelect = document.getElementById("personaSelector");
-      if (personaSelect) {
-        personaSelect.innerHTML = `
-          <option value="${p1}" ${activePersona === p1 ? 'selected' : ''}>${p1} (Me)</option>
-          <option value="${p2}" ${activePersona === p2 ? 'selected' : ''}>${p2} (Partner)</option>
-        `;
-      }
+      if (personaSelect) personaSelect.innerHTML = personaOptions;
+      const mobilePersonaSelect = document.getElementById("mobilePersonaSelector");
+      if (mobilePersonaSelect) mobilePersonaSelect.innerHTML = personaOptions;
 
       // Sidebar & Header Telemetry
       document.getElementById("sidebarEventDate").innerText = event.date;
