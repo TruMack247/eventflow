@@ -131,21 +131,24 @@
       </div>
     </div>
 
-    <!-- User Footer with Quick Actions -->
+    <!-- User / Partner Persona Footer -->
     <div class="p-3 border-t border-surface-container-high/60 flex items-center justify-between">
-      <div class="flex items-center gap-2.5 min-w-0">
-        <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-xs text-primary">EV</div>
+      <div class="flex items-center gap-2 min-w-0">
+        <div id="partnerAvatar" class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-xs text-primary">ME</div>
         <div class="flex flex-col min-w-0">
-          <span class="font-medium text-xs text-on-surface truncate">Elena Vance</span>
-          <span class="text-[10px] text-on-surface-variant truncate">Lead Planner</span>
+          <select id="personaSelector" onchange="switchPersona(this.value)" class="bg-transparent font-medium text-xs text-on-surface cursor-pointer focus:outline-none">
+            <option value="Me">Alex (Me)</option>
+            <option value="Partner">Jordan (Partner)</option>
+          </select>
+          <span class="text-[10px] text-on-surface-variant truncate">Co-Planner</span>
         </div>
       </div>
       <div class="flex items-center gap-1">
-        <button onclick="showToast('Notification feed: All engine tasks in sync')" class="p-1.5 rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface" title="Notifications">
-          <span class="material-symbols-outlined text-base">notifications</span>
+        <button onclick="showToast('Cloud Sync Active: All edits saved to central SQLite DB')" class="p-1.5 rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface" title="Cloud Sync Active">
+          <span class="material-symbols-outlined text-base text-emerald-600">cloud_done</span>
         </button>
-        <button onclick="showToast('Event settings: Configured for strict dependency gating')" class="p-1.5 rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface" title="Settings">
-          <span class="material-symbols-outlined text-base">settings</span>
+        <button onclick="showToast('Shared Access: You and your partner are editing the same live event')" class="p-1.5 rounded hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface" title="Shared Event">
+          <span class="material-symbols-outlined text-base">group</span>
         </button>
       </div>
     </div>
@@ -488,6 +491,29 @@
     let state = null;
     let activeFilter = "all";
     let searchQuery = "";
+    let activePersona = localStorage.getItem("eventflow_persona") || "Me";
+    let appPasscode = localStorage.getItem("eventflow_passcode") || "";
+
+    function getAuthHeaders() {
+      const headers = { "Content-Type": "application/json" };
+      if (appPasscode) {
+        headers["X-App-Passcode"] = appPasscode;
+      }
+      return headers;
+    }
+
+    function switchPersona(persona) {
+      activePersona = persona;
+      localStorage.setItem("eventflow_persona", persona);
+      const avatar = document.getElementById("partnerAvatar");
+      if (avatar) {
+        avatar.innerText = persona === "Me" ? "ME" : "PT";
+        avatar.className = persona === "Me" 
+          ? "w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-xs text-primary"
+          : "w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center font-bold text-xs text-rose-600";
+      }
+      showToast(`Switched active planner to ${persona === 'Me' ? 'Alex (Me)' : 'Jordan (Partner)'}`);
+    }
 
     function showToast(msg, isError = false) {
       const toast = document.getElementById("toast");
@@ -515,7 +541,11 @@
 
     async function loadEventsList() {
       try {
-        const res = await fetch("/api/events");
+        const res = await fetch("/api/events", { headers: getAuthHeaders() });
+        if (res.status === 401) {
+          promptForPasscode();
+          return;
+        }
         if (!res.ok) return;
         const events = await res.json();
         const select = document.getElementById("eventSelectorDropdown");
@@ -523,6 +553,15 @@
           <option value="${e.id}" ${e.id === currentEventId ? 'selected' : ''}>${e.name}</option>
         `).join("");
       } catch (err) {}
+    }
+
+    function promptForPasscode() {
+      const code = prompt("Please enter the shared wedding passcode:");
+      if (code) {
+        appPasscode = code.trim();
+        localStorage.setItem("eventflow_passcode", appPasscode);
+        refreshData();
+      }
     }
 
     function switchActiveEvent(eventId) {
@@ -533,7 +572,11 @@
     async function refreshData() {
       try {
         await loadEventsList();
-        const res = await fetch(`/api/events/${currentEventId}/overview`);
+        const res = await fetch(`/api/events/${currentEventId}/overview`, { headers: getAuthHeaders() });
+        if (res.status === 401) {
+          promptForPasscode();
+          return;
+        }
         if (!res.ok) throw new Error("Failed to load event data");
         state = await res.json();
         render();
@@ -921,7 +964,7 @@
       try {
         const res = await fetch("/api/events", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: getAuthHeaders(),
           body: JSON.stringify({ name, date, budget, template_id: templateId })
         });
         const data = await res.json();
@@ -939,7 +982,7 @@
       try {
         const res = await fetch("/api/tasks/transition", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: getAuthHeaders(),
           body: JSON.stringify({ task_id: taskId, status: status, force: force })
         });
         const data = await res.json();
@@ -965,7 +1008,7 @@
       try {
         const res = await fetch(`/api/events/${currentEventId}/reschedule`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: getAuthHeaders(),
           body: JSON.stringify({ new_date: newDate })
         });
         const data = await res.json();

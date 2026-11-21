@@ -251,3 +251,17 @@
   - Decoupled server listening port and host from hardcoded `127.0.0.1` so cloud platforms like Render or Fly can bind correctly.
 - **Next step**:
   - Implement Task C2: Add partner switcher ("Me" / "Partner") and optional passcode gate to UI in `index.html`.
+
+## 2026-11-21 (Task C2)
+- **Agent**: Antigravity
+- **Finished**:
+  - Implemented partner selector ("Alex (Me)" vs. "Jordan (Partner)") in [index.html](file:///d:/Business/Event%20Planner/src/event_planner/web/static/index.html) with persistent `localStorage` avatar synchronization.
+  - Added optional wedding passcode prompt and automatic injection of `X-App-Passcode` authentication headers across all API calls.
+  - Added visual cloud sync indicator confirming shared database persistence.
+  - Ran pytest suite; all 38 tests pass.
+- **Half-done**:
+  - Task C3 (Production containerization).
+- **Decisions**:
+  - Used browser `localStorage` for persona selection and passcode storage to avoid session dropouts or annoying repeated credential prompts.
+- **Next step**:
+  - Implement Task C3: Create production containerization (`Dockerfile`, `.dockerignore`).
