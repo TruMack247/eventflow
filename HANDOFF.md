@@ -279,3 +279,17 @@
   - Pinned python:3.11-slim for minimal container footprint (~100MB) without external system dependencies.
 - **Next step**:
   - Implement Task C4: Create cloud deployment blueprints (`render.yaml` with persistent disk volume) and quick-start deploy guide.
+
+## 2026-11-21 (Tasks C4 & C5)
+- **Agent**: Antigravity
+- **Finished**:
+  - Created [render.yaml](file:///d:/Business/Event%20Planner/render.yaml) providing an automated blueprint for Render.com deploying container with 1GB persistent disk at `/data` mount point.
+  - Authored comprehensive [DEPLOY.md](file:///d:/Business/Event%20Planner/DEPLOY.md) guide detailing cloud deployment steps (Render, Fly.io, and immediate Wi-Fi testing).
+  - Validated container configuration, environment variable hooks, and persistent database file creation paths.
+  - Ran pytest suite; all 38 tests pass.
+- **Half-done**:
+  - Phase 5 Cloud Deployment & Shared Partner Access fully completed.
+- **Decisions**:
+  - Utilized persistent disk volume mount at `/data/event_planner.db` ensuring zero data loss across cloud deploys, restarts, or machine shutdowns.
+- **Next step**:
+  - Repo is ready to be pushed to GitHub and deployed to Render.com or Fly.io.
