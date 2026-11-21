@@ -31,6 +31,19 @@ A unit of work associated with an event.
 | `status` | `str` / `Enum` | Required, one of: `todo`, `in_progress`, `done` | Task execution status. |
 | `depends_on` | `List[str]` | Default: `[]`, elements reference `Task.id` | Pre-requisite task IDs. Must be acyclic and exist in same event. |
 | `vendor_category` | `Optional[str]` | Optional | Category tag (e.g., `"venue"`, `"catering"`, `"photography"`). |
+| `assignee` | `Optional[str]` | Optional, default `"Both"` | Owner of task (e.g., `"Alex"`, `"Jordan"`, or `"Both"`). |
+| `notes` | `Optional[str]` | Optional, default `""` | Detailed notes, vendor URLs, contract links. |
+| `estimated_cost` | `Decimal` / `float` | Default `0.0`, $\ge 0$ | Estimated budget allocation for this item. |
+| `actual_cost` | `Decimal` / `float` | Default `0.0`, $\ge 0$ | Contracted / invoiced cost. |
+| `paid_amount` | `Decimal` / `float` | Default `0.0`, $\ge 0$ | Deposits and payments made to date. |
+| `checklist` | `List[ChecklistItem]` | Default: `[]` | Actionable sub-checklist items. |
+
+#### ChecklistItem (Value Object / Sub-entity)
+| Field | Type | Constraints | Description |
+|---|---|---|---|
+| `id` | `str` | Required, non-empty | Sub-task item ID. |
+| `text` | `str` | Required, non-empty | Sub-task description (e.g., `"Schedule cake tasting"`). |
+| `completed` | `bool` | Default: `False` | Completion state. |
 
 ### 3. Contact
 An individual or vendor involved in an event.
@@ -96,6 +109,12 @@ CREATE TABLE IF NOT EXISTS tasks (
     due_date TEXT NOT NULL,
     status TEXT NOT NULL CHECK (status IN ('todo', 'in_progress', 'done')),
     vendor_category TEXT,
+    assignee TEXT DEFAULT 'Both',
+    notes TEXT DEFAULT '',
+    estimated_cost REAL DEFAULT 0.0 CHECK (estimated_cost >= 0),
+    actual_cost REAL DEFAULT 0.0 CHECK (actual_cost >= 0),
+    paid_amount REAL DEFAULT 0.0 CHECK (paid_amount >= 0),
+    checklist_json TEXT DEFAULT '[]',
     FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
 );
 
