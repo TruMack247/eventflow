@@ -43,3 +43,12 @@
 - [x] Task C3: Create production containerization (`Dockerfile`, `.dockerignore`)
 - [x] Task C4: Create cloud deployment blueprints (`render.yaml` with persistent disk volume) and quick-start deploy guide
 - [x] Task C5: Verify container build and test automated cloud deployment configurations
+
+## Phase 6: Partner Collaboration & Advanced Planning (Plays 1, 2, 3)
+- [x] Task P1.1: Spec Update in SPEC.md for Task ownership, sub-checklists, budget, and notes
+- [x] Task P1.2: Domain Model update (`models.py`) with `ChecklistItem` and extended `Task` fields
+- [x] Task P1.3: SQLite Repository persistence & auto-migration for new task fields
+- [x] Task P1.4: Server API endpoints (`/api/tasks/checklist/toggle`, `/api/tasks/checklist/add`, `/api/tasks/update_details`, overview budget metrics)
+- [x] Task P1.5: UI Live Budget & Expense Burn breakdown widget and Partner Ownership breakdown widget
+- [x] Task P1.6: Interactive Task Detail Modal with sub-checklist toggle/add, budget fields, and vendor URL chip parsing
+- [x] Task P1.7: Comprehensive unit tests (45 tests passing) and browser verification via subagent
