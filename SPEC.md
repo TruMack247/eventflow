@@ -201,7 +201,27 @@ Supports moving dates while preserving chronological constraints:
 
 ---
 
+## Cloud Deployment & Shared Access Specification
+
+To allow partners / co-planners to access and edit the exact same event concurrently on any device (phones, tablets, laptops) 24/7 without hosting from a local personal computer:
+
+### 1. Environment Configuration & Persistent Storage
+- `PORT`: Configurable HTTP port (default: `8080`, standard cloud port: `8080` or `10000` on Render/Fly).
+- `HOST`: Bind address (default `0.0.0.0` for container / cloud deployment, accessible from all network interfaces).
+- `DATABASE_PATH`: Path to SQLite database file. Configurable via environment variable (e.g. `/data/event_planner.db` for persistent cloud disk volumes, or `event_planner.db` locally).
+- `APP_PASSCODE`: Optional shared wedding passcode. When set, requests must supply the passcode (via session storage header `X-App-Passcode`) to view or mutate event data.
+
+### 2. Partner Persona Context
+- Planners can switch active persona context (e.g., "Alex" or "Jordan" or custom names) stored client-side in `localStorage`.
+- Actions such as status transitions and date shifts carry the active persona tag in operation telemetry without requiring heavyweight enterprise identity providers.
+
+### 3. Container & Deployment Specification
+- Standard `Dockerfile` using lightweight official Python `3.11-slim` runtime.
+- Standard `render.yaml` defining a web service with a persistent disk mount at `/data` ensuring SQLite survives service deploys and restarts.
+
+---
+
 ## Out of Scope for v1
 - **Email Sending & Notifications**: No SMTP, transactional email, or automated reminder triggers.
 - **Payments & Financial Transactions**: No payment gateways, invoice processing, or escrow integrations.
-- **Multi-user Collaboration**: No user authentication, concurrent session resolution, role-based access control (RBAC), or real-time presence.
+- **Complex Enterprise RBAC**: Multi-tenant organizations and fine-grained permissions remain out of v1; shared couple access uses the shared wedding access gate and lightweight partner switching.
